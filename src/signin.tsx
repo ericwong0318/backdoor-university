@@ -12,6 +12,7 @@ import Grid from '@mui/material/Grid';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
+import { signinLocalizatiionStrings } from './localizations/signinLocalizatiionStrings';
 
 const theme = createTheme();
 
@@ -57,7 +58,7 @@ export default function SignIn() {
               <LockOutlinedIcon />
             </Avatar>
             <Typography component="h1" variant="h5">
-              Sign in
+              {signinLocalizatiionStrings.sign_in}
             </Typography>
             <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 1 }}>
               <TextField
@@ -65,7 +66,7 @@ export default function SignIn() {
                 required
                 fullWidth
                 id="email"
-                label="Email Address"
+                label={signinLocalizatiionStrings.email}
                 name="email"
                 autoComplete="email"
                 autoFocus
@@ -75,14 +76,14 @@ export default function SignIn() {
                 required
                 fullWidth
                 name="password"
-                label="Password"
+                label={signinLocalizatiionStrings.password}
                 type="password"
                 id="password"
                 autoComplete="current-password"
               />
               <FormControlLabel
                 control={<Checkbox value="remember" color="primary" />}
-                label="Remember me"
+                label={signinLocalizatiionStrings.remember_me}
               />
               <Button
                 type="submit"
@@ -90,17 +91,17 @@ export default function SignIn() {
                 variant="contained"
                 sx={{ mt: 3, mb: 2 }}
               >
-                Sign In
+                {signinLocalizatiionStrings.sign_in}
               </Button>
               <Grid container>
                 <Grid item xs>
                   <Link href="google.com" variant="body2">
-                    Forgot password?
+                    {signinLocalizatiionStrings.forgot_password}
                   </Link>
                 </Grid>
                 <Grid item>
                   <Link href="youtube.com" variant="body2">
-                    Sign Up
+                    {signinLocalizatiionStrings.sign_up}
                   </Link>
                 </Grid>
               </Grid>
