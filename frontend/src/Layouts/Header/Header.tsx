@@ -31,6 +31,8 @@ import SearchIcon from '@mui/icons-material/Search';
 import './Header.css';
 import { navItemRight } from './HeaderStyle';
 import HeaderDrawer from './HeaderDrawer';
+import { LayoutPath } from '../../Constants/RoutePaths';
+import { Link, useNavigate } from 'react-router-dom';
 
 interface HeaderProps {
 
@@ -44,19 +46,27 @@ const Header = (props: HeaderProps) => {
     const theme = useTheme();
     const isSmallVerticalScreen = useMediaQuery(theme.breakpoints.down("md"));
 
+    // For routing
+    const navigate = useNavigate();
+
+    // The list of buttons and where it goes
     const tabButtons = [
-        HeaderLocalizationStrings.home,
-        HeaderLocalizationStrings.tips,
-        HeaderLocalizationStrings.news,
-        HeaderLocalizationStrings.programmeCatalog,
-        HeaderLocalizationStrings.statistics
+        { text: HeaderLocalizationStrings.home, path: LayoutPath.home },
+        { text: HeaderLocalizationStrings.tips, path: LayoutPath.tips },
+        { text: HeaderLocalizationStrings.news, path: LayoutPath.news },
+        { text: HeaderLocalizationStrings.programme, path: LayoutPath.programme },
+        { text: HeaderLocalizationStrings.statistics, path: LayoutPath.statistics },
     ]
+
+    const onTabChanged = (e: React.SyntheticEvent<Element, Event>, value: number) => {
+        setTabValue(value);
+        navigate(tabButtons[value].path);
+    }
 
     return (
         <React.Fragment>
             <AppBar sx={{ background: "#FFFFFF" }}>
                 <Toolbar sx={{ color: "#000000" }}>
-
                     {
                         isSmallVerticalScreen ? (
                             <>
@@ -76,9 +86,10 @@ const Header = (props: HeaderProps) => {
                                     textColor='primary'
                                     indicatorColor='primary'
                                     value={tabValue}
-                                    onChange={(_, value) => setTabValue(value)}
+                                    scrollButtons="auto"
+                                    onChange={onTabChanged}
                                 >
-                                    {tabButtons.map((t => <Tab label={t} />))}
+                                    {tabButtons.map((t) => <Tab label={t.text} />)}
                                 </Tabs>
                                 <SearchIcon sx={{ marginLeft: "auto" }} />
                                 <TextField variant="standard" label={HeaderLocalizationStrings.search} />
