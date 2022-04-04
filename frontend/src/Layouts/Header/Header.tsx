@@ -21,18 +21,16 @@
 
 */
 
-import React, { useState } from 'react'
-import { Button, Toolbar, ListItem, AppBar, Container, Typography, Box, IconButton, Menu, createTheme, Tabs, Tab, TextField, useTheme, useMediaQuery } from '@mui/material';
+import React, { useEffect, useState } from 'react'
+import { Button, Toolbar, AppBar, IconButton, Tabs, Tab, TextField, useTheme, useMediaQuery } from '@mui/material';
 import { HeaderLocalizationStrings } from '../../Localizations/HeaderLocalizationStrings';
-import { ThemeProvider } from '@emotion/react';
-import { lime, yellow } from '@mui/material/colors';
 import SchoolIcon from '@mui/icons-material/School';
 import SearchIcon from '@mui/icons-material/Search';
 import './Header.css';
 import { navItemRight } from './HeaderStyle';
 import HeaderDrawer from './HeaderDrawer';
 import { LayoutPath } from '../../Constants/RoutePaths';
-import { Link, useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 interface HeaderProps {
 
@@ -41,6 +39,9 @@ interface HeaderProps {
 const Header = (props: HeaderProps) => {
     // Which tab is being showed
     const [tabValue, setTabValue] = useState(0);
+
+    // Which page are we in
+    let location = useLocation();
 
     // For mobile adaptivity
     const theme = useTheme();
@@ -59,7 +60,6 @@ const Header = (props: HeaderProps) => {
     ]
 
     const onTabChanged = (e: React.SyntheticEvent<Element, Event>, value: number) => {
-        setTabValue(value);
         navigate(tabButtons[value].path);
     }
 
@@ -67,6 +67,15 @@ const Header = (props: HeaderProps) => {
         setTabValue(0);
         navigate(LayoutPath.home);
     }
+
+    // Change the tab base on the location
+    useEffect(() => {
+        tabButtons.map((tb, index) => {
+            if (tb.path == location.pathname) {
+                setTabValue(index)
+            }
+        })
+    })
 
     return (
         <React.Fragment>
