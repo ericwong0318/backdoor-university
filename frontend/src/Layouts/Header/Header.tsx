@@ -38,11 +38,19 @@ interface HeaderProps {
 
 const Header = (props: HeaderProps) => {
     // Which tab is being showed
-    const [tabValue, setTabValue] = useState<number>();
+    const [tabValue, setTabValue] = useState(0);
 
     // For mobile adaptivity
     const theme = useTheme();
     const isSmallVerticalScreen = useMediaQuery(theme.breakpoints.down("md"));
+
+    const tabButtons = [
+        HeaderLocalizationStrings.home,
+        HeaderLocalizationStrings.tips,
+        HeaderLocalizationStrings.news,
+        HeaderLocalizationStrings.programmeCatalog,
+        HeaderLocalizationStrings.statistics
+    ]
 
     return (
         <React.Fragment>
@@ -52,6 +60,7 @@ const Header = (props: HeaderProps) => {
                     {
                         isSmallVerticalScreen ? (
                             <>
+                                {/* For small screen view */}
                                 <HeaderDrawer />
                                 <IconButton aria-label="Backdoor-University" onClick={() => setTabValue(0)}>
                                     <SchoolIcon />
@@ -69,11 +78,7 @@ const Header = (props: HeaderProps) => {
                                     value={tabValue}
                                     onChange={(_, value) => setTabValue(value)}
                                 >
-                                    <Tab label={HeaderLocalizationStrings.home} />
-                                    <Tab label={HeaderLocalizationStrings.tips} />
-                                    <Tab label={HeaderLocalizationStrings.news} />
-                                    <Tab label={HeaderLocalizationStrings.programmeCatalog} />
-                                    <Tab label={HeaderLocalizationStrings.statistics} />
+                                    {tabButtons.map((t => <Tab label={t} />))}
                                 </Tabs>
                                 <SearchIcon sx={{ marginLeft: "auto" }} />
                                 <TextField variant="standard" label={HeaderLocalizationStrings.search} />
