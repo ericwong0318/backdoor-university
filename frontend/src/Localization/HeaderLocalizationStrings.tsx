@@ -4,7 +4,7 @@ export interface IHeaderLocalizationStrings extends LocalizedStringsMethods {
     home: string,
     tips: string,
     news: string,
-    programmeCatalog: string,
+    programme: string,
     statistics: string,
     search: string
     signIn: string,
@@ -20,7 +20,7 @@ HeaderLocalizationStrings = new LocalizedStrings({
         home: "Home",
         tips: "Tips",
         news: "News",
-        programmeCatalog: "Programme Catalog",
+        programme: "Programme Catalog",
         statistics: "Statistics",
         search: "Search Programme",
         signIn: "Login",
