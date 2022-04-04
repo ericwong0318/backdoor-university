@@ -2,35 +2,41 @@ import LocalizedStrings, { LocalizedStringsMethods } from "react-localization"
 
 export interface IHeaderLocalizationStrings extends LocalizedStringsMethods {
     home: string,
-    // Placeholder namings. Waiting to be changed
-    bt1: string,
-    btn2: string,
-    btn3: string,
+    tips: string,
+    news: string,
+    programmeCatalog: string,
+    statistics: string,
+    signIn: string,
+    signUp: string,
     language: string,
     zh: string,
     en: string
 }
 
-export let headerLocalizationStrings: IHeaderLocalizationStrings
-headerLocalizationStrings = new LocalizedStrings({
+export let HeaderLocalizationStrings: IHeaderLocalizationStrings
+HeaderLocalizationStrings = new LocalizedStrings({
     en: {
         home: "Home",
-        // Placeholder namings. Waiting to be changed
-        bt1: "btn",
-        btn2: "btn",
-        btn3: "btn",
+        tips: "Tips",
+        news: "News",
+        programmeCatalog: "Programme Catalog",
+        statistics: "Statistics",
+        signIn: "Sign In",
+        signUp: "Sign Up",
         language: "Language",
         zh: "Traditional Chinese",
         en: "English"
     },
-    zh: {
-        home: "主頁",
-        // Placeholder namings. Waiting to be changed
-        bt1: "btn",
-        btn2: "btn",
-        btn3: "btn",
-        language: "語言",
-        zh: "繁體中文",
-        en: "英文"
-    }
+    // zh: {
+    //     home: "主頁",
+    //     tips: string,
+    //     news: string,
+    //     programmeCatalog: string,
+    //     statistics: string,
+    //     signIn: string,
+    //     signUp: string,
+    //     language: "語言",
+    //     zh: "繁體中文",
+    //     en: "英文"
+    // }
 })
