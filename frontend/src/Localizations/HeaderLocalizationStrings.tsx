@@ -24,7 +24,7 @@ HeaderLocalizationStrings = new LocalizedStrings({
         statistics: "Statistics",
         search: "Search Programme",
         signIn: "Login",
-        signUp: "Sign Up",
+        signUp: "Register",
         language: "Language",
         zh: "Traditional Chinese",
         en: "English"

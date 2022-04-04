@@ -32,6 +32,15 @@ import HeaderDrawer from './HeaderDrawer';
 import { LayoutPath } from '../../Constants/RoutePaths';
 import { useLocation, useNavigate } from 'react-router-dom';
 
+// The list of buttons and where it goes
+const tabButtons = [
+    { text: HeaderLocalizationStrings.home, path: LayoutPath.home },
+    { text: HeaderLocalizationStrings.tips, path: LayoutPath.tips },
+    { text: HeaderLocalizationStrings.news, path: LayoutPath.news },
+    { text: HeaderLocalizationStrings.programme, path: LayoutPath.programme },
+    { text: HeaderLocalizationStrings.statistics, path: LayoutPath.statistics },
+]
+
 interface HeaderProps {
 
 }
@@ -45,19 +54,10 @@ const Header = (props: HeaderProps) => {
 
     // For mobile adaptivity
     const theme = useTheme();
-    const isSmallVerticalScreen = useMediaQuery(theme.breakpoints.down("md"));
+    const isSmallVerticalScreen = useMediaQuery(theme.breakpoints.down(1024));
 
     // For routing
     const navigate = useNavigate();
-
-    // The list of buttons and where it goes
-    const tabButtons = [
-        { text: HeaderLocalizationStrings.home, path: LayoutPath.home },
-        { text: HeaderLocalizationStrings.tips, path: LayoutPath.tips },
-        { text: HeaderLocalizationStrings.news, path: LayoutPath.news },
-        { text: HeaderLocalizationStrings.programme, path: LayoutPath.programme },
-        { text: HeaderLocalizationStrings.statistics, path: LayoutPath.statistics },
-    ]
 
     const onTabChanged = (e: React.SyntheticEvent<Element, Event>, value: number) => {
         navigate(tabButtons[value].path);
@@ -70,11 +70,17 @@ const Header = (props: HeaderProps) => {
 
     // Change the tab base on the location
     useEffect(() => {
-        tabButtons.map((tb, index) => {
+        // Check which tab should be set to active
+        for (let index = 0; index < tabButtons.length; index++) {
+            const tb = tabButtons[index];
             if (tb.path == location.pathname) {
-                setTabValue(index)
+                setTabValue(index);
+                return;
             }
-        })
+        }
+
+        // Set to nothing if no tabs are selected
+        setTabValue(-1);
     })
 
     return (
@@ -89,6 +95,7 @@ const Header = (props: HeaderProps) => {
                                 <IconButton aria-label="Backdoor-University" onClick={onHomeIconClicked}>
                                     <SchoolIcon />
                                 </IconButton>
+                                {/* TODO: Add a profile button */}
                             </>
                         ) : (
                             <>

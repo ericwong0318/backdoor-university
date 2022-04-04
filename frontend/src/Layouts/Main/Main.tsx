@@ -8,11 +8,11 @@ import ProgrammePage from './ProgrammePage/ProgrammePage';
 import StatisticsPage from './StatisticsPage/StatisticsPage';
 import TipsPage from './TipsPage/TipsPage';
 
-interface MainProps {
+interface IMainProps {
 
 }
 
-const Main = (props: MainProps) => {
+const Main = (props: IMainProps) => {
 
 
     return (

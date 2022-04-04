@@ -4,4 +4,5 @@ export const LayoutPath = {
     news: "/news",
     programme: "/programme",
     statistics: "/stats",
+    login: "/login"
 }
