@@ -63,6 +63,11 @@ const Header = (props: HeaderProps) => {
         navigate(tabButtons[value].path);
     }
 
+    const onHomeIconClicked = () => {
+        setTabValue(0);
+        navigate(LayoutPath.home);
+    }
+
     return (
         <React.Fragment>
             <AppBar sx={{ background: "#FFFFFF" }}>
@@ -72,14 +77,14 @@ const Header = (props: HeaderProps) => {
                             <>
                                 {/* For small screen view */}
                                 <HeaderDrawer />
-                                <IconButton aria-label="Backdoor-University" onClick={() => setTabValue(0)}>
+                                <IconButton aria-label="Backdoor-University" onClick={onHomeIconClicked}>
                                     <SchoolIcon />
                                 </IconButton>
                             </>
                         ) : (
                             <>
                                 {/* Navigation buttons for PC browsers*/}
-                                <IconButton aria-label="Backdoor-University" onClick={() => setTabValue(0)}>
+                                <IconButton aria-label="Backdoor-University" onClick={onHomeIconClicked}>
                                     <SchoolIcon />
                                 </IconButton>
                                 <Tabs
