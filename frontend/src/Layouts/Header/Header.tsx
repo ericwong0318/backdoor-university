@@ -33,6 +33,8 @@ import HeaderDrawer from './HeaderDrawer';
 import { LayoutPath } from '../../Constants/RoutePaths';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useSignInStatus } from '../../Hooks/UserStatus';
+import FloatingMenu from '../../Components/FloatingMenu/FloatingMenu';
+import FloatingMenuItem from '../../Components/FloatingMenu/FloatingMenuItem';
 
 // The list of buttons and where it goes
 const tabButtons = [
@@ -94,6 +96,13 @@ const Header = (props: HeaderProps) => {
         setTabValue(-1);
     })
 
+    const profileButton =
+        <IconButton aria-label="Profile"
+            sx={{ marginLeft: "auto" }}
+            onClick={onProfileIconClicked}>
+            <AccountCircleIcon />
+        </IconButton>
+
     return (
         <React.Fragment>
             <AppBar sx={{ background: "#FFFFFF" }}>
@@ -107,9 +116,19 @@ const Header = (props: HeaderProps) => {
                                     <SchoolIcon />
                                 </IconButton>
                                 {/* TODO: Add a profile button */}
-                                <IconButton aria-label="Profile" sx={{ marginLeft: "auto" }} onClick={onProfileIconClicked}>
-                                    <AccountCircleIcon />
-                                </IconButton>
+
+                                {
+                                    isSignedIn ? (
+                                        <IconButton aria-label="Profile" sx={{ marginLeft: "auto" }} onClick={onProfileIconClicked}>
+                                            <AccountCircleIcon />
+                                        </IconButton>
+                                    ) : (
+                                        <FloatingMenu sx={{ marginLeft: "auto" }} toggleButton={profileButton}>
+                                            <FloatingMenuItem onClick={() => navigate(LayoutPath.signin)}>{HeaderLocalizationStrings.signIn}</FloatingMenuItem>
+                                            <FloatingMenuItem>{HeaderLocalizationStrings.signUp}</FloatingMenuItem>
+                                        </FloatingMenu>
+                                    )
+                                }
                             </>
                         ) : (
                             <>
@@ -133,9 +152,6 @@ const Header = (props: HeaderProps) => {
                                     isSignedIn ? (
                                         // Display Profile button
                                         <>
-                                            <IconButton aria-label="Profile" sx={{ marginLeft: "auto" }} onClick={onProfileIconClicked}>
-                                                <AccountCircleIcon />
-                                            </IconButton>
                                         </>
                                     ) : (
                                         // Display signin and signout buttons

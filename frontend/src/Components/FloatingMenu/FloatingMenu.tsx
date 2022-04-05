@@ -1,4 +1,4 @@
-import { Button, Menu, MenuItem, Typography } from '@mui/material';
+import { Button, Menu, MenuItem, SxProps, Theme, Typography } from '@mui/material';
 import React from 'react'
 import FloatingMenuItem from './FloatingMenuItem';
 
@@ -8,6 +8,8 @@ interface IFloatingMenuProps {
 
     children?:
     | React.ReactNode
+
+    sx?: SxProps<Theme>
 }
 
 const FloatingMenu = (props: IFloatingMenuProps) => {
@@ -27,6 +29,7 @@ const FloatingMenu = (props: IFloatingMenuProps) => {
                 aria-haspopup="true"
                 aria-expanded={open ? 'true' : undefined}
                 onClick={onToggleButtonClicked}
+                sx={props.sx}
             >
                 {props.toggleButton}
             </Button>
