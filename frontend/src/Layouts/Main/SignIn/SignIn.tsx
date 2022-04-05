@@ -12,7 +12,7 @@ import Grid from '@mui/material/Grid';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-import { SigninLocalizatiionStrings } from './Localizations/SigninLocalizationStrings';
+import { SigninLocalizatiionStrings } from '../../../Localizations/SigninLocalizatiionStrings';
 
 const theme = createTheme();
 
@@ -25,6 +25,7 @@ export default function SignIn() {
       email: data.get('email'),
       password: data.get('password'),
     });
+    // TODO: Sign In the user
   };
 
   return (

@@ -52,7 +52,7 @@ const HeaderDrawer = () => {
                 </List>
 
                 {/* TODO: Change the login button to Profile button after logged-in */}
-                <Button sx={{ marginTop: 'auto', height: '5%' }} onClick={() => onListItemClicked(LayoutPath.login)}>
+                <Button sx={{ marginTop: 'auto', height: '5%' }} onClick={() => onListItemClicked(LayoutPath.signin)}>
 
                     <LoginIcon />
                     <Typography sx={{ marginLeft: "10px" }}>

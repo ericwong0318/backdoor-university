@@ -1,7 +1,7 @@
 import React from 'react'
-import { Route, Router, Routes } from 'react-router-dom';
+import { Route, Routes } from 'react-router-dom';
 import { LayoutPath } from '../../Constants/RoutePaths';
-import SignIn from '../../signin';
+import SignIn from './SignIn/SignIn';
 import HomePage from './HomePage/HomePage';
 import NewsPage from './NewsPage/NewsPage';
 import ProgrammePage from './ProgrammePage/ProgrammePage';
@@ -23,6 +23,7 @@ const Main = (props: IMainProps) => {
                 <Route path={LayoutPath.news} element={<NewsPage />} />
                 <Route path={LayoutPath.programme} element={<ProgrammePage />} />
                 <Route path={LayoutPath.statistics} element={<StatisticsPage />} />
+                <Route path={LayoutPath.signin} element={<SignIn />} />
             </Routes>
         </React.Fragment>
     )
