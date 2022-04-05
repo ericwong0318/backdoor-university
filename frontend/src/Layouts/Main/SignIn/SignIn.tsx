@@ -5,7 +5,6 @@ import CssBaseline from '@mui/material/CssBaseline';
 import TextField from '@mui/material/TextField';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Checkbox from '@mui/material/Checkbox';
-import Link from '@mui/material/Link';
 import Paper from '@mui/material/Paper';
 import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
@@ -13,6 +12,8 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { SigninLocalizatiionStrings } from '../../../Localizations/SigninLocalizatiionStrings';
+import { Link } from 'react-router-dom';
+import { LayoutPath } from '../../../Constants/RoutePaths';
 
 const theme = createTheme();
 
@@ -96,12 +97,16 @@ export default function SignIn() {
               </Button>
               <Grid container>
                 <Grid item xs>
-                  <Link href="google.com" variant="body2">
-                    {SigninLocalizatiionStrings.forgot_password}
+                  {/* Forgot Password Button */}
+                  <Link to={LayoutPath.forgotpassword}>
+                    <Typography>
+                      {SigninLocalizatiionStrings.forgot_password}
+                    </Typography>
                   </Link>
                 </Grid>
+                {/* Sign Up Button */}
                 <Grid item>
-                  <Link href="youtube.com" variant="body2">
+                  <Link to={LayoutPath.signup}>
                     {SigninLocalizatiionStrings.sign_up}
                   </Link>
                 </Grid>

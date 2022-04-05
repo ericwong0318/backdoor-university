@@ -5,5 +5,6 @@ export const LayoutPath = {
     programme: "/programme",
     statistics: "/stats",
     signin: "/login",
-    signup: "/register"
+    signup: "/register",
+    forgotpassword: "/forgot-password"
 }
