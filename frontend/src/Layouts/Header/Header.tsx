@@ -26,11 +26,13 @@ import { Button, Toolbar, AppBar, IconButton, Tabs, Tab, TextField, useTheme, us
 import { HeaderLocalizationStrings } from '../../Localizations/HeaderLocalizationStrings';
 import SchoolIcon from '@mui/icons-material/School';
 import SearchIcon from '@mui/icons-material/Search';
+import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import './Header.css';
 import { navItemRight } from './HeaderStyle';
 import HeaderDrawer from './HeaderDrawer';
 import { LayoutPath } from '../../Constants/RoutePaths';
 import { useLocation, useNavigate } from 'react-router-dom';
+import { useSignInStatus } from '../../Hooks/UserStatus';
 
 // The list of buttons and where it goes
 const tabButtons = [
@@ -46,8 +48,12 @@ interface HeaderProps {
 }
 
 const Header = (props: HeaderProps) => {
+    /* Hooks */
     // Which tab is being showed
     const [tabValue, setTabValue] = useState(0);
+
+    // Whether the user has signed in
+    const [isSignedIn, _] = useSignInStatus();
 
     // Which page are we in
     let location = useLocation();
@@ -59,6 +65,7 @@ const Header = (props: HeaderProps) => {
     // For routing
     const navigate = useNavigate();
 
+    /* Button Onclicks */
     const onTabChanged = (e: React.SyntheticEvent<Element, Event>, value: number) => {
         navigate(tabButtons[value].path);
     }
@@ -66,6 +73,10 @@ const Header = (props: HeaderProps) => {
     const onHomeIconClicked = () => {
         setTabValue(0);
         navigate(LayoutPath.home);
+    }
+
+    const onProfileIconClicked = () => {
+        // TODO: open profile floating menu
     }
 
     // Change the tab base on the location
@@ -96,10 +107,13 @@ const Header = (props: HeaderProps) => {
                                     <SchoolIcon />
                                 </IconButton>
                                 {/* TODO: Add a profile button */}
+                                <IconButton aria-label="Profile" sx={{ marginLeft: "auto" }} onClick={onProfileIconClicked}>
+                                    <AccountCircleIcon />
+                                </IconButton>
                             </>
                         ) : (
                             <>
-                                {/* Navigation buttons for PC browsers*/}
+                                {/* Navigation buttons for PC browsers */}
                                 <IconButton aria-label="Backdoor-University" onClick={onHomeIconClicked}>
                                     <SchoolIcon />
                                 </IconButton>
@@ -114,8 +128,23 @@ const Header = (props: HeaderProps) => {
                                 </Tabs>
                                 <SearchIcon sx={{ marginLeft: "auto" }} />
                                 <TextField variant="standard" label={HeaderLocalizationStrings.search} />
-                                <Button sx={{ ...navItemRight }} variant="contained">{HeaderLocalizationStrings.signIn}</Button>
-                                <Button sx={{ ...navItemRight }} variant="contained">{HeaderLocalizationStrings.signUp}</Button>
+
+                                {
+                                    isSignedIn ? (
+                                        // Display Profile button
+                                        <>
+                                            <IconButton aria-label="Profile" sx={{ marginLeft: "auto" }} onClick={onProfileIconClicked}>
+                                                <AccountCircleIcon />
+                                            </IconButton>
+                                        </>
+                                    ) : (
+                                        // Display signin and signout buttons
+                                        <>
+                                            <Button sx={{ ...navItemRight }} variant="contained">{HeaderLocalizationStrings.signIn}</Button>
+                                            <Button sx={{ ...navItemRight }} variant="contained">{HeaderLocalizationStrings.signUp}</Button>
+                                        </>
+                                    )
+                                }
                             </>
                         )
                     }

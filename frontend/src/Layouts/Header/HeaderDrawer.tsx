@@ -2,7 +2,7 @@
     The drawer is only available when the window size is small, such as when the user are browsing from a mobile phone.
 */
 
-import { Button, Drawer, IconButton, List, ListItemButton, ListItemIcon, ListItemText, Typography } from "@mui/material";
+import { Button, Drawer, Grid, IconButton, List, ListItemButton, ListItemIcon, ListItemText, Typography } from "@mui/material";
 import MenuIcon from '@mui/icons-material/Menu';
 import HomeIcon from '@mui/icons-material/Home';
 import TipsAndUpdatesIcon from '@mui/icons-material/TipsAndUpdates';
@@ -10,10 +10,12 @@ import NewspaperIcon from '@mui/icons-material/Newspaper';
 import BookIcon from '@mui/icons-material/Book';
 import BarChartIcon from '@mui/icons-material/BarChart';
 import LoginIcon from '@mui/icons-material/Login';
+import SchoolIcon from '@mui/icons-material/School';
 import React, { useState } from "react";
 import { HeaderLocalizationStrings } from "../../Localizations/HeaderLocalizationStrings";
 import { Link, useNavigate } from "react-router-dom";
 import { LayoutPath } from "../../Constants/RoutePaths";
+import { Box } from "@mui/system";
 
 // The list of items to display in the drawer along with their icon
 const drawerListItems = [
@@ -38,6 +40,16 @@ const HeaderDrawer = () => {
     return (
         <React.Fragment>
             <Drawer open={isDrawerOpened} onClose={() => setIsDrawerOpened(false)}>
+                {/* <Box justifyContent="center" sx={{ height: "6.7%", backgroundColor: "red" }}>
+                    <Grid container>
+                        <Grid item xs={4} m="auto" sx={{ backgroundColor: "yellow" }}>
+                            <IconButton sx={{ margin: "auto" }} onClick={() => setIsDrawerOpened(false)}>
+                                <MenuIcon />
+                            </IconButton>
+                        </Grid>
+                        <Grid item xs={4}></Grid>
+                    </Grid>
+                </Box> */}
                 <List>
                     {drawerListItems.map((o) =>
                         <ListItemButton onClick={() => onListItemClicked(o.path)}>
