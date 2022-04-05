@@ -109,8 +109,7 @@ const Header = (props: HeaderProps) => {
                 <Toolbar sx={{ color: "#000000" }}>
                     {
                         isSmallVerticalScreen ? (
-                            <>
-                                {/* For small screen view */}
+                            <> {/* For small screen view */}
                                 <HeaderDrawer />
                                 <IconButton aria-label="Backdoor-University" onClick={onHomeIconClicked}>
                                     <SchoolIcon />
@@ -124,15 +123,21 @@ const Header = (props: HeaderProps) => {
                                         </IconButton>
                                     ) : (
                                         <FloatingMenu sx={{ marginLeft: "auto" }} toggleButton={profileButton}>
-                                            <FloatingMenuItem onClick={() => navigate(LayoutPath.signin)}>{HeaderLocalizationStrings.signIn}</FloatingMenuItem>
-                                            <FloatingMenuItem>{HeaderLocalizationStrings.signUp}</FloatingMenuItem>
+                                            {/* Sign In Button */}
+                                            <FloatingMenuItem onClick={() => navigate(LayoutPath.signin)}>
+                                                {HeaderLocalizationStrings.signIn}
+                                            </FloatingMenuItem>
+
+                                            {/* Sign Up Button */}
+                                            <FloatingMenuItem onClick={() => navigate(LayoutPath.signup)}>
+                                                {HeaderLocalizationStrings.signUp}
+                                            </FloatingMenuItem>
                                         </FloatingMenu>
                                     )
                                 }
                             </>
                         ) : (
-                            <>
-                                {/* Navigation buttons for PC browsers */}
+                            <> {/* Navigation buttons for PC browsers */}
                                 <IconButton aria-label="Backdoor-University" onClick={onHomeIconClicked}>
                                     <SchoolIcon />
                                 </IconButton>
@@ -150,14 +155,27 @@ const Header = (props: HeaderProps) => {
 
                                 {
                                     isSignedIn ? (
-                                        // Display Profile button
+                                        // TODO: Display Profile button
                                         <>
                                         </>
                                     ) : (
                                         // Display signin and signout buttons
                                         <>
-                                            <Button sx={{ ...navItemRight }} variant="contained">{HeaderLocalizationStrings.signIn}</Button>
-                                            <Button sx={{ ...navItemRight }} variant="contained">{HeaderLocalizationStrings.signUp}</Button>
+                                            {/* Sign In Button */}
+                                            <Button sx={{ ...navItemRight }}
+                                                variant="contained"
+                                                onClick={() => navigate(LayoutPath.signin)}
+                                            >
+                                                {HeaderLocalizationStrings.signIn}
+                                            </Button>
+
+                                            {/* Sign Up Button */}
+                                            <Button variant="contained"
+                                                sx={{ ...navItemRight }}
+                                                onClick={() => navigate(LayoutPath.signup)}
+                                            >
+                                                {HeaderLocalizationStrings.signUp}
+                                            </Button>
                                         </>
                                     )
                                 }

@@ -7,6 +7,7 @@ import NewsPage from './NewsPage/NewsPage';
 import ProgrammePage from './ProgrammePage/ProgrammePage';
 import StatisticsPage from './StatisticsPage/StatisticsPage';
 import TipsPage from './TipsPage/TipsPage';
+import SignUp from './SignUp/SignUp';
 
 interface IMainProps {
 
@@ -24,6 +25,7 @@ const Main = (props: IMainProps) => {
                 <Route path={LayoutPath.programme} element={<ProgrammePage />} />
                 <Route path={LayoutPath.statistics} element={<StatisticsPage />} />
                 <Route path={LayoutPath.signin} element={<SignIn />} />
+                <Route path={LayoutPath.signup} element={<SignUp />} />
             </Routes>
         </React.Fragment>
     )
