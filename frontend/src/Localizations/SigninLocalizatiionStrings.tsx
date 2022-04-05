@@ -10,8 +10,8 @@ export interface ISignInLocalizationStrings extends LocalizedStringsMethods {
     sign_in: string
 }
 
-export let signinLocalizatiionStrings: ISignInLocalizationStrings
-signinLocalizatiionStrings = new LocalizedStrings({
+export let SigninLocalizatiionStrings: ISignInLocalizationStrings
+SigninLocalizatiionStrings = new LocalizedStrings({
     en: {
         password: "Password",
         forgot_password: "Forgot password?",
