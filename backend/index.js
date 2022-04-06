@@ -119,6 +119,7 @@ app.use(cors());
 
 // routing
 app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json())
 
 /* register account */
 app.post('/register', (req, res) => {
