@@ -13,6 +13,21 @@ interface ISignUpFormData {
     username: string | undefined
     password: string | undefined
     confirmPassword: string | undefined
+    school: string | undefined
+    programme: string | undefined
+    cgpa: string | undefined
+    examName: string | undefined
+    examResult: string | undefined
+}
+
+interface IUserRegisterSchema {
+    email: string
+    password: string
+    school: string
+    programme: string
+    cgpa: number
+    examname: string
+    result: number
 }
 
 const formKey = {
@@ -20,6 +35,11 @@ const formKey = {
     username: "username",
     password: "password",
     confirmPassword: "confirm-password",
+    school: "school",
+    programme: "programme",
+    cgpa: "cgpa",
+    examName: "examname",
+    examResult: "result",
 }
 
 const ToSignUpFormData = (data: FormData): ISignUpFormData => {
@@ -28,6 +48,11 @@ const ToSignUpFormData = (data: FormData): ISignUpFormData => {
         username: data.get(formKey.username)?.toString(),
         password: data.get(formKey.password)?.toString(),
         confirmPassword: data.get(formKey.confirmPassword)?.toString(),
+        school: data.get(formKey.school)?.toString(),
+        programme: data.get(formKey.programme)?.toString(),
+        cgpa: data.get(formKey.cgpa)?.toString(),
+        examName: data.get(formKey.examName)?.toString(),
+        examResult: data.get(formKey.examResult)?.toString(),
     }
 }
 
@@ -72,11 +97,16 @@ const SignUp = (props: ISignUpProps) => {
     const [errorPassword, setErrorPassword] = useState("");
     const [errorConfirmPW, setErrorConfirmPW] = useState("");
     const [errorAgree, setErrorAgree] = useState("");
+    const [errorSchool, setErrorSchool] = useState("");
+    const [errorProgramme, setErrorProgramme] = useState("")
+    const [errorCGPA, setErrorCGPA] = useState("")
+    const [errorExamName, setErrorExamName] = useState("")
+    const [errorExamResult, setErrorExamResult] = useState("")
+
 
     const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
         const data = ToSignUpFormData(new FormData(event.currentTarget));
-        console.log(data)
         let error = false;
 
         // Verify if the form is filled correctly
@@ -126,6 +156,18 @@ const SignUp = (props: ISignUpProps) => {
             error = true;
         }
 
+        // Verify School
+        if (!data.school) {
+            setErrorSchool(localString.field_empty_error);
+            error = true;
+        }
+
+        // Verify Programme
+        if (!data.programme) {
+            setErrorProgramme(localString.field_empty_error);
+            error = true;
+        }
+
         if (!agreed) {
             setErrorAgree(localString.did_not_agree_error);
             error = true;
@@ -136,7 +178,14 @@ const SignUp = (props: ISignUpProps) => {
             return;
         }
 
+        console.log(JSON.stringify(data))
+
         // TODO: Sign up with the data
+        // fetch('localhost:3001/register', {
+        //     method:"POST",
+        //     headers:{"Content-Type": "application/json"},
+        //     body:
+        // })
     };
 
     return (
@@ -240,6 +289,88 @@ const SignUp = (props: ISignUpProps) => {
                         <Typography sx={{ color: "red", textAlign: "left" }}>
                             {errorConfirmPW}
                         </Typography>
+
+                        {/* School Field */}
+                        <TextField
+                            margin="normal"
+                            required
+                            fullWidth
+                            id={formKey.school}
+                            name={formKey.school}
+                            label={localString.school}
+                            onChange={() => {
+                                setErrorSchool("");
+                            }}
+                        />
+                        <Typography sx={{ color: "red", textAlign: "left" }}>
+                            {errorSchool}
+                        </Typography>
+
+                        {/* Programme Field */}
+                        <TextField
+                            margin="normal"
+                            required
+                            fullWidth
+                            id={formKey.school}
+                            name={formKey.school}
+                            label={localString.programme}
+                            onChange={() => {
+                                setErrorProgramme("");
+                            }}
+                        />
+                        <Typography sx={{ color: "red", textAlign: "left" }}>
+                            {errorProgramme}
+                        </Typography>
+
+                        {/* CGPA Field */}
+                        <TextField
+                            margin="normal"
+                            fullWidth
+                            id={formKey.school}
+                            name={formKey.school}
+                            label={localString.cgpa}
+                            onChange={() => {
+                                setErrorCGPA("");
+                            }}
+                        />
+                        <Typography sx={{ color: "red", textAlign: "left" }}>
+                            {errorCGPA}
+                        </Typography>
+
+                        <Grid container spacing={2}>
+                            <Grid item sx={{ width: "55%" }}>
+                                {/* ExamName Field */}
+                                <TextField
+                                    margin="normal"
+                                    fullWidth
+                                    id={formKey.school}
+                                    name={formKey.school}
+                                    label={localString.exam_name}
+                                    onChange={() => {
+                                        setErrorExamName("");
+                                    }}
+                                />
+                                <Typography sx={{ color: "red", textAlign: "left" }}>
+                                    {errorExamName}
+                                </Typography>
+                            </Grid>
+                            <Grid item sx={{ width: "45%" }}>
+                                {/* ExamResult Field */}
+                                <TextField
+                                    margin="normal"
+                                    fullWidth
+                                    id={formKey.school}
+                                    name={formKey.school}
+                                    label={localString.exam_result}
+                                    onChange={() => {
+                                        setErrorExamResult("");
+                                    }}
+                                />
+                                <Typography sx={{ color: "red", textAlign: "left" }}>
+                                    {errorExamResult}
+                                </Typography>
+                            </Grid>
+                        </Grid>
 
                         {/* Agreement field */}
                         <FormControlLabel

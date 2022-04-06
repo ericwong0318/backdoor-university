@@ -5,6 +5,11 @@ export interface ISignUpLocalizationStrings extends LocalizedStringsMethods {
     username_hint: string
     password: string
     confirm_password: string
+    school: string
+    programme: string
+    cgpa: string
+    exam_name: string
+    exam_result: string
     sign_up: string
     email: string
     sign_in: string
@@ -26,6 +31,11 @@ SignUpLocalizationStrings = new LocalizedStrings({
         username_hint: "Your Nick Name",
         password: "Password",
         confirm_password: "Confirm Password",
+        school: "Current School",
+        programme: "Current Study Programme",
+        cgpa: "Current CGPA",
+        exam_name: "Taken Exam Name",
+        exam_result: "Exam Result",
         sign_up: "Register",
         sign_in: "Sign in",
         email: "School Email Adress",
