@@ -23,6 +23,7 @@ export interface ISignUpLocalizationStrings extends LocalizedStringsMethods {
     username_used_error: string
     did_not_agree_error: string
     registering: string
+    server_unavailable_error: string
 }
 
 export let SignUpLocalizationStrings: ISignUpLocalizationStrings
@@ -50,6 +51,7 @@ SignUpLocalizationStrings = new LocalizedStrings({
         username_used_error: "* The username has been taken!",
         did_not_agree_error: "* This has to be checked!",
         registering: "Registering . . . ",
+        server_unavailable_error: "Sorry! The server is current down for maintainance!",
     },
     // zh: {
     //     password: "密碼",

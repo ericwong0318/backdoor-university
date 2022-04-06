@@ -107,7 +107,6 @@ const SignUp = (props: ISignUpProps) => {
 
         // Sign up with the data
         let headers = new Headers();
-
         headers.append('Content-Type', 'application/json');
 
         fetch(`${backend.url}${backend.pathRegister}`, {
@@ -123,6 +122,7 @@ const SignUp = (props: ISignUpProps) => {
                 console.log(err)
             })
         }).catch(reason => {
+            // TODO: Display server unavailble
             setIsRegistering(false);
         })
     };
