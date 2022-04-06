@@ -2,15 +2,19 @@
 const express = require('express');
 const app = express();
 
-// extra package
 const bodyParser = require('body-parser');
+const fs = require('fs');
 // const session = require('express-session');
+const bcrypt = require('bcrypt');
 
-// mongoose
+// import cors to allow cross port data transfer
+const cors = require('cors')
+
+/* mongoose */
 
 // connection
 const mongoose = require('mongoose');
-// const dbUri = "mongodb+srv://admin:ALVGC6RTUTdbDJs@csci3100.47s09.mongodb.net/DB?retryWrites=true&w=majority";
+const dbUri = "mongodb+srv://admin:ALVGC6RTUTdbDJs@csci3100.47s09.mongodb.net/DB?retryWrites=true&w=majority";
 mongoose.connect(dbUri);
 const db = mongoose.connection;
 db.on('error', console.error.bind(console, 'connection error:'));
@@ -22,26 +26,22 @@ db.once('open', function () {
 const Schema = mongoose.Schema;
 
 const UserSchema = Schema({
-    // id: { type: String, required: true }, // mongodb's _id is unique primary key
     email: { type: String, unique: true, required: true },
     password: { type: String, required: true },
-    name: { type: String, unique: true, required: true },
-    photo: { type: String, unique: true }, // url
-    currProgramme: [
-        {
-            school: { type: String, required: true },
-            programme: { type: String, required: true },
-            addmissionYear: { type: Number, required: true },
-            cgpa: { type: Number },
-        }
-    ], // monitor is a user who got a offer
-    exam: [
-        {
-            name: { type: String },
-            result: { type: String },
-            year: { type: Number, required: true }
-        }
-    ],
+    // name: { type: String, unique: true, required: true },
+    photo: { data: Buffer, contentType: String },
+    currProgramme: {
+        school: { type: String, required: true },
+        programme: { type: String, required: true },
+        // addmissionYear: { type: Number, required: true },
+        cgpa: { type: Number },
+    }
+    , // monitor is a user who got a offer
+    exam: {
+        name: { type: String },
+        result: { type: String },
+        // year: { type: Number, required: true }
+    },
     status: { type: String, required: true },
     // ref to programme
     offer: [{
@@ -53,16 +53,28 @@ const UserSchema = Schema({
     }]
 });
 
-UserSchema.pre("save", async function (next) {
-    if (!this.isModified("password")) return next();
-    try {
-        const salt = await bcrypt.genSalt(10);
-        this.password = await bcrypt.hash(this.password, salt);
-        return next();
-    } catch (error) {
-        return next(error);
-    }
-});
+
+
+// UserSchema.pre("save", async function (next) {
+//     if (!this.isModified("password")) return next();
+//     try {
+//         const salt = await bcrypt.genSalt(10);
+//         this.password = await bcrypt.hash(this.password, salt);
+//         return next();
+//     } catch (error) {
+//         return next(error);
+//     }
+// });
+// UserSchema.pre("findOne", async function (next) {
+//     if (!this.isModified("password")) return next();
+//     try {
+//         const salt = await bcrypt.genSalt(10);
+//         this.password = await bcrypt.hash(this.password, salt);
+//         return next();
+//     } catch (error) {
+//         return next(error);
+//     }
+// });
 
 const User = mongoose.model('User', UserSchema);
 
@@ -73,12 +85,6 @@ const AdminSchema = Schema({
 });
 const Admin = mongoose.model('Admin', AdminSchema);
 
-// const InterviewSchema = Schema({
-//     date: { type: Date("<YYYY-mm-dd>"), required: true },
-//     content: { type: String, required: true },
-// });
-// const Interview = mongoose.model('Interview', InterviewSchema);
-
 const ProgrammeSchema = Schema({
     title: { type: String, required: true },
     info: { type: String, required: true },
@@ -86,7 +92,8 @@ const ProgrammeSchema = Schema({
     subjects: [{ type: String, required: true }],
     interviews: [{
         user: { type: Schema.Types.ObjectId, ref: 'User' },
-        date: { type: Date("<YYYY-mm-dd>"), required: true },
+        // date: { type: Date("<YYYY-mm-dd>"), required: true },
+        date: { type: String, required: true },
         content: { type: String, required: true },
     }]
 });
@@ -102,50 +109,69 @@ const reportSchema = Schema({
 });
 const Report = mongoose.model('Report', reportSchema);
 
+// workers
+function handleErr(res, err) {
+    res.send("Operation failed. Please try again\n\n\n" + err);
+}
 
-
+// Enable Cross-Origin Resource Sharing
+app.use(cors());
 
 // routing
 app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json())
 
-app.post('/create-account', (req, res) => {
-    let id = req.body['loginid'], pwd = req.body['password'];
-
-});
-
-app.post('/login', (req, res) => {
-    let id = req.body['loginid'], pwd = req.body['password'];
-    res.send("login");
-
-});
-
-app.get('/insert-login', (req, res) => {
-    res.send("insert login");
-    Subject.create(
-        { name: "Chemistry" },
-        (err) => {
+/* register account */
+app.post('/register', (req, res) => {
+    User.create(
+        {
+            email: req.body.email,
+            password: req.body.password,
+            // photo: fs.readFileSync(imgPath),
+            currProgramme: {
+                school: req.body.school,
+                programme: req.body.programme,
+                cgpa: req.body.cgpa
+            },
+            exam: {
+                name: req.body.examname,
+                result: req.body.result
+            },
+            status: 'active',
+            offer: [{ /*todo*/
+            }]
+        }, (err, user) => {
             if (err) {
-                console.log(err);
+                handleErr(res, err);
+                return
             }
-        }
-    );
+            res.send("Account register successful");
+            return;
+        });
 });
 
-app.get('/get-login', (req, res) => {
-    Subject.findOne(
-        { name: "chemistry" },
-        'name',
-        (err, e) => {
-            if (err) { console.log(err) }
-            else { res.send(e.name) }
-        }
-    );
+/* login */
+app.post('/login', (req, res) => {
+    User
+        .findOne({
+            email: req.body.email,
+            password: req.body.password,
+        })
+        .exec((err, user) => {
+            if (user === null) {
+                handleErr(res, "wrong email or password");
+                return;
+            } else {
+                handleErr(res, "login successful");
+                return;
+            }
+        });
 });
 
-app.all('*/', function (req, res) {
-    res.send("hello");
-    console.log(req.header);
-    console.log(req.get('user-agent'));
-});
+// app.all('*/', function (req, res) {
+//     res.send("hello");
+//     console.log(req.header);
+//     console.log(req.get('user-agent'));
+// });
 
-const server = app.listen(3000);
+const server = app.listen(3001);
