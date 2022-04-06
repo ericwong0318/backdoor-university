@@ -6,6 +6,10 @@ const bodyParser = require('body-parser');
 const fs = require('fs');
 // const session = require('express-session');
 const bcrypt = require('bcrypt');
+
+// import cors to allow cross port data transfer
+const cors = require('cors')
+
 /* mongoose */
 
 // connection
@@ -110,9 +114,12 @@ function handleErr(res, err) {
     res.send("Operation failed. Please try again\n\n\n" + err);
 }
 
+// Enable Cross-Origin Resource Sharing
+app.use(cors());
 
 // routing
 app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json())
 
 /* register account */
 app.post('/register', (req, res) => {
