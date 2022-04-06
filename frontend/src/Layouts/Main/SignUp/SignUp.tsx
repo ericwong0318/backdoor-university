@@ -25,9 +25,9 @@ interface IUserRegisterSchema {
     password: string
     school: string
     programme: string
-    cgpa: number
+    cgpa: string
     examname: string
-    result: number
+    result: string
 }
 
 const formKey = {
@@ -53,6 +53,18 @@ const ToSignUpFormData = (data: FormData): ISignUpFormData => {
         cgpa: data.get(formKey.cgpa)?.toString(),
         examName: data.get(formKey.examName)?.toString(),
         examResult: data.get(formKey.examResult)?.toString(),
+    }
+}
+
+const ToUserRegiserSchema = (data: ISignUpFormData): IUserRegisterSchema => {
+    return {
+        email: data.email!,
+        password: data.password!,
+        school: data.school!,
+        programme: data.programme!,
+        cgpa: data.cgpa!,
+        examname: data.examName!,
+        result: data.examResult!,
     }
 }
 
@@ -178,14 +190,24 @@ const SignUp = (props: ISignUpProps) => {
             return;
         }
 
-        console.log(JSON.stringify(data))
+        console.log(JSON.stringify(ToUserRegiserSchema(data)))
 
         // TODO: Sign up with the data
-        // fetch('localhost:3001/register', {
-        //     method:"POST",
-        //     headers:{"Content-Type": "application/json"},
-        //     body:
-        // })
+        let headers = new Headers();
+
+        headers.append('Content-Type', 'application/json');
+        // headers.append('Accept', 'application/json');
+        // headers.append('Origin', 'http://localhost:3000');
+        // headers.append('Access-Control-Allow-Origin', 'http://localhost:3000');
+
+        fetch('http://localhost:3001/register', {
+            method: "POST",
+            headers: headers,
+            body: JSON.stringify(ToUserRegiserSchema(data))
+        }).then(response => {
+            console.log("Response received")
+            console.log(response.text())
+        })
     };
 
     return (
@@ -311,8 +333,8 @@ const SignUp = (props: ISignUpProps) => {
                             margin="normal"
                             required
                             fullWidth
-                            id={formKey.school}
-                            name={formKey.school}
+                            id={formKey.programme}
+                            name={formKey.programme}
                             label={localString.programme}
                             onChange={() => {
                                 setErrorProgramme("");
@@ -326,8 +348,8 @@ const SignUp = (props: ISignUpProps) => {
                         <TextField
                             margin="normal"
                             fullWidth
-                            id={formKey.school}
-                            name={formKey.school}
+                            id={formKey.cgpa}
+                            name={formKey.cgpa}
                             label={localString.cgpa}
                             onChange={() => {
                                 setErrorCGPA("");
@@ -343,8 +365,8 @@ const SignUp = (props: ISignUpProps) => {
                                 <TextField
                                     margin="normal"
                                     fullWidth
-                                    id={formKey.school}
-                                    name={formKey.school}
+                                    id={formKey.examName}
+                                    name={formKey.examName}
                                     label={localString.exam_name}
                                     onChange={() => {
                                         setErrorExamName("");
@@ -359,8 +381,8 @@ const SignUp = (props: ISignUpProps) => {
                                 <TextField
                                     margin="normal"
                                     fullWidth
-                                    id={formKey.school}
-                                    name={formKey.school}
+                                    id={formKey.examResult}
+                                    name={formKey.examResult}
                                     label={localString.exam_result}
                                     onChange={() => {
                                         setErrorExamResult("");
