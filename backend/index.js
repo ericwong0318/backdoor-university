@@ -1,3 +1,6 @@
+// .env
+const env = require('dotenv').config();
+// console.log(process.env); // remove this after you've confirmed it working
 // express
 const express = require('express');
 const app = express();
@@ -6,6 +9,10 @@ const bodyParser = require('body-parser');
 const fs = require('fs');
 // const session = require('express-session');
 const bcrypt = require('bcrypt');
+
+// mail
+const nodemailer = require("nodemailer");
+
 /* mongoose */
 
 // connection
@@ -161,10 +168,47 @@ app.post('/login', (req, res) => {
         });
 });
 
-// app.all('*/', function (req, res) {
-//     res.send("hello");
-//     console.log(req.header);
-//     console.log(req.get('user-agent'));
-// });
+app.get('/send-verfiy-email', (req, res) => {
+    main().catch(console.error);
+    res.send("A verfication email is sent");
+});
+
+// async..await is not allowed in global scope, must use a wrapper
+async function main() {
+    let transporter = nodemailer.createTransport({
+        host: "smtp.ethereal.email",
+        port: 587,
+        secure: false, // true for 465, false for other ports
+        service: 'gmail',
+        auth: {
+            type: 'OAuth2',
+            user: process.env.MAIL_USERNAME,
+            // pass: process.env.MAIL_PASSWORD,
+            clientId: process.env.OAUTH_CLIENTID,
+            clientSecret: process.env.OAUTH_CLIENT_SECRET,
+            refreshToken: process.env.OAUTH_REFRESH_TOKEN
+        }
+    });
+
+    // send mail with defined transport object
+    let info = await transporter.sendMail({
+        from: 'Backdoor University', // sender address
+        to: "vikas41957@whwow.com", // list of receivers
+        subject: "Click the Link for register", // Subject line
+        html: `<h1>Backdoor University</h1>
+        <h3><Please click the following Link for register:</h3>
+        <a href="https://example.com">https://example.com</a>`, // html body
+    });
+
+    console.log("Message sent: %s", info.messageId);
+    // Message sent: <b658f8ca-6296-ccf4-8306-87d57a0b4321@example.com>
+
+    // Preview only available when sending through an Ethereal account
+    console.log("Preview URL: %s", nodemailer.getTestMessageUrl(info));
+    // Preview URL: https://ethereal.email/message/WaQKMgKddxQDoou...
+}
+
+
+
 
 const server = app.listen(3001);
