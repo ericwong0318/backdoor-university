@@ -12,6 +12,8 @@ const bcrypt = require('bcrypt');
 
 // mail
 const nodemailer = require("nodemailer");
+// import cors to allow cross port data transfer
+const cors = require('cors')
 
 /* mongoose */
 
@@ -117,9 +119,12 @@ function handleErr(res, err) {
     res.send("Operation failed. Please try again\n\n\n" + err);
 }
 
+// Enable Cross-Origin Resource Sharing
+app.use(cors());
 
 // routing
 app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json())
 
 /* register account */
 app.post('/register', (req, res) => {
