@@ -1,13 +1,13 @@
 import React from 'react'
 import { Route, Routes } from 'react-router-dom';
 import { LayoutPath } from '../../Constants/RoutePaths';
-import SignIn from './SignIn/SignIn';
+import Login from './Login/Login';
 import HomePage from './HomePage/HomePage';
 import NewsPage from './NewsPage/NewsPage';
 import ProgrammePage from './ProgrammePage/ProgrammePage';
 import StatisticsPage from './StatisticsPage/StatisticsPage';
 import TipsPage from './TipsPage/TipsPage';
-import SignUp from './SignUp/SignUp';
+import Register from './Register/Register';
 
 interface IMainProps {
 
@@ -24,8 +24,8 @@ const Main = (props: IMainProps) => {
                 <Route path={LayoutPath.news} element={<NewsPage />} />
                 <Route path={LayoutPath.programme} element={<ProgrammePage />} />
                 <Route path={LayoutPath.statistics} element={<StatisticsPage />} />
-                <Route path={LayoutPath.signin} element={<SignIn />} />
-                <Route path={LayoutPath.signup} element={<SignUp />} />
+                <Route path={LayoutPath.login} element={<Login />} />
+                <Route path={LayoutPath.register} element={<Register />} />
             </Routes>
         </React.Fragment>
     )

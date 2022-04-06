@@ -1,7 +1,7 @@
 import { useState } from "react";
 
-export function useSignInStatus() {
-    const [isSignedIn, setIsSignedIn] = useState(false)
+export function useLoginStatus() {
+    const [isLoggedIn, setIsLoggedIn] = useState(false)
 
-    return [isSignedIn, setIsSignedIn];
+    return [isLoggedIn, setIsLoggedIn];
 }

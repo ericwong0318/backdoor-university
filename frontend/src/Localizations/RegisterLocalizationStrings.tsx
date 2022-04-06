@@ -1,6 +1,6 @@
 import LocalizedStrings, { LocalizedStringsMethods } from "react-localization"
 
-export interface ISignUpLocalizationStrings extends LocalizedStringsMethods {
+export interface IRegisterLocalizationStrings extends LocalizedStringsMethods {
     username: string
     username_hint: string
     password: string
@@ -10,9 +10,9 @@ export interface ISignUpLocalizationStrings extends LocalizedStringsMethods {
     cgpa: string
     exam_name: string
     exam_result: string
-    sign_up: string
+    register: string
     email: string
-    sign_in: string
+    login: string
     email_hint: string
     agree_statement: string
     field_empty_error: string
@@ -26,8 +26,8 @@ export interface ISignUpLocalizationStrings extends LocalizedStringsMethods {
     server_unavailable_error: string
 }
 
-export let SignUpLocalizationStrings: ISignUpLocalizationStrings
-SignUpLocalizationStrings = new LocalizedStrings({
+export let RegisterLocalizationStrings: IRegisterLocalizationStrings
+RegisterLocalizationStrings = new LocalizedStrings({
     en: {
         username: "Nick Name",
         username_hint: "Your Nick Name",
@@ -38,8 +38,8 @@ SignUpLocalizationStrings = new LocalizedStrings({
         cgpa: "Current CGPA",
         exam_name: "Taken Exam Name",
         exam_result: "Exam Result",
-        sign_up: "Register",
-        sign_in: "Sign in",
+        register: "Register",
+        login: "Login",
         email: "School Email Adress",
         email_hint: "Your School Email",
         agree_statement: "I agree that there is nothing to agree.",
@@ -55,8 +55,8 @@ SignUpLocalizationStrings = new LocalizedStrings({
     },
     // zh: {
     //     password: "密碼",
-    //     sign_up: "註冊帳號",
-    //     sign_in: "登入",
+    //     register: "註冊帳號",
+    //     login: "登入",
     //     email: "電郵",
     // },
 })

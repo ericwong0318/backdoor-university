@@ -1,7 +1,7 @@
 import { EditLocationTwoTone, PanoramaFishEyeOutlined } from "@mui/icons-material"
 import { backend } from "../../../Constants/RemoteInfo"
 
-export interface ISignUpFormData {
+export interface IRegisterFormData {
     email: string | undefined
     username: string | undefined
     password: string | undefined
@@ -23,11 +23,11 @@ export interface IUserRegisterSchema {
     result: string
 }
 
-export interface ISignUpFailedCallbackParameters {
+export interface IRegisterFailedCallbackParameters {
     reason: string
 }
 
-export interface ISignUpSuccessCallbackParameters {
+export interface IRegisterSuccessCallbackParameters {
 
 }
 
@@ -43,7 +43,7 @@ export const formKey = {
     examResult: "result",
 }
 
-export const toSignUpFormData = (data: FormData): ISignUpFormData => {
+export const toRegisterFormData = (data: FormData): IRegisterFormData => {
     return {
         email: data.get(formKey.email)?.toString(),
         username: data.get(formKey.username)?.toString(),
@@ -57,7 +57,7 @@ export const toSignUpFormData = (data: FormData): ISignUpFormData => {
     }
 }
 
-export const toUserRegiserSchema = (data: ISignUpFormData): IUserRegisterSchema => {
+export const toUserRegiserSchema = (data: IRegisterFormData): IUserRegisterSchema => {
     return {
         email: data.email!,
         password: data.password!,
@@ -70,39 +70,39 @@ export const toUserRegiserSchema = (data: ISignUpFormData): IUserRegisterSchema 
 }
 
 // Is two password match?
-export const verifyConfirmPassword = (data: ISignUpFormData): boolean => {
+export const verifyConfirmPassword = (data: IRegisterFormData): boolean => {
     return data.password === data.confirmPassword;
 }
 
 // Is password strong enought?
-export const verifyStrongPassword = (data: ISignUpFormData): boolean => {
+export const verifyStrongPassword = (data: IRegisterFormData): boolean => {
     const regex = /(?=.{8,})/
 
     return regex.test(data.password!);
 }
 
 // Is email in right format?
-export const verifyEmailFormat = (data: ISignUpFormData) => {
+export const verifyEmailFormat = (data: IRegisterFormData) => {
     const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
     return regex.test(data.email!);
 }
 
 // Has email been registered?
-export const verifyEmailAvailable = (data: ISignUpFormData): boolean => {
+export const verifyEmailAvailable = (data: IRegisterFormData): boolean => {
     // TODO: let backend check
     return true;
 }
 
 // Has username been taken?
-export const verifyUsernameAvailable = (data: ISignUpFormData): boolean => {
+export const verifyUsernameAvailable = (data: IRegisterFormData): boolean => {
     // TODO: let backend check
     return true;
 }
 
-export const signUpWithData = async (data: IUserRegisterSchema,
-    onSuccessCallback: (params: ISignUpSuccessCallbackParameters) => void,
-    onFailedCallback: (params: ISignUpFailedCallbackParameters) => void) => {
+export const registerWithData = async (data: IUserRegisterSchema,
+    onSuccessCallback: (params: IRegisterSuccessCallbackParameters) => void,
+    onFailedCallback: (params: IRegisterFailedCallbackParameters) => void) => {
     let headers = new Headers();
     headers.append('Content-Type', 'application/json');
 

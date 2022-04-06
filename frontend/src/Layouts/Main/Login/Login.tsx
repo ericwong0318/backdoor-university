@@ -10,27 +10,27 @@ import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
-import { SigninLocalizatiionStrings as localString } from '../../../Localizations/SigninLocalizatiionStrings';
+import { LoginLocalizatiionStrings as localString } from '../../../Localizations/LoginLocalizatiionStrings';
 import { Link } from 'react-router-dom';
 import { LayoutPath } from '../../../Constants/RoutePaths';
 import CreateIcon from '@mui/icons-material/Create';
-import * as signIn from './SignInFunctions';
+import * as login from './LoginFunctions';
 import { Alert } from '@mui/material';
 import { backend } from '../../../Constants/RemoteInfo';
 
-export default function SignIn() {
-  const [isSigningIn, setIsSigningIn] = useState(false);
+export default function Login() {
+  const [isLogingIn, setIsLogingIn] = useState(false);
 
   // Error states
-  const [errorSignIn, setErrorSignIn] = useState('');
+  const [errorLogin, setErrorLogin] = useState('');
   const [errorEmail, setErrorEmail] = useState('');
   const [errorPassword, setErrorPassword] = useState('');
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-    setIsSigningIn(true);
-    setErrorSignIn('')
+    setIsLogingIn(true);
+    setErrorLogin('')
     event.preventDefault();
-    const data = signIn.toSignInFormData(new FormData(event.currentTarget));
+    const data = login.toLoginFormData(new FormData(event.currentTarget));
     let error = false;
 
     // Verify if any infomation is missing
@@ -45,12 +45,12 @@ export default function SignIn() {
 
     // Error Breakpoint
     if (error) {
-      setIsSigningIn(false);
+      setIsLogingIn(false);
       return;
     }
 
-    // Sign In the user
-    signIn.SignInWithData(signIn.toUserLoginSchema(data),
+    // Login the user
+    login.LoginWithData(login.toUserLoginSchema(data),
       () => { },
       () => { })
   };
@@ -85,13 +85,13 @@ export default function SignIn() {
             <CreateIcon />
           </Avatar>
           <Typography component="h1" variant="h5">
-            {localString.sign_in}
+            {localString.login}
           </Typography>
 
           {/* The error message when failed to login */}
-          {errorSignIn &&
+          {errorLogin &&
             <Alert severity="error" sx={{ mt: 1 }}>
-              {errorSignIn}
+              {errorLogin}
             </Alert>
           }
 
@@ -101,8 +101,8 @@ export default function SignIn() {
               margin="normal"
               required
               fullWidth
-              id={signIn.formKey.email}
-              name={signIn.formKey.email}
+              id={login.formKey.email}
+              name={login.formKey.email}
               label={localString.email}
               autoComplete="email"
               autoFocus
@@ -118,8 +118,8 @@ export default function SignIn() {
               margin="normal"
               required
               fullWidth
-              id={signIn.formKey.password}
-              name={signIn.formKey.password}
+              id={login.formKey.password}
+              name={login.formKey.password}
               label={localString.password}
               type="password"
               autoComplete="current-password"
@@ -139,13 +139,13 @@ export default function SignIn() {
               type="submit"
               fullWidth
               variant="contained"
-              disabled={isSigningIn}
+              disabled={isLogingIn}
               sx={{ mt: 3, mb: 2 }}
             >
-              {isSigningIn ? (
-                localString.signing_in
+              {isLogingIn ? (
+                localString.loging_in
               ) : (
-                localString.sign_in
+                localString.login
               )}
             </Button>
 
@@ -159,10 +159,10 @@ export default function SignIn() {
                   </Typography>
                 </Link>
               </Grid>
-              {/* Sign Up Button */}
+              {/* Register Button */}
               <Grid item>
-                <Link to={LayoutPath.signup}>
-                  {localString.sign_up}
+                <Link to={LayoutPath.register}>
+                  {localString.register}
                 </Link>
               </Grid>
             </Grid>

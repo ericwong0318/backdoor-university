@@ -1,6 +1,6 @@
 import { backend } from "../../../Constants/RemoteInfo"
 
-export interface ISignInFormData {
+export interface ILoginFormData {
     email: string | undefined
     password: string | undefined
 }
@@ -15,21 +15,21 @@ export const formKey = {
     password: 'password',
 }
 
-export const toSignInFormData = (data: FormData): ISignInFormData => {
+export const toLoginFormData = (data: FormData): ILoginFormData => {
     return {
         email: data.get(formKey.email)?.toString(),
         password: data.get(formKey.password)?.toString(),
     }
 }
 
-export const toUserLoginSchema = (data: ISignInFormData): IUserLoginSchema => {
+export const toUserLoginSchema = (data: ILoginFormData): IUserLoginSchema => {
     return {
         email: data.email!,
         password: data.password!
     }
 }
 
-export const SignInWithData = (
+export const LoginWithData = (
     data: IUserLoginSchema,
     successCallback: () => void,
     failedCallback: () => void

@@ -5,7 +5,7 @@
         Instead, a menu button should be shown, which allows the user to display the list of buttons when pressing it.
 
     Login responses:
-        Initially, the "Login" and "Sign Up" button will be displayed to users when they have not logged in.
+        Initially, the "Login" and "Register" button will be displayed to users when they have not logged in.
         When the user have logged-in, these two buttons should be hided and the avatar of the user profile should be displayed,
         clicking on it will display a list of buttons, which has account related functions.
 
@@ -32,7 +32,7 @@ import { navItemRight } from './HeaderStyle';
 import HeaderDrawer from './HeaderDrawer';
 import { LayoutPath } from '../../Constants/RoutePaths';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { useSignInStatus } from '../../Hooks/UserStatus';
+import { useLoginStatus } from '../../Hooks/UserStatus';
 import FloatingMenu from '../../Components/FloatingMenu/FloatingMenu';
 import FloatingMenuItem from '../../Components/FloatingMenu/FloatingMenuItem';
 
@@ -54,8 +54,8 @@ const Header = (props: HeaderProps) => {
     // Which tab is being showed
     const [tabValue, setTabValue] = useState(0);
 
-    // Whether the user has signed in
-    const [isSignedIn, _] = useSignInStatus();
+    // Whether the user has logged in
+    const [isLoggedIn, _] = useLoginStatus();
 
     // Which page are we in
     let location = useLocation();
@@ -117,20 +117,20 @@ const Header = (props: HeaderProps) => {
                                 {/* TODO: Add a profile button */}
 
                                 {
-                                    isSignedIn ? (
+                                    isLoggedIn ? (
                                         <IconButton aria-label="Profile" sx={{ marginLeft: "auto" }} onClick={onProfileIconClicked}>
                                             <AccountCircleIcon />
                                         </IconButton>
                                     ) : (
                                         <FloatingMenu sx={{ marginLeft: "auto" }} toggleButton={profileButton}>
-                                            {/* Sign In Button */}
-                                            <FloatingMenuItem onClick={() => navigate(LayoutPath.signin)}>
-                                                {HeaderLocalizationStrings.signIn}
+                                            {/* Login Button */}
+                                            <FloatingMenuItem onClick={() => navigate(LayoutPath.login)}>
+                                                {HeaderLocalizationStrings.login}
                                             </FloatingMenuItem>
 
-                                            {/* Sign Up Button */}
-                                            <FloatingMenuItem onClick={() => navigate(LayoutPath.signup)}>
-                                                {HeaderLocalizationStrings.signUp}
+                                            {/* Register Button */}
+                                            <FloatingMenuItem onClick={() => navigate(LayoutPath.register)}>
+                                                {HeaderLocalizationStrings.register}
                                             </FloatingMenuItem>
                                         </FloatingMenu>
                                     )
@@ -154,27 +154,27 @@ const Header = (props: HeaderProps) => {
                                 <TextField variant="standard" label={HeaderLocalizationStrings.search} />
 
                                 {
-                                    isSignedIn ? (
+                                    isLoggedIn ? (
                                         // TODO: Display Profile button
                                         <>
                                         </>
                                     ) : (
-                                        // Display signin and signout buttons
+                                        // Display login and logout buttons
                                         <>
-                                            {/* Sign In Button */}
+                                            {/* Login Button */}
                                             <Button sx={{ ...navItemRight }}
                                                 variant="contained"
-                                                onClick={() => navigate(LayoutPath.signin)}
+                                                onClick={() => navigate(LayoutPath.login)}
                                             >
-                                                {HeaderLocalizationStrings.signIn}
+                                                {HeaderLocalizationStrings.login}
                                             </Button>
 
-                                            {/* Sign Up Button */}
+                                            {/* Register Button */}
                                             <Button variant="contained"
                                                 sx={{ ...navItemRight }}
-                                                onClick={() => navigate(LayoutPath.signup)}
+                                                onClick={() => navigate(LayoutPath.register)}
                                             >
-                                                {HeaderLocalizationStrings.signUp}
+                                                {HeaderLocalizationStrings.register}
                                             </Button>
                                         </>
                                     )
