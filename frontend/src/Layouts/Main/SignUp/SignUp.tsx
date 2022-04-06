@@ -106,25 +106,12 @@ const SignUp = (props: ISignUpProps) => {
         }
 
         // Sign up with the data
-        let headers = new Headers();
-        headers.append('Content-Type', 'application/json');
-
-        fetch(`${backend.url}${backend.pathRegister}`, {
-            method: "POST",
-            headers: headers,
-            body: JSON.stringify(signUp.toUserRegiserSchema(data))
-        }).then(response => {
-            response.json().then(val => {
-                console.log("Response:")
-                console.log(val)
-            }, err => {
-                console.log("Error:")
-                console.log(err)
+        signUp.signUpWithData(signUp.toUserRegiserSchema(data),
+            params => {
+                // Sign Up success callback
+            }, params => {
+                // Sign Up failed callback
             })
-        }).catch(reason => {
-            // TODO: Display server unavailble
-            setIsRegistering(false);
-        })
     };
 
     return (

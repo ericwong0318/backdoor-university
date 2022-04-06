@@ -1,3 +1,6 @@
+import { EditLocationTwoTone, PanoramaFishEyeOutlined } from "@mui/icons-material"
+import { backend } from "../../../Constants/RemoteInfo"
+
 export interface ISignUpFormData {
     email: string | undefined
     username: string | undefined
@@ -18,6 +21,14 @@ export interface IUserRegisterSchema {
     cgpa: string
     examname: string
     result: string
+}
+
+export interface ISignUpFailedCallbackParameters {
+    reason: string
+}
+
+export interface ISignUpSuccessCallbackParameters {
+
 }
 
 export const formKey = {
@@ -87,4 +98,33 @@ export const verifyEmailAvailable = (data: ISignUpFormData): boolean => {
 export const verifyUsernameAvailable = (data: ISignUpFormData): boolean => {
     // TODO: let backend check
     return true;
+}
+
+export const signUpWithData = async (data: IUserRegisterSchema,
+    onSuccessCallback: (params: ISignUpSuccessCallbackParameters) => void,
+    onFailedCallback: (params: ISignUpFailedCallbackParameters) => void) => {
+    let headers = new Headers();
+    headers.append('Content-Type', 'application/json');
+
+    fetch(`${backend.url}${backend.pathRegister}`, {
+        method: "POST",
+        headers: headers,
+        body: JSON.stringify(data)
+    }).then(response => {
+        response.json().then(val => {
+            onSuccessCallback({
+
+            })
+        }, reason => {
+            onFailedCallback({
+                reason: reason
+            })
+        })
+    }).catch(reason => {
+        // server unavailble
+        onFailedCallback({
+            reason: reason
+        })
+    })
+
 }
