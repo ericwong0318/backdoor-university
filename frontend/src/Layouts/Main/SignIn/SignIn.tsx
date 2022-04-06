@@ -50,20 +50,9 @@ export default function SignIn() {
     }
 
     // Sign In the user
-    let headers = new Headers();
-    headers.append('Content-Type', 'application/json');
-
-    fetch(`${backend.url}${backend.pathLogin}`, {
-      method: "POST",
-      headers: headers,
-      body: JSON.stringify(signIn.toUserLoginSchema(data))
-    }).then(response => {
-      // TODO: Handle login
-    }).catch(reason => {
-      // TODO: display server unavailable
-      setErrorSignIn(localString.server_unavailable_error)
-      setIsSigningIn(false);
-    })
+    signIn.SignInWithData(signIn.toUserLoginSchema(data),
+      () => { },
+      () => { })
   };
 
   return (
