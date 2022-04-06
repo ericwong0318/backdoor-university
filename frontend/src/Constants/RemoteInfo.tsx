@@ -6,5 +6,6 @@
 export const backend = {
     url: 'http://localhost:3001',
     pathRegister: '/register',
-    pathLogin: '/login'
+    pathLogin: '/login',
+    pathResetPW: '/resetPassword',
 }

@@ -1,12 +1,13 @@
 import React from 'react'
 import { Route, Routes } from 'react-router-dom';
 import { LayoutPath } from '../../Constants/RoutePaths';
-import Login from './Login/Login';
 import HomePage from './HomePage/HomePage';
 import NewsPage from './NewsPage/NewsPage';
 import ProgrammePage from './ProgrammePage/ProgrammePage';
 import StatisticsPage from './StatisticsPage/StatisticsPage';
 import TipsPage from './TipsPage/TipsPage';
+import ForgotPassword from './ForgotPassword/ForgotPassword';
+import Login from './Login/Login';
 import Register from './Register/Register';
 
 interface IMainProps {
@@ -26,6 +27,7 @@ const Main = (props: IMainProps) => {
                 <Route path={LayoutPath.statistics} element={<StatisticsPage />} />
                 <Route path={LayoutPath.login} element={<Login />} />
                 <Route path={LayoutPath.register} element={<Register />} />
+                <Route path={LayoutPath.forgotpassword} element={<ForgotPassword />} />
             </Routes>
         </React.Fragment>
     )
