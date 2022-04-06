@@ -22,6 +22,7 @@ export interface ISignUpLocalizationStrings extends LocalizedStringsMethods {
     email_used_error: string
     username_used_error: string
     did_not_agree_error: string
+    registering: string
 }
 
 export let SignUpLocalizationStrings: ISignUpLocalizationStrings
@@ -47,7 +48,8 @@ SignUpLocalizationStrings = new LocalizedStrings({
         weak_password_error: "* The password is too weak!",
         email_used_error: "* This email has been registered!",
         username_used_error: "* The username has been taken!",
-        did_not_agree_error: "* This has to be checked!"
+        did_not_agree_error: "* This has to be checked!",
+        registering: "Registering . . . ",
     },
     // zh: {
     //     password: "密碼",
