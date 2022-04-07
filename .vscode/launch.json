@@ -4,20 +4,31 @@
     // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
     "version": "0.2.0",
     "configurations": [
-        // {
-        //     "name": "Attach to node",
-        //     "type": "node",
-        //     "request": "attach",
-        //     "restart": true,
-        //     "port": 3001
-        // },
         {
+            "name": "Attach to node",
             "type": "node",
-            "request": "launch",
-            "name": "Launch Program",
-            "program": "${workspaceFolder}\\bin\\www"
-        }
+            "request": "attach",
+            "program": "node --inspect index.js",
+            "restart": true,
+            "port": 3001
+        },
+        // {
+        //     "name": "Launch via npm",
+        //     "type": "node",
+        //     "request": "launch",
+        //     "cwd": "${workspaceFolder}",
+        //     "runtimeExecutable": "npm",
+        //     "runtimeArgs": [
+        //         "run-script",
+        //         "debug"
+        //     ]
+        // }
+        // {
+        //     "type": "node",
+        //     "request": "launch",
+        //     "name": "Launch Program",
+        //     "program": "${workspaceFolder}\\bin\\www"
+        // }
     ]
 }
-
 // npx nodemon index.js
