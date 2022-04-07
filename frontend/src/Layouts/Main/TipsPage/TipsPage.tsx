@@ -1,6 +1,7 @@
 import { ForkLeft } from '@mui/icons-material';
 import { alignProperty } from '@mui/material/styles/cssUtils';
 import { fontSize } from '@mui/system';
+import './TipsPage.css'
 import React from 'react';
 
 interface ITipsPageProps {
@@ -39,8 +40,8 @@ const TipsPage = (props: ITipsPageProps) => {
             <p className='Content'>If your interview is in face-to-face, arrive the campus half hour before the interview as you may get lost. Also, it allows you to have some time to get ready and familiarise yourself with the location and avoid adding any unnecessary stress. If you’re doing a virtual interview, ensure that the wifi connection is strong and all the communication devices are well functioned.</p>
             <div id="subtitle7" className='SubTitle'>Dress smartly</div>
             <p className='Content'>Looking clean and tidy will ensure that you leave a good impression. For business programme, you may need to dress formal. For others, you may be ask to dress smart causal.</p>
-            <img style={{ width: 300 }} src='https://i.pinimg.com/564x/eb/75/9d/eb759d31dd9a5848d063f66c269dabf7.jpg'></img>
-            <img style={{ width: 293 }} src='https://i.pinimg.com/564x/b4/00/ab/b400ab62fe22869681a460251e248858.jpg'></img>
+            <img style={{ height: 300 }} src='https://i.pinimg.com/564x/eb/75/9d/eb759d31dd9a5848d063f66c269dabf7.jpg'></img>
+            <img style={{ height: 300 }} src='https://i.pinimg.com/564x/b4/00/ab/b400ab62fe22869681a460251e248858.jpg'></img>
             <div id="subtitle8" className='SubTitle'>Prepare your own questions in advance</div>
             <p className='Content'>When the interview is finished, you may have the chance to ask some question. Make sure that you have prepared the questions to show your interest to the programme. </p>
             <div style={{ height: 200 }}></div>
