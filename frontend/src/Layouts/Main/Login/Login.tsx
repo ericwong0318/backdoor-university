@@ -15,14 +15,13 @@ import { Link, useNavigate } from 'react-router-dom';
 import { LayoutPath } from '../../../Constants/RoutePaths';
 import * as login from './LoginFunctions';
 import { Alert } from '@mui/material';
-import { useLoginStatus } from '../../../Hooks/UserStatus';
 
 export default function Login() {
   // Determine if it is now loggin in
   const [isLogingIn, setIsLogingIn] = useState(false);
 
   // Login hook
-  const [isLoggedIn, setIsLoggedIn] = useLoginStatus();
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   // Navigate
   const navigate = useNavigate()

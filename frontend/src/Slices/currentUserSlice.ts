@@ -13,8 +13,7 @@ export interface CurrentUserState {
 
 
 const initialState = {
-    username: "",
-    email: "",
+    user: null
 }
 
 export const currentUserSlice = createSlice({
