@@ -1,68 +1,18 @@
 import { Grid, CssBaseline, Paper, Box, Avatar, Typography, TextField, FormControlLabel, Checkbox, Button } from '@mui/material';
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
-import { SignUpLocalizationStrings as localString } from '../../../Localizations/SignUpLocalizationStrings';
+import { RegisterLocalizationStrings as localString } from '../../../Localizations/RegisterLocalizationStrings';
+import * as register from './RegisterFunctions';
+import { backend } from '../../../Constants/RemoteInfo';
 
-interface ISignUpProps {
+interface IRegisterProps {
 
 }
 
-interface ISignUpFormData {
-    email: string | undefined
-    username: string | undefined
-    password: string | undefined
-    confirmPassword: string | undefined
-}
+const Register = (props: IRegisterProps) => {
+    // Registering state
+    const [isRegistering, setIsRegistering] = useState(false);
 
-const formKey = {
-    email: "email",
-    username: "username",
-    password: "password",
-    confirmPassword: "confirm-password",
-}
-
-const ToSignUpFormData = (data: FormData): ISignUpFormData => {
-    return {
-        email: data.get(formKey.email)?.toString(),
-        username: data.get(formKey.username)?.toString(),
-        password: data.get(formKey.password)?.toString(),
-        confirmPassword: data.get(formKey.confirmPassword)?.toString(),
-    }
-}
-
-// Is two password match?
-const verifyConfirmPassword = (data: ISignUpFormData): boolean => {
-    return data.password === data.confirmPassword;
-}
-
-// Is password strong enought?
-const verifyStrongPassword = (data: ISignUpFormData): boolean => {
-    const regex = /(?=.{8,})/
-
-    return regex.test(data.password!);
-}
-
-// Is email in right format?
-const verifyEmailFormat = (data: ISignUpFormData) => {
-    const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-
-    return regex.test(data.email!);
-}
-
-// Has email been registered?
-const verifyEmailAvailable = (data: ISignUpFormData): boolean => {
-    // TODO: let backend check
-    return true;
-}
-
-// Has username been taken?
-const verifyUsernameAvailable = (data: ISignUpFormData): boolean => {
-    // TODO: let backend check
-    return true;
-}
-
-const SignUp = (props: ISignUpProps) => {
     // Agree State
     const [agreed, setAgreed] = useState(false)
 
@@ -72,11 +22,17 @@ const SignUp = (props: ISignUpProps) => {
     const [errorPassword, setErrorPassword] = useState("");
     const [errorConfirmPW, setErrorConfirmPW] = useState("");
     const [errorAgree, setErrorAgree] = useState("");
+    const [errorSchool, setErrorSchool] = useState("");
+    const [errorProgramme, setErrorProgramme] = useState("")
+    const [errorCGPA, setErrorCGPA] = useState("")
+    const [errorExamName, setErrorExamName] = useState("")
+    const [errorExamResult, setErrorExamResult] = useState("")
+
 
     const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+        setIsRegistering(true);
         event.preventDefault();
-        const data = ToSignUpFormData(new FormData(event.currentTarget));
-        console.log(data)
+        const data = register.toRegisterFormData(new FormData(event.currentTarget));
         let error = false;
 
         // Verify if the form is filled correctly
@@ -87,11 +43,11 @@ const SignUp = (props: ISignUpProps) => {
             // Email field filled
             setErrorEmail(localString.field_empty_error);
             error = true;
-        } else if (!verifyEmailFormat(data)) {
+        } else if (!register.verifyEmailFormat(data)) {
             // Verify email format
             setErrorEmail(localString.email_format_error);
             error = true;
-        } else if (!verifyEmailAvailable(data)) {
+        } else if (!register.verifyEmailAvailable(data)) {
             // Verify email available
             setErrorEmail(localString.email_used_error);
             error = true;
@@ -101,7 +57,7 @@ const SignUp = (props: ISignUpProps) => {
         if (!data.username) {
             setErrorUsername(localString.field_empty_error);
             error = true;
-        } else if (!verifyUsernameAvailable(data)) {
+        } else if (!register.verifyUsernameAvailable(data)) {
             setErrorUsername(localString.username_used_error);
             error = true;
         }
@@ -110,7 +66,7 @@ const SignUp = (props: ISignUpProps) => {
         if (!data.password) {
             setErrorPassword(localString.field_empty_error);
             error = true;
-        } else if (!verifyStrongPassword(data)) {
+        } else if (!register.verifyStrongPassword(data)) {
             // Verify password strongness
             setErrorPassword(localString.weak_password_error);
             error = true;
@@ -120,9 +76,21 @@ const SignUp = (props: ISignUpProps) => {
         if (!data.confirmPassword) {
             setErrorConfirmPW(localString.field_empty_error);
             error = true;
-        } else if (!verifyConfirmPassword(data)) {
+        } else if (!register.verifyConfirmPassword(data)) {
             // Verify confirm password matches
             setErrorConfirmPW(localString.password_not_match_error);
+            error = true;
+        }
+
+        // Verify School
+        if (!data.school) {
+            setErrorSchool(localString.field_empty_error);
+            error = true;
+        }
+
+        // Verify Programme
+        if (!data.programme) {
+            setErrorProgramme(localString.field_empty_error);
             error = true;
         }
 
@@ -133,10 +101,17 @@ const SignUp = (props: ISignUpProps) => {
 
         // Error Breakpoint
         if (error) {
+            setIsRegistering(false);
             return;
         }
 
-        // TODO: Sign up with the data
+        // Register with the data
+        register.registerWithData(register.toUserRegiserSchema(data),
+            params => {
+                // Register success callback
+            }, params => {
+                // Register failed callback
+            })
     };
 
     return (
@@ -169,7 +144,7 @@ const SignUp = (props: ISignUpProps) => {
                         <LockOutlinedIcon />
                     </Avatar>
                     <Typography component="h1" variant="h5">
-                        {localString.sign_up}
+                        {localString.register}
                     </Typography>
 
                     {/* Email field */}
@@ -178,9 +153,9 @@ const SignUp = (props: ISignUpProps) => {
                             margin="normal"
                             required
                             fullWidth
-                            id={formKey.email}
+                            id={register.formKey.email}
                             label={localString.email}
-                            name={formKey.email}
+                            name={register.formKey.email}
                             autoComplete="email"
                             autoFocus
                             onChange={() => {
@@ -196,8 +171,8 @@ const SignUp = (props: ISignUpProps) => {
                             margin="normal"
                             required
                             fullWidth
-                            id={formKey.username}
-                            name={formKey.username}
+                            id={register.formKey.username}
+                            name={register.formKey.username}
                             label={localString.username}
                             onChange={() => {
                                 setErrorUsername("");
@@ -212,8 +187,8 @@ const SignUp = (props: ISignUpProps) => {
                             margin="normal"
                             required
                             fullWidth
-                            id={formKey.password}
-                            name={formKey.password}
+                            id={register.formKey.password}
+                            name={register.formKey.password}
                             label={localString.password}
                             type="password"
                             onChange={() => {
@@ -229,8 +204,8 @@ const SignUp = (props: ISignUpProps) => {
                             margin="normal"
                             required
                             fullWidth
-                            id={formKey.confirmPassword}
-                            name={formKey.confirmPassword}
+                            id={register.formKey.confirmPassword}
+                            name={register.formKey.confirmPassword}
                             label={localString.confirm_password}
                             type="password"
                             onChange={() => {
@@ -240,6 +215,88 @@ const SignUp = (props: ISignUpProps) => {
                         <Typography sx={{ color: "red", textAlign: "left" }}>
                             {errorConfirmPW}
                         </Typography>
+
+                        {/* School Field */}
+                        <TextField
+                            margin="normal"
+                            required
+                            fullWidth
+                            id={register.formKey.school}
+                            name={register.formKey.school}
+                            label={localString.school}
+                            onChange={() => {
+                                setErrorSchool("");
+                            }}
+                        />
+                        <Typography sx={{ color: "red", textAlign: "left" }}>
+                            {errorSchool}
+                        </Typography>
+
+                        {/* Programme Field */}
+                        <TextField
+                            margin="normal"
+                            required
+                            fullWidth
+                            id={register.formKey.programme}
+                            name={register.formKey.programme}
+                            label={localString.programme}
+                            onChange={() => {
+                                setErrorProgramme("");
+                            }}
+                        />
+                        <Typography sx={{ color: "red", textAlign: "left" }}>
+                            {errorProgramme}
+                        </Typography>
+
+                        {/* CGPA Field */}
+                        <TextField
+                            margin="normal"
+                            fullWidth
+                            id={register.formKey.cgpa}
+                            name={register.formKey.cgpa}
+                            label={localString.cgpa}
+                            onChange={() => {
+                                setErrorCGPA("");
+                            }}
+                        />
+                        <Typography sx={{ color: "red", textAlign: "left" }}>
+                            {errorCGPA}
+                        </Typography>
+
+                        <Grid container spacing={2}>
+                            <Grid item sx={{ width: "55%" }}>
+                                {/* ExamName Field */}
+                                <TextField
+                                    margin="normal"
+                                    fullWidth
+                                    id={register.formKey.examName}
+                                    name={register.formKey.examName}
+                                    label={localString.exam_name}
+                                    onChange={() => {
+                                        setErrorExamName("");
+                                    }}
+                                />
+                                <Typography sx={{ color: "red", textAlign: "left" }}>
+                                    {errorExamName}
+                                </Typography>
+                            </Grid>
+                            <Grid item sx={{ width: "45%" }}>
+                                {/* ExamResult Field */}
+                                <TextField
+                                    margin="normal"
+                                    fullWidth
+                                    id={register.formKey.examResult}
+                                    name={register.formKey.examResult}
+                                    label={localString.exam_result}
+                                    onChange={() => {
+                                        setErrorExamResult("");
+                                    }}
+                                />
+                                <Typography sx={{ color: "red", textAlign: "left" }}>
+                                    {errorExamResult}
+                                </Typography>
+                            </Grid>
+                        </Grid>
 
                         {/* Agreement field */}
                         <FormControlLabel
@@ -258,13 +315,21 @@ const SignUp = (props: ISignUpProps) => {
                             {errorAgree}
                         </Typography>
 
+                        {/* Sumit button is disabled when waiting for server response */}
                         <Button
                             type="submit"
                             fullWidth
                             variant="contained"
                             sx={{ mt: 3, mb: 2 }}
+                            disabled={isRegistering}
                         >
-                            {localString.sign_up}
+                            {
+                                isRegistering ? (
+                                    localString.registering
+                                ) : (
+                                    localString.register
+                                )
+                            }
                         </Button>
                     </Box>
                 </Box>
@@ -273,4 +338,4 @@ const SignUp = (props: ISignUpProps) => {
     )
 }
 
-export default SignUp;
+export default Register;

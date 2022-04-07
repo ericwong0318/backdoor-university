@@ -64,11 +64,11 @@ const HeaderDrawer = () => {
                 </List>
 
                 {/* TODO: Change the login button to Profile button after logged-in */}
-                <Button sx={{ marginTop: 'auto', height: '5%' }} onClick={() => onListItemClicked(LayoutPath.signin)}>
+                <Button sx={{ marginTop: 'auto', height: '5%' }} onClick={() => onListItemClicked(LayoutPath.login)}>
 
                     <LoginIcon />
                     <Typography sx={{ marginLeft: "10px" }}>
-                        {HeaderLocalizationStrings.signIn}
+                        {HeaderLocalizationStrings.login}
                     </Typography>
                 </Button>
             </Drawer>
