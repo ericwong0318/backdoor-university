@@ -197,20 +197,15 @@ async function main() {
 
     // send mail with defined transport object
     let info = await transporter.sendMail({
-        from: 'Backdoor University', // sender address
+        from: 'Backdoor University', 
         to: "vikas41957@whwow.com", // list of receivers
-        subject: "Click the Link for register", // Subject line
+        subject: "Click the Link for register",
         html: `<h1>Backdoor University</h1>
         <h3><Please click the following Link for register:</h3>
-        <a href="https://example.com">https://example.com</a>`, // html body
+        <a href="https://example.com">https://example.com</a>`,
     });
 
     console.log("Message sent: %s", info.messageId);
-    // Message sent: <b658f8ca-6296-ccf4-8306-87d57a0b4321@example.com>
-
-    // Preview only available when sending through an Ethereal account
-    console.log("Preview URL: %s", nodemailer.getTestMessageUrl(info));
-    // Preview URL: https://ethereal.email/message/WaQKMgKddxQDoou...
 }
 
 
