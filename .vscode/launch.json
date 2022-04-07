@@ -8,8 +8,27 @@
             "name": "Attach to node",
             "type": "node",
             "request": "attach",
+            "program": "node --inspect index.js",
             "restart": true,
             "port": 3001
-        }
+        },
+        // {
+        //     "name": "Launch via npm",
+        //     "type": "node",
+        //     "request": "launch",
+        //     "cwd": "${workspaceFolder}",
+        //     "runtimeExecutable": "npm",
+        //     "runtimeArgs": [
+        //         "run-script",
+        //         "debug"
+        //     ]
+        // }
+        // {
+        //     "type": "node",
+        //     "request": "launch",
+        //     "name": "Launch Program",
+        //     "program": "${workspaceFolder}\\bin\\www"
+        // }
     ]
 }
+// npx nodemon index.js
