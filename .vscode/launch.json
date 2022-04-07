@@ -1,0 +1,34 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Attach to node",
+            "type": "node",
+            "request": "launch",
+            "program": "node --inspect index.js",
+            "restart": false,
+            "port": 3001
+        },
+        // {
+        //     "name": "Launch via npm",
+        //     "type": "node",
+        //     "request": "launch",
+        //     "cwd": "${workspaceFolder}",
+        //     "runtimeExecutable": "npm",
+        //     "runtimeArgs": [
+        //         "run-script",
+        //         "debug"
+        //     ]
+        // }
+        // {
+        //     "type": "node",
+        //     "request": "launch",
+        //     "name": "Launch Program",
+        //     "program": "${workspaceFolder}\\bin\\www"
+        // }
+    ]
+}
+// npx nodemon index.js
