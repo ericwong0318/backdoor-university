@@ -11,15 +11,21 @@ import Grid from '@mui/material/Grid';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import { LoginLocalizatiionStrings as localString } from '../../../Localizations/LoginLocalizatiionStrings';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { LayoutPath } from '../../../Constants/RoutePaths';
-import CreateIcon from '@mui/icons-material/Create';
 import * as login from './LoginFunctions';
 import { Alert } from '@mui/material';
-import { backend } from '../../../Constants/RemoteInfo';
+import { useLoginStatus } from '../../../Hooks/UserStatus';
 
 export default function Login() {
+  // Determine if it is now loggin in
   const [isLogingIn, setIsLogingIn] = useState(false);
+
+  // Login hook
+  const [isLoggedIn, setIsLoggedIn] = useLoginStatus();
+
+  // Navigate
+  const navigate = useNavigate()
 
   // Error states
   const [errorLogin, setErrorLogin] = useState('');
@@ -51,8 +57,17 @@ export default function Login() {
 
     // Login the user
     login.LoginWithData(login.toUserLoginSchema(data),
-      () => { },
-      () => { })
+      () => {
+        // Set login success
+        setIsLoggedIn(true);
+
+        // go back to home page
+        navigate(LayoutPath.home)
+      },
+      (err) => {
+
+        setIsLogingIn(false);
+      })
   };
 
   return (
@@ -82,7 +97,7 @@ export default function Login() {
           }}
         >
           <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
-            <CreateIcon />
+            <LockOutlinedIcon />
           </Avatar>
           <Typography component="h1" variant="h5">
             {localString.login}

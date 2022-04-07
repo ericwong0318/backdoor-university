@@ -1,9 +1,8 @@
 import { Grid, CssBaseline, Paper, Box, Avatar, Typography, TextField, FormControlLabel, Checkbox, Button } from '@mui/material';
 import React, { useState } from 'react';
-import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
+import CreateIcon from '@mui/icons-material/Create';
 import { RegisterLocalizationStrings as localString } from '../../../Localizations/RegisterLocalizationStrings';
 import * as register from './RegisterFunctions';
-import { backend } from '../../../Constants/RemoteInfo';
 
 interface IRegisterProps {
 
@@ -141,7 +140,7 @@ const Register = (props: IRegisterProps) => {
                     }}
                 >
                     <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
-                        <LockOutlinedIcon />
+                        <CreateIcon />
                     </Avatar>
                     <Typography component="h1" variant="h5">
                         {localString.register}
