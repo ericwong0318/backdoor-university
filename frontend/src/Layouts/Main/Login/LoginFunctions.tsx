@@ -1,5 +1,16 @@
 import { backend } from "../../../Constants/RemoteInfo"
 
+export enum ErrorType {
+    incorrect_email,
+    incorrect_pw,
+    server_unavailable,
+    unknown,
+}
+
+export interface ILoginSuccess {
+
+}
+
 export interface ILoginFormData {
     email: string | undefined
     password: string | undefined
@@ -8,6 +19,11 @@ export interface ILoginFormData {
 export interface IUserLoginSchema {
     email: string
     password: string
+}
+
+export interface ILoginErrorParameter {
+    err: ErrorType
+    msg: string
 }
 
 export const formKey = {
@@ -32,7 +48,7 @@ export const toUserLoginSchema = (data: ILoginFormData): IUserLoginSchema => {
 export const LoginWithData = (
     data: IUserLoginSchema,
     successCallback: () => void,
-    failedCallback: () => void
+    failedCallback: (err: ILoginErrorParameter) => void
 ) => {
     let headers = new Headers();
     headers.append('Content-Type', 'application/json');
@@ -43,15 +59,37 @@ export const LoginWithData = (
         body: JSON.stringify(toUserLoginSchema(data))
     }).then(response => {
         response.json().then(val => {
-            // Login success
-
+            if (val.msg) {
+                // Login success
+                successCallback();
+            }
+            else if (val.err) {
+                // Login failed
+                if (val.err === 'incorrect email') {
+                    failedCallback({
+                        err: ErrorType.incorrect_email,
+                        msg: val.err
+                    })
+                } else if (val.err === 'incorrect password') {
+                    failedCallback({
+                        err: ErrorType.incorrect_pw,
+                        msg: val.err
+                    })
+                }
+            }
         }).catch(reason => {
-
+            // Unknown reason: probably json failed
+            failedCallback({
+                err: ErrorType.unknown,
+                msg: reason
+            })
         })
-    }, reason => {
-
     }).catch(reason => {
         // server unavailable
+        failedCallback({
+            err: ErrorType.server_unavailable,
+            msg: reason
+        })
     })
 
 }
