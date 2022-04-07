@@ -57,6 +57,12 @@ const UserSchema = Schema({
     currProgramme: {
         school: { type: String, required: true },
         programme: { type: String, required: true },
+        type: {
+            type: String,
+            required: true,
+            enum: ['undergrad', 'asso', 'hd'],
+            default: 'undergrad'
+        },
         addmissionYear: { type: Number, required: true },
         cgpa: { type: Number },
     }
@@ -90,7 +96,14 @@ const AdminSchema = Schema({
 const Admin = mongoose.model('Admin', AdminSchema);
 
 const ProgrammeSchema = Schema({
-    title: { type: String, required: true },
+    school: { type: String, required: true },
+    programme: { type: String, required: true },
+    type: {
+        type: String,
+        required: true,
+        enum: ['undergrad', 'asso', 'hd'],
+        default: 'undergrad'
+    },
     info: { type: String, required: true },
     comments: [{ type: String }],
     subjects: [{ type: String, required: true }],
