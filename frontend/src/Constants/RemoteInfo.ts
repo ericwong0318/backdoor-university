@@ -3,7 +3,7 @@
     Any feature that needed to send request to the backend MUST use the info in this file for generality.
 */
 
-export const backend = {
+export const api = {
     url: 'http://localhost:3001',
     pathRegister: '/register',
     pathLogin: '/login',

@@ -34,7 +34,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import FloatingMenu from '../../Components/FloatingMenu/FloatingMenu';
 import FloatingMenuItem from '../../Components/FloatingMenu/FloatingMenuItem';
 import { useAppSelector } from '../../App/hooks';
-import { selectCurrentUser } from '../../Slices/currentUserSlice';
+import { selectCurrentUser } from '../../features/userSlice';
 
 // The list of buttons and where it goes
 const tabButtons = [
@@ -46,7 +46,7 @@ const tabButtons = [
 ]
 
 interface HeaderProps {
-
+    loggedIn?: boolean
 }
 
 const Header = (props: HeaderProps) => {
@@ -55,7 +55,6 @@ const Header = (props: HeaderProps) => {
     const [tabValue, setTabValue] = useState(0);
 
     // The current user object
-    const currentUser = useAppSelector(selectCurrentUser);
 
     const [isLoggedIn, setIsLoggedIn] = useState(false);
 

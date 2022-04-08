@@ -1,4 +1,4 @@
-import { backend } from "../../../Constants/RemoteInfo";
+import { api } from "../../../Constants/RemoteInfo";
 
 export const formKey = {
     email: "email"
@@ -19,7 +19,7 @@ export const resetPasswordWithEmail = (
     let headers = new Headers();
     headers.append('Content-Type', 'application/json');
 
-    fetch(`${backend.url}${backend.pathResetPW}`, {
+    fetch(`${api.url}${api.pathResetPW}`, {
         method: "POST",
         headers: headers,
         body: JSON.stringify({ email: email })

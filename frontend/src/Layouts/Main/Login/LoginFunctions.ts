@@ -1,4 +1,4 @@
-import { backend } from "../../../Constants/RemoteInfo"
+import { api } from "../../../Constants/RemoteInfo"
 
 export enum ErrorType {
     incorrect_email,
@@ -53,7 +53,7 @@ export const LoginWithData = (
     let headers = new Headers();
     headers.append('Content-Type', 'application/json');
 
-    fetch(`${backend.url}${backend.pathLogin}`, {
+    fetch(`${api.url}${api.pathLogin}`, {
         method: "POST",
         headers: headers,
         body: JSON.stringify(toUserLoginSchema(data))
@@ -61,6 +61,9 @@ export const LoginWithData = (
         response.json().then(val => {
             if (val.msg) {
                 // Login success
+                const dispatch = useDispatch()
+
+
                 successCallback();
             }
             else if (val.err) {
@@ -92,4 +95,8 @@ export const LoginWithData = (
         })
     })
 
+}
+
+function useDispatch() {
+    throw new Error("Function not implemented.")
 }

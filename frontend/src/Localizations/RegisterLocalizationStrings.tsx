@@ -24,6 +24,11 @@ export interface IRegisterLocalizationStrings extends LocalizedStringsMethods {
     did_not_agree_error: string
     registering: string
     server_unavailable_error: string
+    success: string
+    success_message: string
+    back_to_login: string
+    choose_photo: string
+    no_file_error: string
 }
 
 export let RegisterLocalizationStrings: IRegisterLocalizationStrings
@@ -52,6 +57,11 @@ RegisterLocalizationStrings = new LocalizedStrings({
         did_not_agree_error: "* This has to be checked!",
         registering: "Registering . . . ",
         server_unavailable_error: "Sorry! The server is current down for maintainance!",
+        success: "Success",
+        success_message: "Please check the veriftication email, including spam folder!",
+        back_to_login: "Back to login",
+        choose_photo: "Choose a photo...",
+        no_file_error: "Please upload a profile picture!",
     },
     // zh: {
     //     password: "密碼",
