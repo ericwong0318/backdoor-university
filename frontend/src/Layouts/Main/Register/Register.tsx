@@ -35,10 +35,12 @@ const Register = (props: IRegisterProps) => {
     const [errorExamName, setErrorExamName] = useState("")
     const [errorExamResult, setErrorExamResult] = useState("")
     const [errorFile, setErrorFile] = useState("")
+    const [errorRegister, setErrorRegister] = useState("")
 
 
     const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
         setIsRegistering(true);
+        setErrorRegister("")
         event.preventDefault();
         const data = register.toRegisterFormData(new FormData(event.currentTarget), fileInput);
         let error = false;
@@ -105,7 +107,7 @@ const Register = (props: IRegisterProps) => {
         }
 
         // Verify Photo
-        if (!data.file) {
+        if (!data.files) {
             setErrorFile(localString.no_file_error);
             error = true;
         }
@@ -122,13 +124,32 @@ const Register = (props: IRegisterProps) => {
         }
 
         // Register with the data
-        register.registerWithData(register.toUserRegiserSchema(data),
+        register.registerWithData(register.toUserRegiserSchema(data, fileInput!),
             () => {
                 // Register success callback
                 setIsRegistering(false);
                 setRequestSuccess(true);
-            }, params => {
+            }, err => {
                 // Register failed callback
+                switch (err.type) {
+                    case register.ErrorType.email_used:
+                        setErrorRegister(localString.email_used_error);
+                        break;
+
+                    case register.ErrorType.file_missing:
+                        setErrorFile(localString.no_file_error);
+                        break;
+
+                    case register.ErrorType.server_unavailable:
+                    case register.ErrorType.unknown:
+                        setErrorRegister(localString.server_unavailable_error);
+                        break;
+
+                    default:
+                        setErrorRegister(localString.server_unavailable_error);
+                        break;
+                }
+
                 setIsRegistering(false);
             })
     };
@@ -176,6 +197,13 @@ const Register = (props: IRegisterProps) => {
                                 <Typography component="h1" variant="h5">
                                     {localString.register}
                                 </Typography>
+
+                                {/* Server error response field */}
+                                {errorRegister &&
+                                    <Alert severity='error'>
+                                        {errorRegister}
+                                    </Alert>
+                                }
 
                                 {/* Email field */}
                                 <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 1 }}>
