@@ -7,5 +7,6 @@ export const LayoutPath = {
     login: "/login",
     register: "/register",
     forgotpassword: "/forgot-password",
+    uesr: "/user",
     default: "*",
 }
