@@ -7,5 +7,5 @@ export const api = {
     url: 'http://localhost:3001',
     pathRegister: '/register',
     pathLogin: '/login',
-    pathResetPW: '/resetPassword',
+    pathResetPW: '/forget-password',
 }

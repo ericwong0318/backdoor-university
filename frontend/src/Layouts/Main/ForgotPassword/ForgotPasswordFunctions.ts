@@ -11,10 +11,21 @@ export const verifyEmailFormat = (email: string) => {
     return regex.test(email);
 }
 
+export enum ErrorType {
+    email_error,
+    server_unavailable,
+    unknown
+}
+
+export interface IErrorParameter {
+    type: ErrorType
+    msg: string
+}
+
 export const resetPasswordWithEmail = (
     email: string,
     successCallback: () => void,
-    failedCallback: (error: any) => void
+    failedCallback: (error: IErrorParameter) => void
 ) => {
     let headers = new Headers();
     headers.append('Content-Type', 'application/json');
@@ -27,9 +38,22 @@ export const resetPasswordWithEmail = (
         // Server response received
         response.json().then(val => {
             // Breakdown the json
+            if (val.err) {
+                // Incorrect email
+                failedCallback({
+                    type: ErrorType.server_unavailable,
+                    msg: val.err
+                });
+            } else if (val.msg) {
+                // Email sent
+                successCallback();
+            }
         })
     }).catch(reason => {
         // Server unavailable
-        failedCallback(reason);
+        failedCallback({
+            type: ErrorType.server_unavailable,
+            msg: "success"
+        });
     })
 }
