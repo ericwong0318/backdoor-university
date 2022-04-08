@@ -105,7 +105,7 @@ const Register = (props: IRegisterProps) => {
         }
 
         // Verify Photo
-        if (!data.files) {
+        if (!data.file) {
             setErrorFile(localString.no_file_error);
             error = true;
         } else {

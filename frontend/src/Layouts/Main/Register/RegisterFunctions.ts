@@ -111,16 +111,43 @@ export const registerWithData = async (data: FormData,
         method: "POST",
         body: data,
     }).then(response => {
+        if (response.status) {
+            switch (response.status) {
+                case 400:
+                    // No files uploaded
+                    onFailedCallback({
+                        type: ErrorType.file_missing,
+                        reason: "Photo missing"
+                    })
+                    break;
+
+                case 409:
+                    // Email used
+                    onFailedCallback({
+                        type: ErrorType.email_used,
+                        reason: "Email used"
+                    })
+                    break;
+
+                default:
+                    onFailedCallback({
+                        type: ErrorType.unknown,
+                        reason: "unknown"
+                    })
+                    break;
+            }
+        }
+
         response.json().then(val => {
             console.log(val);
+            if (val.msg) {
+                onSuccessCallback()
+            }
             if (val.err) {
                 switch (val.err) {
                     case "No files are uploaded.":
-                        onFailedCallback({
-                            type: ErrorType.file_missing,
-                            reason: val.err
-                        })
                         break;
+
                     default:
                         onFailedCallback({
                             type: ErrorType.unknown,
@@ -128,8 +155,6 @@ export const registerWithData = async (data: FormData,
                         })
                         break;
                 }
-            } else if (val.msg) {
-                onSuccessCallback()
             }
         }, reason => {
             onFailedCallback({
