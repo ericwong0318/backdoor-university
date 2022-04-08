@@ -81,18 +81,7 @@ export default function NestedList() {
                             </ListItemButton>
                         </List>
                     </Collapse>
-                </List>
 
-
-                <List
-                    sx={{ width: '100%', bgcolor: 'background.paper' }}
-                    component="nav"
-                    aria-labelledby="nested-list-subheader"
-                    subheader={
-                        <ListSubheader component="div" id="nested-list-subheader">
-                        </ListSubheader>
-                    }
-                >
                     <ListItemButton onClick={handleClick2}>
                         <ListItemIcon >
                             <SchoolIcon />
@@ -134,17 +123,7 @@ export default function NestedList() {
                             </ListItemButton>
                         </List>
                     </Collapse>
-                </List>
 
-                <List
-                    sx={{ width: '100%', bgcolor: 'background.paper' }}
-                    component="nav"
-                    aria-labelledby="nested-list-subheader"
-                    subheader={
-                        <ListSubheader component="div" id="nested-list-subheader">
-                        </ListSubheader>
-                    }
-                >
                     <ListItemButton onClick={handleClick3}>
                         <ListItemIcon >
                             <SchoolIcon />
