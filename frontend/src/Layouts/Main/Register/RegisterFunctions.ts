@@ -1,5 +1,12 @@
-import { EditLocationTwoTone, PanoramaFishEyeOutlined } from "@mui/icons-material"
-import { backend } from "../../../Constants/RemoteInfo"
+import { EditLocationTwoTone, PanoramaFishEyeOutlined, ViewKanban } from "@mui/icons-material"
+import { api } from "../../../Constants/RemoteInfo"
+
+export enum ErrorType {
+    email_used,
+    file_missing,
+    server_unavailable,
+    unknown,
+}
 
 export interface IRegisterFormData {
     email: string | undefined
@@ -11,6 +18,7 @@ export interface IRegisterFormData {
     cgpa: string | undefined
     examName: string | undefined
     examResult: string | undefined
+    file: File | undefined | null
 }
 
 export interface IUserRegisterSchema {
@@ -21,14 +29,12 @@ export interface IUserRegisterSchema {
     cgpa: string
     examname: string
     result: string
+    file: File | undefined | null
 }
 
 export interface IRegisterFailedCallbackParameters {
+    type: ErrorType
     reason: string
-}
-
-export interface IRegisterSuccessCallbackParameters {
-
 }
 
 export const formKey = {
@@ -41,9 +47,10 @@ export const formKey = {
     cgpa: "cgpa",
     examName: "examname",
     examResult: "result",
+    file: "file"
 }
 
-export const toRegisterFormData = (data: FormData): IRegisterFormData => {
+export const toRegisterFormData = (data: FormData, file: File | undefined | null): IRegisterFormData => {
     return {
         email: data.get(formKey.email)?.toString(),
         username: data.get(formKey.username)?.toString(),
@@ -54,19 +61,21 @@ export const toRegisterFormData = (data: FormData): IRegisterFormData => {
         cgpa: data.get(formKey.cgpa)?.toString(),
         examName: data.get(formKey.examName)?.toString(),
         examResult: data.get(formKey.examResult)?.toString(),
+        file: file
     }
 }
 
-export const toUserRegiserSchema = (data: IRegisterFormData): IUserRegisterSchema => {
-    return {
-        email: data.email!,
-        password: data.password!,
-        school: data.school!,
-        programme: data.programme!,
-        cgpa: data.cgpa!,
-        examname: data.examName!,
-        result: data.examResult!,
-    }
+export const toUserRegiserSchema = (data: IRegisterFormData): FormData => {
+    const fd = new FormData()
+    fd.append('email', data.email!)
+    fd.append('password', data.password!)
+    fd.append('school', data.school!)
+    fd.append('programme', data.programme!)
+    fd.append('cgpa', data.cgpa!)
+    fd.append('examname', data.examName!)
+    fd.append('result', data.examResult!)
+    fd.append('file', data.file!)
+    return fd
 }
 
 // Is two password match?
@@ -88,41 +97,41 @@ export const verifyEmailFormat = (data: IRegisterFormData) => {
     return regex.test(data.email!);
 }
 
-// Has email been registered?
-export const verifyEmailAvailable = (data: IRegisterFormData): boolean => {
-    // TODO: let backend check
-    return true;
-}
-
-// Has username been taken?
-export const verifyUsernameAvailable = (data: IRegisterFormData): boolean => {
-    // TODO: let backend check
-    return true;
-}
-
-export const registerWithData = async (data: IUserRegisterSchema,
-    onSuccessCallback: (params: IRegisterSuccessCallbackParameters) => void,
-    onFailedCallback: (params: IRegisterFailedCallbackParameters) => void) => {
+export const registerWithData = async (data: FormData,
+    onSuccessCallback: () => void,
+    onFailedCallback: (params: IRegisterFailedCallbackParameters) => void
+) => {
     let headers = new Headers();
     headers.append('Content-Type', 'application/json');
 
-    fetch(`${backend.url}${backend.pathRegister}`, {
+    fetch(`${api.url}${api.pathRegister}`, {
         method: "POST",
         headers: headers,
-        body: JSON.stringify(data)
+        body: data,
     }).then(response => {
         response.json().then(val => {
-            onSuccessCallback({
+            console.log(val);
+            if (val.err) {
+                switch (val.err) {
+                    case "No files are uploaded.":
 
+                        break;
+                }
+            }
+            onFailedCallback({
+                type: ErrorType.file_missing,
+                reason: val.err
             })
         }, reason => {
             onFailedCallback({
+                type: ErrorType.unknown,
                 reason: reason
             })
         })
     }).catch(reason => {
         // server unavailble
         onFailedCallback({
+            type: ErrorType.server_unavailable,
             reason: reason
         })
     })

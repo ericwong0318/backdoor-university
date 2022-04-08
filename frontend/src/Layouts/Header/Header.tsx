@@ -27,14 +27,14 @@ import { HeaderLocalizationStrings } from '../../Localizations/HeaderLocalizatio
 import SchoolIcon from '@mui/icons-material/School';
 import SearchIcon from '@mui/icons-material/Search';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
-import './Header.css';
 import { navItemRight } from './HeaderStyle';
 import HeaderDrawer from './HeaderDrawer';
 import { LayoutPath } from '../../Constants/RoutePaths';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { useLoginStatus } from '../../Hooks/UserStatus';
 import FloatingMenu from '../../Components/FloatingMenu/FloatingMenu';
 import FloatingMenuItem from '../../Components/FloatingMenu/FloatingMenuItem';
+import { useAppSelector } from '../../App/hooks';
+import { selectCurrentUser } from '../../features/userSlice';
 
 // The list of buttons and where it goes
 const tabButtons = [
@@ -46,7 +46,7 @@ const tabButtons = [
 ]
 
 interface HeaderProps {
-
+    loggedIn?: boolean
 }
 
 const Header = (props: HeaderProps) => {
@@ -54,8 +54,9 @@ const Header = (props: HeaderProps) => {
     // Which tab is being showed
     const [tabValue, setTabValue] = useState(0);
 
-    // Whether the user has logged in
-    const [isLoggedIn, _] = useLoginStatus();
+    // The current user object
+
+    const [isLoggedIn, setIsLoggedIn] = useState(false);
 
     // Which page are we in
     let location = useLocation();
