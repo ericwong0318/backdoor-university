@@ -52,7 +52,7 @@ interface HeaderProps {
 const Header = (props: HeaderProps) => {
     /* Hooks */
     // Which tab is being showed
-    const [tabValue, setTabValue] = useState(0);
+    const [tabValue, setTabValue] = useState<number | false>(0);
 
     // The current user object
 
@@ -94,7 +94,7 @@ const Header = (props: HeaderProps) => {
         }
 
         // Set to nothing if no tabs are selected
-        setTabValue(-1);
+        setTabValue(false);
     })
 
     const profileButton =
@@ -149,7 +149,7 @@ const Header = (props: HeaderProps) => {
                                     scrollButtons="auto"
                                     onChange={onTabChanged}
                                 >
-                                    {tabButtons.map((t) => <Tab label={t.text} />)}
+                                    {tabButtons.map((t) => <Tab key={t.text} label={t.text} />)}
                                 </Tabs>
                                 <SearchIcon sx={{ marginLeft: "auto" }} />
                                 <TextField variant="standard" label={HeaderLocalizationStrings.search} />

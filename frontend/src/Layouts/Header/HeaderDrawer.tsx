@@ -52,7 +52,7 @@ const HeaderDrawer = () => {
                 </Box> */}
                 <List>
                     {drawerListItems.map((o) =>
-                        <ListItemButton onClick={() => onListItemClicked(o.path)}>
+                        <ListItemButton key={o.text} onClick={() => onListItemClicked(o.path)}>
                             <ListItemIcon>
                                 {o.icon}
                                 <ListItemText sx={{ marginLeft: "10px" }}>
