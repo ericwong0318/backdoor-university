@@ -15,8 +15,8 @@ export const formKey = {
 
 export const toLoginFormData = (data: FormData): ILoginFormData => {
     return {
-        email: data.get(formKey.email)?.toString(),
-        password: data.get(formKey.password)?.toString(),
+        email: data.get(formKey.email)?.toString().trim(),
+        password: data.get(formKey.password)?.toString().trim(),
     }
 }
 

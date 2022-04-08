@@ -1,21 +1,7 @@
 import { api } from "../App/constants"
-
-export const rememberLogin = (email: string, password: string) => {
-    localStorage.setItem('email', email)
-    localStorage.setItem('pw', email)
-}
-
 /*
     LOGIN
 */
-export const autoLogin = () => {
-    const email = localStorage.getItem('email')
-    const password = localStorage.getItem('password')
-
-    if (email && password) {
-        login(email, password)
-    }
-}
 
 export enum LoginErrorType {
     incorrect_email,

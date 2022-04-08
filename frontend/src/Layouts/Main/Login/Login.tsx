@@ -22,6 +22,9 @@ export default function Login() {
   // Determine if it is now loggin in
   const [isLogingIn, setIsLogingIn] = useState(false);
 
+  // Is the 'remember me' option checked
+  const [rememberMe, setRememberMe] = useState(false);
+
   // Login hook
   const auth = useAuth();
 
@@ -59,7 +62,12 @@ export default function Login() {
     // Login the user
     auth.login(data.email!, data.password!,
       () => {
-        // Login success, go back to home page
+        // Login success
+        // If "remember me" is checked, save the email password
+        if (rememberMe)
+          auth.rememberLoginInfo(data.email!, data.password!);
+
+        // go back to home page
         navigate(LayoutPath.home)
       },
       (err) => {
@@ -160,7 +168,7 @@ export default function Login() {
             </Typography>
 
             <FormControlLabel
-              control={<Checkbox value="remember" color="primary" />}
+              control={<Checkbox checked={rememberMe} color="primary" onChange={() => setRememberMe(!rememberMe)} />}
               label={localString.remember_me}
             />
             <Button

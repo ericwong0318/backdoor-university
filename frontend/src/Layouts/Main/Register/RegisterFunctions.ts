@@ -55,16 +55,16 @@ export const formKey = {
 
 export const toRegisterFormData = (data: FormData, file: File | undefined | null): IRegisterFormData => {
     return {
-        email: data.get(formKey.email)?.toString(),
-        username: data.get(formKey.username)?.toString(),
-        password: data.get(formKey.password)?.toString(),
-        confirmPassword: data.get(formKey.confirmPassword)?.toString(),
-        school: data.get(formKey.school)?.toString(),
-        programme: data.get(formKey.programme)?.toString(),
-        admissionYear: data.get(formKey.admissionYear)?.toString(),
-        cgpa: data.get(formKey.cgpa)?.toString(),
-        examName: data.get(formKey.examName)?.toString(),
-        examResult: data.get(formKey.examResult)?.toString(),
+        email: data.get(formKey.email)?.toString().trim().trim(),
+        username: data.get(formKey.username)?.toString().trim(),
+        password: data.get(formKey.password)?.toString().trim(),
+        confirmPassword: data.get(formKey.confirmPassword)?.toString().trim(),
+        school: data.get(formKey.school)?.toString().trim(),
+        programme: data.get(formKey.programme)?.toString().trim(),
+        admissionYear: data.get(formKey.admissionYear)?.toString().trim(),
+        cgpa: data.get(formKey.cgpa)?.toString().trim(),
+        examName: data.get(formKey.examName)?.toString().trim(),
+        examResult: data.get(formKey.examResult)?.toString().trim(),
         file: file,
     }
 }
