@@ -13,6 +13,7 @@ export interface IRegisterFormData {
     username: string | undefined
     password: string | undefined
     confirmPassword: string | undefined
+    admissionYear: string | undefined
     school: string | undefined
     programme: string | undefined
     cgpa: string | undefined
@@ -27,9 +28,10 @@ export interface IUserRegisterSchema {
     school: string
     programme: string
     cgpa: string
+    admissionYear: string
     examname: string
     result: string
-    file: File | undefined | null
+    file: File
 }
 
 export interface IRegisterFailedCallbackParameters {
@@ -47,7 +49,8 @@ export const formKey = {
     cgpa: "cgpa",
     examName: "examname",
     examResult: "result",
-    file: "file"
+    file: "photo",
+    admissionYear: "addmissionYear",
 }
 
 export const toRegisterFormData = (data: FormData, file: File | undefined | null): IRegisterFormData => {
@@ -58,23 +61,26 @@ export const toRegisterFormData = (data: FormData, file: File | undefined | null
         confirmPassword: data.get(formKey.confirmPassword)?.toString(),
         school: data.get(formKey.school)?.toString(),
         programme: data.get(formKey.programme)?.toString(),
+        admissionYear: data.get(formKey.admissionYear)?.toString(),
         cgpa: data.get(formKey.cgpa)?.toString(),
         examName: data.get(formKey.examName)?.toString(),
         examResult: data.get(formKey.examResult)?.toString(),
-        file: file
+        file: file,
     }
 }
 
-export const toUserRegiserSchema = (data: IRegisterFormData): FormData => {
+export const toUserRegiserSchema = (data: IRegisterFormData, file: File): FormData => {
     const fd = new FormData()
     fd.append('email', data.email!)
+    fd.append('name', data.username!)
     fd.append('password', data.password!)
     fd.append('school', data.school!)
     fd.append('programme', data.programme!)
     fd.append('cgpa', data.cgpa!)
     fd.append('examname', data.examName!)
     fd.append('result', data.examResult!)
-    fd.append('file', data.file!)
+    fd.append('addmissionYear', data.admissionYear!)
+    fd.append('photo', file)
     return fd
 }
 
@@ -101,12 +107,8 @@ export const registerWithData = async (data: FormData,
     onSuccessCallback: () => void,
     onFailedCallback: (params: IRegisterFailedCallbackParameters) => void
 ) => {
-    let headers = new Headers();
-    headers.append('Content-Type', 'application/json');
-
     fetch(`${api.url}${api.pathRegister}`, {
         method: "POST",
-        headers: headers,
         body: data,
     }).then(response => {
         response.json().then(val => {
@@ -114,14 +116,21 @@ export const registerWithData = async (data: FormData,
             if (val.err) {
                 switch (val.err) {
                     case "No files are uploaded.":
-
+                        onFailedCallback({
+                            type: ErrorType.file_missing,
+                            reason: val.err
+                        })
+                        break;
+                    default:
+                        onFailedCallback({
+                            type: ErrorType.unknown,
+                            reason: val.err
+                        })
                         break;
                 }
+            } else if (val.msg) {
+                onSuccessCallback()
             }
-            onFailedCallback({
-                type: ErrorType.file_missing,
-                reason: val.err
-            })
         }, reason => {
             onFailedCallback({
                 type: ErrorType.unknown,

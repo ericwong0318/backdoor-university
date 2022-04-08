@@ -15,6 +15,7 @@ export interface IRegisterLocalizationStrings extends LocalizedStringsMethods {
     login: string
     email_hint: string
     agree_statement: string
+    admission_year: string,
     field_empty_error: string
     email_format_error: string
     password_not_match_error: string
@@ -29,6 +30,7 @@ export interface IRegisterLocalizationStrings extends LocalizedStringsMethods {
     back_to_login: string
     choose_photo: string
     no_file_error: string
+    file_size_error: string
 }
 
 export let RegisterLocalizationStrings: IRegisterLocalizationStrings
@@ -62,6 +64,8 @@ RegisterLocalizationStrings = new LocalizedStrings({
         back_to_login: "Back to login",
         choose_photo: "Choose a photo...",
         no_file_error: "Please upload a profile picture!",
+        admission_year: "Admission Year",
+        file_size_error: "The maximum size is 2MB!",
     },
     // zh: {
     //     password: "密碼",

@@ -31,6 +31,7 @@ const Register = (props: IRegisterProps) => {
     const [errorAgree, setErrorAgree] = useState("");
     const [errorSchool, setErrorSchool] = useState("");
     const [errorProgramme, setErrorProgramme] = useState("")
+    const [errorAdmissionYear, setErrorAdmissionYear] = useState("")
     const [errorCGPA, setErrorCGPA] = useState("")
     const [errorExamName, setErrorExamName] = useState("")
     const [errorExamResult, setErrorExamResult] = useState("")
@@ -58,21 +59,12 @@ const Register = (props: IRegisterProps) => {
             setErrorEmail(localString.email_format_error);
             error = true;
         }
-        // else if (!register.verifyEmailAvailable(data)) {
-        //     // Verify email available
-        //     setErrorEmail(localString.email_used_error);
-        //     error = true;
-        // }
 
         // Verify username
         if (!data.username) {
             setErrorUsername(localString.field_empty_error);
             error = true;
         }
-        // else if (!register.verifyUsernameAvailable(data)) {
-        //     setErrorUsername(localString.username_used_error);
-        //     error = true;
-        // }
 
         // Verify password
         if (!data.password) {
@@ -106,10 +98,23 @@ const Register = (props: IRegisterProps) => {
             error = true;
         }
 
+        // Verify Admission Year
+        if (!data.admissionYear) {
+            setErrorAdmissionYear(localString.field_empty_error)
+            error = true
+        }
+
         // Verify Photo
         if (!data.files) {
             setErrorFile(localString.no_file_error);
             error = true;
+        } else {
+            // Verify Size
+            const fSize = data.file!.size
+            if (fSize / 1000000 > 2) {
+                setErrorFile(localString.file_size_error);
+                error = true;
+            }
         }
 
         if (!agreed) {
@@ -304,6 +309,22 @@ const Register = (props: IRegisterProps) => {
                                     />
                                     <Typography sx={{ color: "red", textAlign: "left" }}>
                                         {errorProgramme}
+                                    </Typography>
+
+                                    {/* Admission year Field */}
+                                    <TextField
+                                        margin="normal"
+                                        required
+                                        fullWidth
+                                        id={register.formKey.admissionYear}
+                                        name={register.formKey.admissionYear}
+                                        label={localString.admission_year}
+                                        onChange={() => {
+                                            setErrorAdmissionYear("");
+                                        }}
+                                    />
+                                    <Typography sx={{ color: "red", textAlign: "left" }}>
+                                        {errorAdmissionYear}
                                     </Typography>
 
                                     {/* CGPA Field */}
