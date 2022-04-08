@@ -14,7 +14,7 @@ import SchoolIcon from '@mui/icons-material/School';
 import React, { useState } from "react";
 import { HeaderLocalizationStrings } from "../../Localizations/HeaderLocalizationStrings";
 import { Link, useNavigate } from "react-router-dom";
-import { LayoutPath } from "../../Constants/RoutePaths";
+import { LayoutPath } from '../../App/constants';
 import { Box } from "@mui/system";
 
 // The list of items to display in the drawer along with their icon

@@ -11,17 +11,19 @@ import Grid from '@mui/material/Grid';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import { LoginLocalizatiionStrings as localString } from '../../../Localizations/LoginLocalizatiionStrings';
-import { Link, useNavigate } from 'react-router-dom';
-import { LayoutPath } from '../../../Constants/RoutePaths';
+import { Link, Navigate, useNavigate } from 'react-router-dom';
 import * as login from './LoginFunctions';
 import { Alert } from '@mui/material';
+import { useAuth } from '../../../Components/auth/AuthProvider';
+import { LoginErrorType } from '../../../auth';
+import { LayoutPath } from '../../../App/constants';
 
 export default function Login() {
   // Determine if it is now loggin in
   const [isLogingIn, setIsLogingIn] = useState(false);
 
   // Login hook
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const auth = useAuth();
 
   // Navigate
   const navigate = useNavigate()
@@ -55,19 +57,31 @@ export default function Login() {
     }
 
     // Login the user
-    login.LoginWithData(login.toUserLoginSchema(data),
+    auth.login(data.email!, data.password!,
       () => {
-        // Set login success
-        setIsLoggedIn(true);
-
-        // go back to home page
+        // Login success, go back to home page
         navigate(LayoutPath.home)
       },
       (err) => {
+        switch (err.type) {
+          case LoginErrorType.incorrect_email:
+          case LoginErrorType.incorrect_pw:
+          case LoginErrorType.incorrect_email_or_pw:
+            setErrorLogin(localString.incorrect_info_error);
+            break;
 
+          default:
+            setErrorLogin(localString.server_unavailable_error);
+            break;
+        }
         setIsLogingIn(false);
       })
   };
+
+  if (auth.user) {
+    // User already logged in, redirect to home page
+    return <Navigate to={LayoutPath.home} replace />
+  }
 
   return (
     <Grid container component="main" sx={{ height: '100vh' }}>

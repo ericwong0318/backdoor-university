@@ -6,9 +6,11 @@ import Main from './Layouts/Main/Main';
 function App() {
   return (
     <div className="App">
-      <title>
-        Backdoor-University
-      </title>
+      <head>
+        <title>
+          Backdoor-University
+        </title>
+      </head>
       <Header />
       <Main />
       <Footer />

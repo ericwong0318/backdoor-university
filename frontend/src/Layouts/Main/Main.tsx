@@ -1,6 +1,5 @@
 import React from 'react'
 import { Route, Routes } from 'react-router-dom';
-import { LayoutPath } from '../../Constants/RoutePaths';
 import HomePage from './HomePage/HomePage';
 import NewsPage from './NewsPage/NewsPage';
 import ProgrammePage from './ProgrammePage/ProgrammePage';
@@ -10,6 +9,8 @@ import ForgotPassword from './ForgotPassword/ForgotPassword';
 import Login from './Login/Login';
 import Register from './Register/Register';
 import NotFound from './404/404';
+import UserProfile from './UserPage/UserProfile/UserProfile';
+import { LayoutPath } from '../../App/constants';
 
 interface IMainProps {
 
@@ -29,6 +30,8 @@ const Main = (props: IMainProps) => {
                 <Route path={LayoutPath.login} element={<Login />} />
                 <Route path={LayoutPath.register} element={<Register />} />
                 <Route path={LayoutPath.forgotpassword} element={<ForgotPassword />} />
+
+                <Route path={`${LayoutPath.user}/:user`} element={<UserProfile user={null} />} />
                 <Route path={LayoutPath.default} element={<NotFound />} />
             </Routes>
         </React.Fragment>

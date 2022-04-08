@@ -3,8 +3,8 @@ import React, { createRef, useState } from 'react';
 import CreateIcon from '@mui/icons-material/Create';
 import { RegisterLocalizationStrings as localString } from '../../../Localizations/RegisterLocalizationStrings';
 import * as register from './RegisterFunctions';
-import { LayoutPath } from '../../../Constants/RoutePaths';
 import { Link } from 'react-router-dom';
+import { LayoutPath } from '../../../App/constants';
 
 interface IRegisterProps {
 

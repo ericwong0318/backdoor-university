@@ -2,9 +2,9 @@ import { Grid, CssBaseline, Paper, Box, Avatar, Typography, Alert, TextField, Fo
 import React, { useState } from 'react'
 import QuestionMarkIcon from '@mui/icons-material/QuestionMark';
 import { Link } from 'react-router-dom'
-import { LayoutPath } from '../../../Constants/RoutePaths'
 import * as forgotPW from './ForgotPasswordFunctions'
 import { ForgotPasswordLocalizationStrings as localString } from "../../../Localizations/ForgotPasswordLocalizationStrings"
+import { LayoutPath } from '../../../App/constants';
 
 interface IForgotPasswordProps {
 

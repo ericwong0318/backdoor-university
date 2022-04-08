@@ -1,7 +1,7 @@
 import React from "react";
 import { Navigate, useLocation } from "react-router-dom";
-import { useAuth } from "../../App/contexts"
-import { LayoutPath } from "../../Constants/RoutePaths";
+import { LayoutPath } from '../../App/constants';
+import { useAuth } from "./AuthProvider";
 
 // Components within are quired to login before accessing it.
 const RequireAuth = ({ children }: { children: JSX.Element }) => {

@@ -29,12 +29,11 @@ import SearchIcon from '@mui/icons-material/Search';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import { navItemRight } from './HeaderStyle';
 import HeaderDrawer from './HeaderDrawer';
-import { LayoutPath } from '../../Constants/RoutePaths';
+import { LayoutPath } from '../../App/constants';
 import { useLocation, useNavigate } from 'react-router-dom';
 import FloatingMenu from '../../Components/FloatingMenu/FloatingMenu';
 import FloatingMenuItem from '../../Components/FloatingMenu/FloatingMenuItem';
-import { useAppSelector } from '../../App/hooks';
-import { selectCurrentUser } from '../../features/userSlice';
+import { useAuth } from '../../Components/auth/AuthProvider';
 
 // The list of buttons and where it goes
 const tabButtons = [
@@ -45,18 +44,17 @@ const tabButtons = [
     { text: HeaderLocalizationStrings.statistics, path: LayoutPath.statistics },
 ]
 
-interface HeaderProps {
-    loggedIn?: boolean
+interface IHeaderProps {
+
 }
 
-const Header = (props: HeaderProps) => {
+const Header = (props: IHeaderProps) => {
     /* Hooks */
     // Which tab is being showed
     const [tabValue, setTabValue] = useState<number | false>(0);
 
-    // The current user object
-
-    const [isLoggedIn, setIsLoggedIn] = useState(false);
+    // The authentication hook
+    const auth = useAuth();
 
     // Which page are we in
     let location = useLocation();
@@ -118,7 +116,7 @@ const Header = (props: HeaderProps) => {
                                 {/* TODO: Add a profile button */}
 
                                 {
-                                    isLoggedIn ? (
+                                    auth.user ? (
                                         <IconButton aria-label="Profile" sx={{ marginLeft: "auto" }} onClick={onProfileIconClicked}>
                                             <AccountCircleIcon />
                                         </IconButton>
@@ -155,7 +153,7 @@ const Header = (props: HeaderProps) => {
                                 <TextField variant="standard" label={HeaderLocalizationStrings.search} />
 
                                 {
-                                    isLoggedIn ? (
+                                    auth.user ? (
                                         // TODO: Display Profile button
                                         <>
                                         </>

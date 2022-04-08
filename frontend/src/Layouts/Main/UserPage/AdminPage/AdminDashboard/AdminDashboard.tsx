@@ -5,12 +5,17 @@ interface IAdminDashboardProps {
     user: any
 }
 
+const dummyUser = {
+    email: "admin@admin.com",
+    username: "admin",
+}
+
 const AdminDashboard = (props: IAdminDashboardProps) => {
-    // TODO: check for authentication and lead them to the error page
+    // check for authentication and lead them to the login page
 
     return (
         <React.Fragment>
-            <Grid >
+            <Grid container >
 
             </Grid>
         </React.Fragment>

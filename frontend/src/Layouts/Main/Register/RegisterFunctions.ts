@@ -1,5 +1,5 @@
 import { EditLocationTwoTone, PanoramaFishEyeOutlined, ViewKanban } from "@mui/icons-material"
-import { api } from "../../../Constants/RemoteInfo"
+import { api } from "../../../App/constants"
 
 export enum ErrorType {
     email_used,

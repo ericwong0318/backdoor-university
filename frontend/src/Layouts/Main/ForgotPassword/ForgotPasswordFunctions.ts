@@ -1,4 +1,4 @@
-import { api } from "../../../Constants/RemoteInfo";
+import { api } from "../../../App/constants";
 
 export const formKey = {
     email: "email"
