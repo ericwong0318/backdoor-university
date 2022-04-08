@@ -46,9 +46,18 @@ const ForgotPassword = (props: IForgotPasswordProps) => {
                 setRequestSuccess(true);
                 setRequesting(false);
             },
-            (error) => {
+            (err) => {
                 // Failed callback
-                setErrorResetPW(error)
+                switch (err.type) {
+                    case forgotPW.ErrorType.email_error:
+                        setErrorEmail(localString.email_unregistered_error);
+                        break;
+
+                    case forgotPW.ErrorType.unknown:
+                    case forgotPW.ErrorType.server_unavailable:
+                        setErrorEmail(localString.server_unavailable_error);
+                        break;
+                }
                 setRequesting(false);
             }
         );
