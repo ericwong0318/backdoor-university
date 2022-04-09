@@ -12,7 +12,15 @@ export const LayoutPath = {
     register: "/register",
     forgotpassword: "/forgot-password",
     user: "/user",
+    admin: "/admin",
     default: "*",
+}
+
+export const AdminDashboardPath = {
+    myProfile: "/my-profile",
+    users: "/users",
+    programmes: "/programmes",
+    comments: "/comments",
 }
 
 /* 
@@ -24,4 +32,5 @@ export const api = {
     pathRegister: '/register',
     pathLogin: '/login',
     pathResetPW: '/forget-password',
+    changePW: '/modify-password',
 }

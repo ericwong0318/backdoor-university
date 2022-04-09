@@ -9,8 +9,9 @@ import ForgotPassword from './ForgotPassword/ForgotPassword';
 import Login from './Login/Login';
 import Register from './Register/Register';
 import NotFound from './404/404';
-import UserProfile from './UserPage/UserProfile/UserProfile';
 import { LayoutPath } from '../../App/constants';
+import AdminDashboard from './UserPage/AdminPage/AdminDashboard/AdminDashboard';
+import UserProfile from './UserPage/UserProfile/UserProfile';
 
 interface IMainProps {
 
@@ -31,7 +32,8 @@ const Main = (props: IMainProps) => {
                 <Route path={LayoutPath.register} element={<Register />} />
                 <Route path={LayoutPath.forgotpassword} element={<ForgotPassword />} />
 
-                <Route path={`${LayoutPath.user}/:user`} element={<UserProfile user={null} />} />
+                <Route path={`${LayoutPath.user}`} element={<UserProfile user={null} />} />
+                <Route path={`${LayoutPath.admin}`} element={<AdminDashboard />} />
                 <Route path={LayoutPath.default} element={<NotFound />} />
             </Routes>
         </React.Fragment>

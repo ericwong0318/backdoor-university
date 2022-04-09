@@ -1,4 +1,4 @@
-import { Box, Button, Container, Typography } from '@mui/material';
+import { Box, Button, Container, CssBaseline, Typography } from '@mui/material';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import { NotFoundLocalizationStrings as localString } from '../../../Localizations/404LocalizationStrings';
 import { useNavigate } from 'react-router-dom';
@@ -15,7 +15,8 @@ const NotFound = () => {
                     alignItems: 'center',
                     display: 'flex',
                     flexGrow: 1,
-                    minHeight: '100%'
+                    minHeight: '100%',
+                    marginTop: '10%',
                 }}
             >
                 <Container maxWidth="md">
@@ -40,17 +41,16 @@ const NotFound = () => {
                         >
                             {localString.not_found_message}
                         </Typography>
-                        <Box component="img"
-                            alt="Under development"
-                            src="/static/images/undraw_page_not_found_su7k.svg"
+                        {/* <Box component="img"
                             sx={{
                                 marginTop: 50,
                                 display: 'inline-block',
                                 maxWidth: '100%',
                                 width: 560,
                                 textAlign: 'center'
-                            }}
-                        />
+                            }} /> */}
+                        <img src='https://img.freepik.com/free-vector/oops-404-error-with-broken-robot-concept-illustration_114360-1932.jpg?t=st=1649522918~exp=1649523518~hmac=a9ca06ee65c2a446da9634e9c9445bec904f5aa9583588b6132a77b00fab4c1f&w=740' alt="404 not found" />
+                        <a href="https://www.freepik.com/vectors/server-error">Server error vector created by storyset - www.freepik.com</a>
                         <Button
                             component="a"
                             startIcon={(<ArrowBackIcon fontSize="small" />)}

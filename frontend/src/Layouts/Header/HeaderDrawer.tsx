@@ -2,7 +2,7 @@
     The drawer is only available when the window size is small, such as when the user are browsing from a mobile phone.
 */
 
-import { Button, Drawer, IconButton, List, ListItemButton, ListItemIcon, ListItemText, Typography } from "@mui/material";
+import { Button, Divider, Drawer, IconButton, List, ListItemButton, ListItemIcon, ListItemText, Typography } from "@mui/material";
 import MenuIcon from '@mui/icons-material/Menu';
 import HomeIcon from '@mui/icons-material/Home';
 import TipsAndUpdatesIcon from '@mui/icons-material/TipsAndUpdates';
@@ -63,6 +63,7 @@ const HeaderDrawer = () => {
                         </ListItemButton>
                     )}
                 </List>
+                <Divider sx={{ my: 1 }} />
 
                 {/* Change the login button to logout button after logged-in */}
                 {
