@@ -23,7 +23,7 @@
 
 import React, { useEffect, useState } from 'react'
 import { Button, Toolbar, AppBar, IconButton, Tabs, Tab, TextField, useTheme, useMediaQuery } from '@mui/material';
-import { HeaderLocalizationStrings } from '../../Localizations/HeaderLocalizationStrings';
+import { HeaderLocalizationStrings as localString } from '../../Localizations/HeaderLocalizationStrings';
 import SchoolIcon from '@mui/icons-material/School';
 import SearchIcon from '@mui/icons-material/Search';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
@@ -37,11 +37,11 @@ import { useAuth } from '../../Components/auth/AuthProvider';
 
 // The list of buttons and where it goes
 const tabButtons = [
-    { text: HeaderLocalizationStrings.home, path: LayoutPath.home },
-    { text: HeaderLocalizationStrings.tips, path: LayoutPath.tips },
-    { text: HeaderLocalizationStrings.news, path: LayoutPath.news },
-    { text: HeaderLocalizationStrings.programme, path: LayoutPath.programme },
-    { text: HeaderLocalizationStrings.statistics, path: LayoutPath.statistics },
+    { text: localString.home, path: LayoutPath.home },
+    { text: localString.tips, path: LayoutPath.tips },
+    { text: localString.news, path: LayoutPath.news },
+    { text: localString.programme, path: LayoutPath.programme },
+    { text: localString.statistics, path: LayoutPath.statistics },
 ]
 
 interface IHeaderProps {
@@ -113,23 +113,29 @@ const Header = (props: IHeaderProps) => {
                                 <IconButton aria-label="Backdoor-University" onClick={onHomeIconClicked}>
                                     <SchoolIcon />
                                 </IconButton>
-                                {/* TODO: Add a profile button */}
 
                                 {
+                                    /* profile button */
                                     auth.user ? (
-                                        <IconButton aria-label="Profile" sx={{ marginLeft: "auto" }} onClick={onProfileIconClicked}>
-                                            <AccountCircleIcon />
-                                        </IconButton>
+                                        <FloatingMenu sx={{ marginLeft: "auto" }} toggleButton={profileButton}>
+                                            {/* To user profile */}
+                                            {/* Login button */}
+                                            <FloatingMenuItem onClick={() => {
+                                                auth.logout();
+                                            }}>
+                                                {localString.logout}
+                                            </FloatingMenuItem>
+                                        </FloatingMenu>
                                     ) : (
                                         <FloatingMenu sx={{ marginLeft: "auto" }} toggleButton={profileButton}>
                                             {/* Login Button */}
                                             <FloatingMenuItem onClick={() => navigate(LayoutPath.login)}>
-                                                {HeaderLocalizationStrings.login}
+                                                {localString.login}
                                             </FloatingMenuItem>
 
                                             {/* Register Button */}
                                             <FloatingMenuItem onClick={() => navigate(LayoutPath.register)}>
-                                                {HeaderLocalizationStrings.register}
+                                                {localString.register}
                                             </FloatingMenuItem>
                                         </FloatingMenu>
                                     )
@@ -150,12 +156,21 @@ const Header = (props: IHeaderProps) => {
                                     {tabButtons.map((t) => <Tab key={t.text} label={t.text} />)}
                                 </Tabs>
                                 <SearchIcon sx={{ marginLeft: "auto" }} />
-                                <TextField variant="standard" label={HeaderLocalizationStrings.search} />
+                                <TextField variant="standard" label={localString.search} />
 
                                 {
                                     auth.user ? (
-                                        // TODO: Display Profile button
+                                        // Display Profile button
                                         <>
+                                            <FloatingMenu toggleButton={profileButton}>
+                                                {/* To user profile */}
+                                                {/* Login button */}
+                                                <FloatingMenuItem onClick={() => {
+                                                    auth.logout();
+                                                }}>
+                                                    {localString.logout}
+                                                </FloatingMenuItem>
+                                            </FloatingMenu>
                                         </>
                                     ) : (
                                         // Display login and logout buttons
@@ -165,7 +180,7 @@ const Header = (props: IHeaderProps) => {
                                                 variant="contained"
                                                 onClick={() => navigate(LayoutPath.login)}
                                             >
-                                                {HeaderLocalizationStrings.login}
+                                                {localString.login}
                                             </Button>
 
                                             {/* Register Button */}
@@ -173,7 +188,7 @@ const Header = (props: IHeaderProps) => {
                                                 sx={{ ...navItemRight }}
                                                 onClick={() => navigate(LayoutPath.register)}
                                             >
-                                                {HeaderLocalizationStrings.register}
+                                                {localString.register}
                                             </Button>
                                         </>
                                     )

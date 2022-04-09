@@ -88,6 +88,13 @@ export const logout = (callback?: VoidFunction) => {
     if (localStorage.getItem('password')) {
         localStorage.removeItem('password')
     }
+    if (sessionStorage.getItem('email')) {
+        sessionStorage.removeItem('email')
+    }
+
+    if (sessionStorage.getItem('password')) {
+        sessionStorage.removeItem('password')
+    }
 
     if (callback)
         callback();
