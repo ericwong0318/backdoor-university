@@ -1,4 +1,3 @@
-import { RestaurantMenuRounded } from '@mui/icons-material';
 import React, { useState } from 'react'
 import * as auth from '../../auth'
 
@@ -61,8 +60,13 @@ const AuthProvider = ({ children }: { children: React.ReactNode }) => {
         if (isLoggingIn)
             return;
 
-        const email = localStorage.getItem('email')
-        const password = localStorage.getItem('password')
+        let email = sessionStorage.getItem('email')
+        let password = sessionStorage.getItem('password')
+
+        if (!email)
+            email = localStorage.getItem('email');
+        if (!password)
+            password = localStorage.getItem('password');
 
         if (email && password) {
             login(email, password, () => { }, () => setAttemptedAutoLogin(true))

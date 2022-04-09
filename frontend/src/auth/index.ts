@@ -38,6 +38,10 @@ export const login = (email: string, password: string, successCallback?: VoidFun
         response.json().then(val => {
             if (val.msg) {
                 // Login success
+                // Save to session storage
+                sessionStorage.setItem('email', email);
+                sessionStorage.setItem('password', password);
+
                 if (successCallback)
                     successCallback();
             }
