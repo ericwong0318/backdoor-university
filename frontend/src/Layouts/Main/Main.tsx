@@ -21,13 +21,20 @@ const Main = (props: IMainProps) => {
 
 
     return (
+
         <React.Fragment>
             <Routes>
+
                 <Route path={LayoutPath.home} element={<HomePage />} />
                 <Route path={LayoutPath.tips} element={<TipsPage />} />
                 <Route path={LayoutPath.news} element={<NewsPage />} />
                 <Route path={LayoutPath.programme} element={<ProgrammePage />} />
                 <Route path={LayoutPath.statistics} element={<StatisticsPage />} />
+
+                <Route path={LayoutPath.programme} element={<ProgramDetail />} >
+                    <Route path={":id"} element={<ProgramDetail />} />
+                </Route>
+
                 <Route path={LayoutPath.login} element={<Login />} />
                 <Route path={LayoutPath.register} element={<Register />} />
                 <Route path={LayoutPath.forgotpassword} element={<ForgotPassword />} />
@@ -36,6 +43,7 @@ const Main = (props: IMainProps) => {
                 <Route path={`${LayoutPath.admin}`} element={<AdminDashboard />} />
                 <Route path={LayoutPath.default} element={<NotFound />} />
             </Routes>
+
         </React.Fragment>
     )
 }
