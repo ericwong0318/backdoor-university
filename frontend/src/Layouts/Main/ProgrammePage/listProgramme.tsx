@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-import {Link, useParams} from "react-router-dom"
+import { Link, useParams } from "react-router-dom"
 
 import ListSubheader from '@mui/material/ListSubheader';
 import List from '@mui/material/List';
@@ -17,17 +17,17 @@ import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
 
 export default function listProg() {
     let progList = [
-        {"id" : 1, "name" : "BSc in Learning Design and Technology", "school" : "CUHK"},
-        {"id" : 2, "name" : "Mechanical and Automation Engineering", "school" : "CUHK"},
-        {"id" : 3, "name" : "Computer Science and Engineering", "school" : "CUHK"},
-        {"id" : 4, "name" : "Computational Data Science", "school" : "CUHK"},
-        {"id" : 5, "name" : "BEng Financial Technology", "school" : "CUHK"},
-        {"id" : 6, "name" : "BEng in Civil Engineering", "school" : "HKU"},
-        {"id" : 7, "name" : "BEng in Computer Science", "school" : "HKU"},
-        {"id" : 8, "name" : "BEng in Computer Engineering", "school" : "HKU"},
-        {"id" : 9, "name" : "BEng in Electrical Engineering", "school" : "HKU"},
-        {"id" : 10, "name" : "BEng in Industrial Engineering and Logistics Management", "school" : "HKU"},
-        {"id" : 11, "name" : "BEng Financial Technology", "school" : "HKU"}
+        { "id": 1, "name": "Artificial Intelligence", "school": "CUHK" },
+        { "id": 2, "name": "Computer Engineering", "school": "CUHK" },
+        { "id": 3, "name": "Computer Science", "school": "CUHK" },
+        { "id": 4, "name": "Computational Data Science", "school": "CUHK" },
+        { "id": 5, "name": "BEng Financial Technology", "school": "CUHK" },
+        { "id": 6, "name": "BEng in Civil Engineering", "school": "HKU" },
+        { "id": 7, "name": "BEng in Computer Science", "school": "HKU" },
+        { "id": 8, "name": "BEng in Computer Engineering", "school": "HKU" },
+        { "id": 9, "name": "BEng in Electrical Engineering", "school": "HKU" },
+        { "id": 10, "name": "BEng in Industrial Engineering and Logistics Management", "school": "HKU" },
+        { "id": 11, "name": "BEng Financial Technology", "school": "HKU" }
     ]
 
 
@@ -73,8 +73,8 @@ export default function listProg() {
                                 <ListItemIcon>
                                     <KeyboardArrowRightIcon />
                                 </ListItemIcon>
-                                <Link to={'/programme/' +  progList[0].id }>
-                                    <ListItemText primary= {progList[0].name} />
+                                <Link to={'/programme/' + progList[0].id}>
+                                    <ListItemText primary={progList[0].name} />
                                 </Link>
                             </ListItemButton>
                             <ListItemButton sx={{ pl: 4, width: '100%' }}>
@@ -82,16 +82,16 @@ export default function listProg() {
 
                                     <KeyboardArrowRightIcon />
                                 </ListItemIcon>
-                                <Link to={'/programme/' +  progList[1].id }>
-                                    <ListItemText primary = {progList[1].name} />
+                                <Link to={'/programme/' + progList[1].id}>
+                                    <ListItemText primary={progList[1].name} />
                                 </Link>
                             </ListItemButton>
                             <ListItemButton sx={{ pl: 4, width: '100%' }}>
                                 <ListItemIcon>
                                     <KeyboardArrowRightIcon />
                                 </ListItemIcon>
-                                <Link to={'/programme/' +  progList[2].id}>
-                                    <ListItemText primary= {progList[2].name} />
+                                <Link to={'/programme/' + progList[2].id}>
+                                    <ListItemText primary={progList[2].name} />
                                 </Link>
                             </ListItemButton>
                         </List>

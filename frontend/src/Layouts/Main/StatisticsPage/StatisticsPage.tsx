@@ -1,5 +1,7 @@
 import React from 'react';
 
+import './StatisticsPage.css'
+
 import SpecProgChart from "./SpecProgChart";
 const SpecStat = () => <SpecProgChart />;
 
@@ -12,7 +14,7 @@ const StatisticsPage = (props: IStatisticsPageProps) => {
     return (
         <React.Fragment>
             <h1>StatisticsPage</h1>
-            <SpecStat/>
+            <SpecStat />
         </React.Fragment>
     )
 }
