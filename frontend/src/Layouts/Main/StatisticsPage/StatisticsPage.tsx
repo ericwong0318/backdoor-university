@@ -1,10 +1,7 @@
 import React from 'react';
 
-import SpecificStat from "./SpecificStat";
-import GeneralStat from "./GeneralStat";
-
-const SpecStat = () => <SpecificStat />;
-const GenStat = () => <GeneralStat />
+import SpecProgChart from "./SpecProgChart";
+const SpecStat = () => <SpecProgChart />;
 
 interface IStatisticsPageProps {
 
@@ -16,7 +13,6 @@ const StatisticsPage = (props: IStatisticsPageProps) => {
         <React.Fragment>
             <h1>StatisticsPage</h1>
             <SpecStat/>
-            <GenStat/>
         </React.Fragment>
     )
 }

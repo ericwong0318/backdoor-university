@@ -1,5 +1,5 @@
 import React from 'react'
-import { Route, Routes } from 'react-router-dom';
+import { Route, Routes, useParams } from 'react-router-dom';
 import { LayoutPath } from '../../Constants/RoutePaths';
 import HomePage from './HomePage/HomePage';
 import NewsPage from './NewsPage/NewsPage';
@@ -10,6 +10,7 @@ import ForgotPassword from './ForgotPassword/ForgotPassword';
 import Login from './Login/Login';
 import Register from './Register/Register';
 import NotFound from './404/404';
+
 
 interface IMainProps {
 

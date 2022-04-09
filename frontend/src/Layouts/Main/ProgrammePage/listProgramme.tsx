@@ -1,4 +1,7 @@
 import * as React from 'react';
+
+import {Link, useParams} from "react-router-dom"
+
 import ListSubheader from '@mui/material/ListSubheader';
 import List from '@mui/material/List';
 import ListItemButton from '@mui/material/ListItemButton';
@@ -12,7 +15,22 @@ import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
 
 
 
-export default function NestedList() {
+export default function listProg() {
+    let progList = [
+        {"id" : 1, "name" : "BSc in Learning Design and Technology", "school" : "CUHK"},
+        {"id" : 2, "name" : "Mechanical and Automation Engineering", "school" : "CUHK"},
+        {"id" : 3, "name" : "Computer Science and Engineering", "school" : "CUHK"},
+        {"id" : 4, "name" : "Computational Data Science", "school" : "CUHK"},
+        {"id" : 5, "name" : "BEng Financial Technology", "school" : "CUHK"},
+        {"id" : 6, "name" : "BEng in Civil Engineering", "school" : "HKU"},
+        {"id" : 7, "name" : "BEng in Computer Science", "school" : "HKU"},
+        {"id" : 8, "name" : "BEng in Computer Engineering", "school" : "HKU"},
+        {"id" : 9, "name" : "BEng in Electrical Engineering", "school" : "HKU"},
+        {"id" : 10, "name" : "BEng in Industrial Engineering and Logistics Management", "school" : "HKU"},
+        {"id" : 11, "name" : "BEng Financial Technology", "school" : "HKU"}
+    ]
+
+
     const [open, setOpen] = React.useState(false);
     const handleClick = () => {
         setOpen(!open);
@@ -40,6 +58,8 @@ export default function NestedList() {
                         </ListSubheader>
                     }
                 >
+
+
                     <ListItemButton onClick={handleClick}>
                         <ListItemIcon >
                             <SchoolIcon />
@@ -53,31 +73,26 @@ export default function NestedList() {
                                 <ListItemIcon>
                                     <KeyboardArrowRightIcon />
                                 </ListItemIcon>
-                                <ListItemText primary="BSc in Learning Design and Technology" />
+                                <Link to={'/programme/' +  progList[0].id }>
+                                    <ListItemText primary= {progList[0].name} />
+                                </Link>
+                            </ListItemButton>
+                            <ListItemButton sx={{ pl: 4, width: '100%' }}>
+                                <ListItemIcon>
+
+                                    <KeyboardArrowRightIcon />
+                                </ListItemIcon>
+                                <Link to={'/programme/' +  progList[1].id }>
+                                    <ListItemText primary = {progList[1].name} />
+                                </Link>
                             </ListItemButton>
                             <ListItemButton sx={{ pl: 4, width: '100%' }}>
                                 <ListItemIcon>
                                     <KeyboardArrowRightIcon />
                                 </ListItemIcon>
-                                <ListItemText primary="Mechanical and Automation Engineering" />
-                            </ListItemButton>
-                            <ListItemButton sx={{ pl: 4, width: '100%' }}>
-                                <ListItemIcon>
-                                    <KeyboardArrowRightIcon />
-                                </ListItemIcon>
-                                <ListItemText primary="Computer Science and Engineering" />
-                            </ListItemButton>
-                            <ListItemButton sx={{ pl: 4, width: '100%' }}>
-                                <ListItemIcon>
-                                    <KeyboardArrowRightIcon />
-                                </ListItemIcon>
-                                <ListItemText primary="Computational Data Science" />
-                            </ListItemButton>
-                            <ListItemButton sx={{ pl: 4, width: '100%' }}>
-                                <ListItemIcon>
-                                    <KeyboardArrowRightIcon />
-                                </ListItemIcon>
-                                <ListItemText primary="	BEng Financial Technology" />
+                                <Link to={'/programme/' +  progList[2].id}>
+                                    <ListItemText primary= {progList[2].name} />
+                                </Link>
                             </ListItemButton>
                         </List>
                     </Collapse>
@@ -95,31 +110,31 @@ export default function NestedList() {
                                 <ListItemIcon>
                                     <KeyboardArrowRightIcon />
                                 </ListItemIcon>
-                                <ListItemText primary="BEng in Civil Engineering" />
+                                <ListItemText primary={progList[6].name} />
                             </ListItemButton>
                             <ListItemButton sx={{ pl: 4, width: '100%' }}>
                                 <ListItemIcon>
                                     <KeyboardArrowRightIcon />
                                 </ListItemIcon>
-                                <ListItemText primary="BEng in Computer Science" />
+                                <ListItemText primary={progList[7].name} />
                             </ListItemButton>
                             <ListItemButton sx={{ pl: 4, width: '100%' }}>
                                 <ListItemIcon>
                                     <KeyboardArrowRightIcon />
                                 </ListItemIcon>
-                                <ListItemText primary="BEng in Computer Engineering" />
+                                <ListItemText primary={progList[8].name} />
                             </ListItemButton>
                             <ListItemButton sx={{ pl: 4, width: '100%' }}>
                                 <ListItemIcon>
                                     <KeyboardArrowRightIcon />
                                 </ListItemIcon>
-                                <ListItemText primary="BEng in Electrical Engineering" />
+                                <ListItemText primary={progList[9].name} />
                             </ListItemButton>
                             <ListItemButton sx={{ pl: 4, width: '100%' }}>
                                 <ListItemIcon>
                                     <KeyboardArrowRightIcon />
                                 </ListItemIcon>
-                                <ListItemText primary="	BEng in Electronic Engineering" />
+                                <ListItemText primary={progList[10].name} />
                             </ListItemButton>
                         </List>
                     </Collapse>
@@ -167,8 +182,6 @@ export default function NestedList() {
                     </Collapse>
                 </List>
             </div>
-
-
         </>
     );
 }

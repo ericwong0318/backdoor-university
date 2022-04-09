@@ -2,7 +2,10 @@
     position: static;
     align-content: center;
     display:grid;
-
+    grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+    margin:10px;
+    margin-left: 10%;
+    margin-right: 10%;
   }
   .box{
     padding: 5px;
