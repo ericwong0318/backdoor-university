@@ -1,0 +1,105 @@
+.bg{
+    background-image: url("./background.jpg");
+    background-size:cover;
+    background-position: 50% 92%;
+    background-repeat: no-repeat;
+    background-blend-mode: darken;
+    opacity: 0.9;
+    height:600px;
+}
+.text{
+    font-size: 35px;
+    padding:100px;
+    color: white;
+    text-shadow: 2px 2px 8px black;
+    -webkit-text-stroke-width: 0.5px;
+    text-align: center;
+}
+.title{
+    text-align: center;
+}
+.notice, .photo-box {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+}
+.photo-box {
+    flex: 3 1 30ch;
+    height: calc(282px + 5vw);
+    overflow: hidden;
+}
+.photo-box img {
+    max-width: 100%;
+    min-height: 100%;
+    width: auto;
+    height: auto;
+    object-fit: cover;
+    object-position: 50% 50%;
+}
+.notice {
+    border: 2px solid #f2f2f2;
+    border-radius: 8px;
+    overflow: hidden;
+}
+.notice-content {
+    padding: 16px 32px;
+    flex: 4 1 40ch;
+}
+.notice-tags {
+    margin: 0 -8px;
+}
+.notice-tag {
+    display: inline-block;
+    margin: 8px;
+    font-size: 0.875em;
+    text-transform: uppercase;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+    color: var(--primary);
+}
+.notice-title {
+    margin: 0;
+    font-size: clamp(1.4em, 2.1vw, 2.1em);
+    font-family: "Roboto Slab", Helvetica, Arial, sans-serif;
+}
+.notice-title a {
+    text-decoration: none;
+    color: inherit;
+}
+.notice-metadata {
+    margin: 0;
+}
+.notice-rating {
+    font-size: 1.2em;
+    letter-spacing: 0.05em;
+    color: var(--primary);
+}
+.notice-rating span {
+    color: var(--grey);
+}
+.notice-votes {
+    font-size: 0.825em;
+    font-style: italic;
+    color: var(--lightgrey);
+}
+.notice-save {
+    display: flex;
+    align-items: center;
+    padding: 6px 14px 6px 12px;
+    border-radius: 4px;
+    border: 2px solid currentColor;
+    color: var(--primary);
+    background: none;
+    cursor: pointer;
+    font-weight: bold;
+}
+* {
+    box-sizing: border-box;
+}
+
+.big {
+    width: clamp(320px, 65%, 65%);
+    padding: 24px;
+    margin-left: 20%;
+    margin-right: 20%;
+}

@@ -34,14 +34,23 @@ const TipsPage = (props: ITipsPageProps) => {
             <p className='Content'>You might be asked about some of the things you included, so make sure you familiarise yourself with what you wrote. Double check the personal statement to ensure that there is no any mistakes.</p>
             <div id="subtitle4" className='SubTitle'>Make sure you can attend</div>
             <p className='Content'>If you're not able to attend the interview, contact the interview for rearrangement. Don't cancel it at the last minutes which give give the interviewee a bad images.</p>
+            <div className="tips_img">
+                <img style={{ height: 250 }} src='https://media.istockphoto.com/photos/close-up-on-senior-employee-woman-hand-using-pen-to-writing-schedule-picture-id1220976971?b=1&k=20&m=1220976971&s=170667a&w=0&h=nUzubdoTfJEtF2cWd4o5PThaQ8zxKTjBaWbVUL3utlM='></img>
+            </div>
+            
             <div id="subtitle5" className='SubTitle'>Remember to bring any additional documents</div>
             <p className='Content'>You might be asked to bring a portfolio of your work if you’re applying for a creative arts course. Check this well in advance, as much of your interview may be focused on this work.</p>
             <div id="subtitle6" className='SubTitle'>Arrive early</div>
             <p className='Content'>If your interview is in face-to-face, arrive the campus half hour before the interview as you may get lost. Also, it allows you to have some time to get ready and familiarise yourself with the location and avoid adding any unnecessary stress. If you’re doing a virtual interview, ensure that the wifi connection is strong and all the communication devices are well functioned.</p>
+            <div className="tips_img">
+                <img style={{ height: 250 }} src='https://media.istockphoto.com/photos/five-candidates-waiting-for-job-interviews-front-view-crop-picture-id862718314?b=1&k=20&m=862718314&s=170667a&w=0&h=q39-XJx4TGI2OMgoPNR-OIFXdYQGR3sZdjylrsvnldg='></img>
+            </div>
             <div id="subtitle7" className='SubTitle'>Dress smartly</div>
             <p className='Content'>Looking clean and tidy will ensure that you leave a good impression. For business programme, you may need to dress formal. For others, you may be ask to dress smart causal.</p>
-            <img style={{ height: 300 }} src='https://i.pinimg.com/564x/eb/75/9d/eb759d31dd9a5848d063f66c269dabf7.jpg'></img>
-            <img style={{ height: 300 }} src='https://i.pinimg.com/564x/b4/00/ab/b400ab62fe22869681a460251e248858.jpg'></img>
+            <div className="tips_img">
+                <img style={{ height: 250 }} src='https://i.pinimg.com/564x/eb/75/9d/eb759d31dd9a5848d063f66c269dabf7.jpg'></img>
+                <img style={{ height: 250 }} src='https://i.pinimg.com/564x/b4/00/ab/b400ab62fe22869681a460251e248858.jpg'></img>
+            </div>
             <div id="subtitle8" className='SubTitle'>Prepare your own questions in advance</div>
             <p className='Content'>When the interview is finished, you may have the chance to ask some question. Make sure that you have prepared the questions to show your interest to the programme. </p>
             <div style={{ height: 200 }}></div>
