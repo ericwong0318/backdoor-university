@@ -421,13 +421,41 @@ app.post('/list-all-users', (req, res) => {
         .find({}, 'email name photo currProgramme exam status offer')
         .exec((err, users) => {
             if (users === []) {
-                return res.status(401).json({ msg: "No users in database" });
+                return res.status(401).json({ msg: "Email" });
             }
             else {
                 res.json(users);
                 return;
             };
         });
+});
+
+app.post('/find-single-user', (req, res) => {
+    let userEmail = req.body.email;
+    let userName = req.body.name;
+    /* find user by email */
+    User
+        .findOne({ email: userEmail }, 'email name photo currProgramme exam status offer')
+        .exec((err, user) => {
+            if (user === null) {
+                /* find user by name */
+                User
+                    .findOne({ name: userName }, 'email name photo currProgramme exam status offer')
+                    .exec((err, user) => {
+                        if (user === null) {
+                            return res.status(401).json({ err: "Email and name do not existed" });
+                        }
+                        else {
+                            return res.json(user);
+                        };
+                    });
+            }
+            else {
+                return res.json(user);
+            };
+        });
+
+
 });
 
 /* todo */
