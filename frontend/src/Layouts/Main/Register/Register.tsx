@@ -168,13 +168,18 @@ const Register = (props: IRegisterProps) => {
                 sm={4}
                 md={7}
                 sx={{
-                    backgroundImage: 'url(https://source.unsplash.com/random)',
+                    backgroundImage: 'https://www.vtc.edu.hk/ero/infoday/2021/images/tc/campus/320f727d4f5e61a3a279af01790c9603.jpg',
+                    // backgroundImage: 'url(https://source.unsplash.com/random)',
                     backgroundRepeat: 'no-repeat',
                     backgroundColor: (t) => (t.palette.mode === 'light' ? t.palette.grey[50] : t.palette.grey[900]),
                     backgroundSize: 'cover',
                     backgroundPosition: 'center',
-                }}
-            />
+                }}>
+                <Box
+                    component="img"
+                    src="https://www.cpce-polyu.edu.hk/f/page/2298/9072/HKCC_Virtual_Bg_09.jpg"
+                />
+            </Grid>
             <Grid item xs={12} sm={8} md={5} component={Paper} elevation={6} square>
                 <Box
                     sx={{
