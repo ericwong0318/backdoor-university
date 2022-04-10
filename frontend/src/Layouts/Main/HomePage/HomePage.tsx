@@ -12,7 +12,7 @@ const HomePage = (props: IHomePageProps) => {
         <React.Fragment>
             <h1>HomePage</h1>
             <div className="bg">
-                <div style={{padding:200}}>
+                <div /* style={{padding:100}} */>
                     <h1 className="text">
                         Welcome! All the Non-Jupas student<br/>
                         Here, we provide all the information you need!<br/>

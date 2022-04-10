@@ -8,12 +8,13 @@
     height:600px;
 }
 .text{
-    font-size: 35px;
-    padding:100px;
+    font-size: 130% ;
+    padding-top:250px;
     color: white;
     text-shadow: 2px 2px 8px black;
     -webkit-text-stroke-width: 0.5px;
     text-align: center;
+    white-space: nowrap;
 }
 .title{
     text-align: center;
