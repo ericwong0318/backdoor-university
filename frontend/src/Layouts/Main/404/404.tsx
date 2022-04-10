@@ -1,8 +1,8 @@
 import { Box, Button, Container, CssBaseline, Typography } from '@mui/material';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
-import { NotFoundLocalizationStrings as localString } from '../../../Localizations/404LocalizationStrings';
 import { useNavigate } from 'react-router-dom';
 import { LayoutPath } from '../../../App/constants';
+import { AppLocalizedStrings as localString } from '../../../App/localization';
 
 const NotFound = () => {
     const navigate = useNavigate()

@@ -1,10 +1,10 @@
 import { Grid, CssBaseline, Paper, Box, Avatar, Typography, TextField, FormControlLabel, Checkbox, Button, Alert, AlertTitle } from '@mui/material';
 import React, { createRef, useState } from 'react';
 import CreateIcon from '@mui/icons-material/Create';
-import { RegisterLocalizationStrings as localString } from '../../../Localizations/RegisterLocalizationStrings';
 import * as register from './RegisterFunctions';
 import { Link } from 'react-router-dom';
 import { LayoutPath } from '../../../App/constants';
+import { AppLocalizedStrings as localString } from '../../../App/localization';
 
 interface IRegisterProps {
 

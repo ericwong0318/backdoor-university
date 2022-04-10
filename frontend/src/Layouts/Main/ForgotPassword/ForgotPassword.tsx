@@ -3,8 +3,8 @@ import React, { useState } from 'react'
 import QuestionMarkIcon from '@mui/icons-material/QuestionMark';
 import { Link } from 'react-router-dom'
 import * as forgotPW from './ForgotPasswordFunctions'
-import { ForgotPasswordLocalizationStrings as localString } from "../../../Localizations/ForgotPasswordLocalizationStrings"
 import { LayoutPath } from '../../../App/constants';
+import { AppLocalizedStrings as localString } from '../../../App/localization';
 
 interface IForgotPasswordProps {
 
