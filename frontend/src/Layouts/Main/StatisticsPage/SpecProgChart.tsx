@@ -13,7 +13,7 @@ import {
 	ResponsiveContainer
 } from 'recharts';
 
-import { data1 } from './SpecData'
+import { data1 } from './SpecDataSet'
 
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
