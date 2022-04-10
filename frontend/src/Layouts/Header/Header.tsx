@@ -41,9 +41,9 @@ const tabButtons = [
     { text: localString.tips, path: LayoutPath.tips, authRequired: false },
     { text: localString.news, path: LayoutPath.news, authRequired: false },
     { text: localString.programme, path: LayoutPath.programme, authRequired: false },
+    { text: localString.statistics, path: LayoutPath.statistics, authRequired: false },
     // Login required tabs
     { text: localString.games, path: LayoutPath.games, authRequired: true },
-    // { text: localString.statistics, path: LayoutPath.statistics },
 ]
 
 interface IHeaderProps {
