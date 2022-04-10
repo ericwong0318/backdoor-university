@@ -196,7 +196,7 @@ export default function Login() {
                 {/* Forgot Password Button */}
                 <Link to={LayoutPath.forgotpassword}>
                   <Typography>
-                    {localString.forgot_password}
+                    {localString.forgot_password_login}
                   </Typography>
                 </Link>
               </Grid>

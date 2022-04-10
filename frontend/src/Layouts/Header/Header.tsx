@@ -33,6 +33,7 @@ import FloatingMenu from '../../Components/FloatingMenu/FloatingMenu';
 import FloatingMenuItem from '../../Components/FloatingMenu/FloatingMenuItem';
 import { useAuth } from '../../Components/auth/AuthProvider';
 import { AppLocalizedStrings as localString } from '../../App/localization';
+import LocaleSelector from '../../Components/LocaleSelector/LocaleSelector';
 
 // The list of buttons and where it goes
 const tabButtons = [
@@ -173,8 +174,9 @@ const Header = (props: IHeaderProps) => {
                                     })}
                                 </Tabs>
 
-                                <SearchIcon sx={{ marginLeft: "auto" }} />
-                                <TextField variant="standard" label={localString.search} />
+                                <LocaleSelector sx={{ marginLeft: "auto" }} />
+                                <SearchIcon sx={{ marginLeft: "10px" }} />
+                                <TextField variant="standard" label={localString.search_prog} />
 
                                 {
                                     auth.user ? (
