@@ -39,12 +39,12 @@ HeaderLocalizationStrings = new LocalizedStrings({
     },
     // zh: {
     //     home: "主頁",
-    //     tips: string,
-    //     news: string,
-    //     programmeCatalog: string,
-    //     statistics: string,
-    //     login: string,
-    //     register: string,
+    //     tips: "提示",
+    //     news: "最新資訊",
+    //     programmeCatalog: "課程資訊",
+    //     statistics: "收生數據",
+    //     login: "登入",
+    //     register: "註冊",
     //     language: "語言",
     //     zh: "繁體中文",
     //     en: "英文"
