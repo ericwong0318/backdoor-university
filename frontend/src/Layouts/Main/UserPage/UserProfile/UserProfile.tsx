@@ -1,19 +1,19 @@
-import { Box, Card, CardContent, CardHeader, Container, Grid } from '@mui/material'
-import { height } from '@mui/system'
-import React, { useRef } from 'react'
-import { IProgramme, IUser } from '../../../../App/interfaces'
+import { Card, CardContent, CardHeader, Container, Grid } from '@mui/material'
+import React, { useEffect, useRef, useState } from 'react'
+import { useParams } from 'react-router-dom'
+import { IUser } from '../../../../App/interfaces'
+import { getUser, GetUserErrorType } from '../../../../features/services'
 import OffersCard from './OfferCard/OffersCard'
 import ProfileCard from './ProfileCard/ProfileCard'
 import ProgrammeCard from './ProgrammeCard/ProgrammeCard'
 import SideMenu from './SideMenu/SideMenu'
 
 interface IUserProfileProps {
-    user: IUser | null
 }
 const dummyUser: IUser = {
     email: 'dummy@email.com',
     name: 'dummy',
-    photo: 'https://randomuser.me/api/portraits/men/56.jpg',
+    photo: null,
     school: 'ZUHK',
     programme: 'Computer Building',
     type: 'undergrad',
@@ -37,11 +37,43 @@ const dummyUser: IUser = {
     }
 }
 const UserProfile = (props: IUserProfileProps) => {
-    const user = props.user ? props.user : dummyUser;
+    // Data
+    const param = useParams();
 
+    // State
+    const [user, setUser] = useState(dummyUser);
+    const [isLoadingInfo, setIsLoadingInfo] = useState(true);
+    const [triedLoadInfo, setTriedLoadInfo] = useState(false);
+    const [userNotFound, setUserNotFound] = useState(false);
+    const [serverUnavailable, setServerUnavailable] = useState(false);
+
+    // Ref
     const refProfile = useRef(null);
     const refProg = useRef(null);
     const refOffer = useRef(null);
+
+    useEffect(() => {
+        if (!triedLoadInfo) {
+            setTriedLoadInfo(true);
+            getUser({ name: param.username }, (u) => {
+                setUser(u);
+                setIsLoadingInfo(false)
+            }, (err) => {
+                switch (err) {
+                    case GetUserErrorType.NoUserFound:
+                        setUserNotFound(true);
+                        break;
+
+                    case GetUserErrorType.ServerUnavailable:
+                    case GetUserErrorType.Unknown:
+                        setServerUnavailable(false);
+                        break;
+                }
+                setIsLoadingInfo(false)
+            })
+        }
+    })
+
 
     return (
         <React.Fragment>

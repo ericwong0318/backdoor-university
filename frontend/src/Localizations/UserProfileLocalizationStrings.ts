@@ -38,6 +38,20 @@ export interface IUserProfileLocalizationStrings extends LocalizedStringsMethods
     edit_profile: string,
     change_password: string,
     change_avatar: string,
+    cancel: string,
+    save: string,
+    old_password: string,
+    new_password: string,
+    confirm: string,
+    change_pw_success: string,
+    opps: string,
+    server_unavailable_error: string,
+
+    // Errors
+    old_pw_incorrect_error: string,
+    new_pw_too_weak_error: string,
+    new_old_pw_same_error: string,
+    field_empty_error: string,
 }
 
 export let UserProfileLocalizationStrings: IUserProfileLocalizationStrings
@@ -79,5 +93,19 @@ UserProfileLocalizationStrings = new LocalizedStrings({
         edit_profile: 'Edit Profile',
         change_password: 'Change Password',
         change_avatar: 'Edit Profile Picture',
+        cancel: "Cancel",
+        save: "Save",
+        old_password: "Old Password",
+        new_password: "New Password",
+        confirm: "Confirm",
+        change_pw_success: "The password has changed!",
+        opps: "Opps! Something went wrong!",
+
+        // Errors
+        old_pw_incorrect_error: "Incorrect old password!",
+        new_pw_too_weak_error: "The password is too weak!",
+        server_unavailable_error: "Sorry! The server is down for maintainance!",
+        new_old_pw_same_error: "The new password and the old password cannot be the same!",
+        field_empty_error: "This field cannot be empty!",
     },
 })

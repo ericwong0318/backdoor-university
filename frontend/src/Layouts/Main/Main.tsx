@@ -44,7 +44,7 @@ const Main = (props: IMainProps) => {
 
                 <Route path={LayoutPath.games} element={<RequireAuth><GamePage /></RequireAuth>} />
 
-                <Route path={`${LayoutPath.user}`} element={<UserProfile user={null} />} />
+                <Route path={`${LayoutPath.user}/:username`} element={<UserProfile />} />
                 <Route path={`${LayoutPath.admin}`} element={<AdminDashboard />} />
                 <Route path={LayoutPath.default} element={<NotFound />} />
             </Routes>

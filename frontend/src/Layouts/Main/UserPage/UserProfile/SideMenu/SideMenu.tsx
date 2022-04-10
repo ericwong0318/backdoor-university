@@ -17,7 +17,8 @@ const SideMenu = (props: ISideMenu) => {
     ]
 
     const onListItemClicked = (ref: React.MutableRefObject<any>) => {
-        ref.current.scrollIntoView();
+        if (ref && ref.current)
+            ref.current.scrollIntoView();
     }
 
     return (

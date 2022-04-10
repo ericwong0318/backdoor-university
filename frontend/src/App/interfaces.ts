@@ -1,9 +1,7 @@
-
-
 export interface IUser {
     email: string,
     name: string,
-    photo: string,
+    photo: string | null,
     school: string,
     programme: string,
     type: 'undergrad' | 'asso' | 'hd',
@@ -12,6 +10,20 @@ export interface IUser {
     exam: { name: string, result: string }
     status: 'unverified' | 'active' | 'banned',
     offer: { programme: IProgramme } | null
+}
+
+export interface IAdmin {
+    email: string,
+}
+
+export interface IUserAbstract {
+    user: IUser | IAdmin | null,
+    role: UserTypeEnum
+}
+
+export enum UserTypeEnum {
+    user,
+    admin,
 }
 
 export interface IProgramme {

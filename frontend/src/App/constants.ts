@@ -34,4 +34,7 @@ export const api = {
     pathLogin: '/login',
     pathResetPW: '/forget-password',
     changePW: '/modify-password',
+    modifyInfo: '/modify-info',
+    getUser: '/find-single-user',
+    getPhoto: '/photo',
 }

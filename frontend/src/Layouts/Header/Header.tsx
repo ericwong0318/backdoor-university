@@ -22,7 +22,7 @@
 */
 
 import React, { useEffect, useState } from 'react'
-import { Button, Toolbar, AppBar, IconButton, Tabs, Tab, TextField, useTheme, useMediaQuery, Typography } from '@mui/material';
+import { Button, Toolbar, AppBar, IconButton, Tabs, Tab, TextField, useTheme, useMediaQuery, Typography, Avatar } from '@mui/material';
 import { HeaderLocalizationStrings as localString } from '../../Localizations/HeaderLocalizationStrings';
 import SchoolIcon from '@mui/icons-material/School';
 import SearchIcon from '@mui/icons-material/Search';
@@ -79,7 +79,7 @@ const Header = (props: IHeaderProps) => {
     }
 
     const onProfileIconClicked = () => {
-        // TODO: open profile floating menu
+
     }
 
     // Change the tab base on the location
@@ -97,12 +97,34 @@ const Header = (props: IHeaderProps) => {
         setTabValue(false);
     })
 
-    const profileButton =
-        <IconButton aria-label="Profile"
-            sx={{ marginLeft: "auto" }}
-            onClick={onProfileIconClicked}>
-            <AccountCircleIcon />
-        </IconButton>
+    const profileButton = <IconButton aria-label="Profile"
+        sx={{ marginLeft: "auto" }}
+        onClick={onProfileIconClicked}>
+        {
+            auth.user && "photo" in auth.user && auth.user.photo ? (
+                <Avatar src={auth.user.photo} />
+            ) : (
+                <AccountCircleIcon />)
+        }
+    </IconButton>
+
+    const profileAvatarMenu =
+        <FloatingMenu sx={{ marginLeft: "auto" }} toggleButton={profileButton}>
+            {/* To user profile */}
+            <FloatingMenuItem onClick={() => {
+                if (auth.user && "name" in auth.user) {
+                    navigate(`${LayoutPath.user}/${auth.user.name}`);
+                }
+            }}>
+                {localString.profile}
+            </FloatingMenuItem>
+            {/* Logout button */}
+            <FloatingMenuItem onClick={() => {
+                auth.logout();
+            }}>
+                {localString.logout}
+            </FloatingMenuItem>
+        </FloatingMenu>
 
     return (
         <React.Fragment>
@@ -119,15 +141,7 @@ const Header = (props: IHeaderProps) => {
                                 {
                                     /* profile button */
                                     auth.user ? (
-                                        <FloatingMenu sx={{ marginLeft: "auto" }} toggleButton={profileButton}>
-                                            {/* To user profile */}
-                                            {/* Login button */}
-                                            <FloatingMenuItem onClick={() => {
-                                                auth.logout();
-                                            }}>
-                                                {localString.logout}
-                                            </FloatingMenuItem>
-                                        </FloatingMenu>
+                                        profileAvatarMenu
                                     ) : (
                                         <FloatingMenu sx={{ marginLeft: "auto" }} toggleButton={profileButton}>
                                             {/* Login Button */}
@@ -166,24 +180,9 @@ const Header = (props: IHeaderProps) => {
                                 {
                                     auth.user ? (
                                         // Display Profile button
-                                        <>
-                                            <FloatingMenu toggleButton={profileButton}>
-                                                {/* To user profile */}
-                                                <FloatingMenuItem onClick={() => {
-                                                    navigate(`${LayoutPath.user}/:user`);
-                                                }}>
-                                                    {localString.logout}
-                                                </FloatingMenuItem>
-                                                {/* Login button */}
-                                                <FloatingMenuItem onClick={() => {
-                                                    auth.logout();
-                                                }}>
-                                                    {localString.logout}
-                                                </FloatingMenuItem>
-                                            </FloatingMenu>
-                                        </>
+                                        profileAvatarMenu
                                     ) : (
-                                        // Display login and logout buttons
+                                        // Display login and register buttons
                                         <>
                                             {/* Login Button */}
                                             <Button sx={{ ...navItemRight }}
