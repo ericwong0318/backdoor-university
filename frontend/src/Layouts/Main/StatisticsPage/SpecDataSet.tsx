@@ -1,5 +1,5 @@
 export const data1 = [
-    { id: "1", College: "HKCC", gpa: 3.2, uni: "CUHK", comment: "comment1comment1comment1comment1comment1", uniprog: "Artificial Intelligence", ccprog: "Information Technology" },
+    { id: "1", College: "HKCC", gpa: 3.2, uni: "CUHK", comment: "comment1comment1comment1comment1comment1 comment1comment1comment1comment1comment1 comment1comment1comment1comment1comment1 comment1comment1comment1comment1comment1 comment1comment1comment1comment1comment1 comment1comment1comment1comment1comment1", uniprog: "Artificial Intelligence", ccprog: "Information Technology" },
     { id: "1", College: "SPACE", gpa: 3.5, uni: "CUHK", comment: "comment2", uniprog: "Artificial Intelligence", ccprog: "Computer Engineering" },
     { id: "1", College: "HKCC", gpa: 3.0, uni: "CUHK", comment: "comment3", uniprog: "Artificial Intelligence", ccprog: "Information Technology" },
     { id: "1", College: "IVE", gpa: 3.3, uni: "CUHK", comment: "comment4", uniprog: "Artificial Intelligence", ccprog: "Software Engineering" },

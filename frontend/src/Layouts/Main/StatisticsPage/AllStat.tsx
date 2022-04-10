@@ -1,10 +1,6 @@
-import { useParams, Link } from "react-router-dom"
-import { useState, useEffect } from "react"
-
 import React from 'react'
 
 import {
-    Legend,
     Label,
     ScatterChart,
     Scatter,
@@ -16,6 +12,7 @@ import {
     ResponsiveContainer
 } from 'recharts';
 
+import { data1 } from './SpecDataSet'
 
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
@@ -25,8 +22,11 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 
-import { data1 } from './SpecDataSet'
 
+
+// Use Interface to define what this component can take in
+interface ITemplateComponentProps {
+}
 
 function createData2(
     College: string,
@@ -39,47 +39,41 @@ function createData2(
     return { College, gpa, uni, comment, uniprog, ccprog };
 }
 
-const rows2 = new Array();
+const rows2 = [createData2(data1[0].College, data1[0].gpa, data1[0].uni, data1[0].comment, data1[0].uniprog, data1[0].ccprog)];
 
+var total = 0;
+var hkccOffer = 0;
+var IVEOffer = 0;
+var spaceOffer = 0;
+var otherOffer = 0;
 
-
-
-
-export default function ProgramDetail() {
-    let params = useParams();
-    rows2.length = 0;
-
-    var total = 0;
-    var hkccOffer = 0;
-    var IVEOffer = 0;
-    var spaceOffer = 0;
-    var otherOffer = 0;
-    for (var i = 0; i < data1.length; i++) {
-        if (data1[i].id == params.id) {
-            rows2.push(createData2(data1[i].College, data1[i].gpa, data1[i].uni, data1[i].comment, data1[i].uniprog, data1[i].ccprog));
-
-            total++;
-            if (data1[i].College == "HKCC") {
-                hkccOffer++;
-            }
-
-            if (data1[i].College == "IVE") {
-                IVEOffer++;
-            }
-            if (data1[i].College == "SPACE") {
-                spaceOffer++;
-            }
-            if (data1[i].College == "Other") {
-                otherOffer++;
-            }
-        }
+for (var i = 1; i < data1.length; i++) {
+    rows2.push(createData2(data1[i].College, data1[i].gpa, data1[i].uni, data1[i].comment, data1[i].uniprog, data1[i].ccprog));
+    total++;
+    if (data1[i].College == "HKCC") {
+        hkccOffer++;
     }
 
+    if (data1[i].College == "IVE") {
+        IVEOffer++;
+    }
+    if (data1[i].College == "SPACE") {
+        spaceOffer++;
+    }
+    if (data1[i].College == "Other") {
+        otherOffer++;
+    }
+}
+
+
+// Change the component name and the file name yourselve
+const TemplateComponent = (props: ITemplateComponentProps) => {
+    // You can access the data like this:
     return (
-        <div>
-            <h1>___</h1>
-            <h1 className="title" > {rows2[0].uni}, {rows2[0].uniprog} non-JUPAS Admission Statistics</h1>
-            <ResponsiveContainer width="100%" aspect={4.5}>
+
+        // Use the data in the props to change the value of components
+        <>
+            <ResponsiveContainer width="100%" aspect={4}>
                 <ScatterChart
                     width={500}
                     height={250}
@@ -94,17 +88,18 @@ export default function ProgramDetail() {
                         <Label position="insideBottom" />
                     </YAxis>
                     <XAxis tickCount={11} type="number" domain={[3, 4]} dataKey="gpa" name="GPA" label={{ value: '', bottom: 100, angle: 0, position: 'insideLeft' }} />
-                    <ZAxis type="category" dataKey="ccprog" range={[100, 100]} name="CC Program" />
+                    <ZAxis type="category" dataKey="ccprog" range={[80, 80]} name="CC Program" />
                     <Tooltip labelFormatter={() => ""} />
                     <CartesianGrid strokeDasharray="3 3" />
 
-                    <Scatter name={rows2[0].uni} data={rows2} fill={"orange"} fillOpacity={0.5} >
+                    <Scatter name={data1[0].uni} data={data1} fill={"purple"} fillOpacity={0.5} >
                     </Scatter>
 
 
                 </ScatterChart>
             </ResponsiveContainer>
-            <div> <b>Number of non-JUPAS Offer: </b> {total}, ( College from <b>HKCC</b>: {hkccOffer}, <b>IVE</b>: {IVEOffer}, <b>SPACE</b>: {spaceOffer}, <b>other</b>: {otherOffer} ) </div>
+
+            <div> <b>Total non-JUPAS Offer: </b> {total}, ( College from <b>HKCC</b>: {hkccOffer}, <b>IVE</b>: {IVEOffer}, <b>SPACE</b>: {spaceOffer}, <b>other</b>: {otherOffer} ) </div>
 
             <TableContainer component={Paper}>
                 <Table aria-label="simple table">
@@ -112,7 +107,9 @@ export default function ProgramDetail() {
                         <TableRow>
                             <TableCell width='1%' size='small'> <b>CC</b> </TableCell>
                             <TableCell width='1%' align="left"  > <b>cGPA</b></TableCell>
-                            <TableCell width='15%' align="left" > <b>CC Programme</b> </TableCell>
+                            <TableCell width='13%' align="left" > <b>CC Programme</b> </TableCell>
+                            <TableCell width='1%' align="left" > <b>Uni</b> </TableCell>
+                            <TableCell width='13%' align="left" > <b>Uni Programme</b> </TableCell>
                             <TableCell align="left"> <b>Comment</b> </TableCell>
                         </TableRow>
                     </TableHead>
@@ -127,12 +124,16 @@ export default function ProgramDetail() {
                                 </TableCell>
                                 <TableCell align="left" size={'small'}>{row.gpa}</TableCell>
                                 <TableCell align="left" size={'small'}>{row.ccprog}</TableCell>
+                                <TableCell align="left" size={'small'}>{row.uni}</TableCell>
+                                <TableCell align="left" size={'small'}>{row.uniprog}</TableCell>
                                 <TableCell align="left">{row.comment}</TableCell>
                             </TableRow>
                         ))}
                     </TableBody>
                 </Table>
             </TableContainer>
-        </div>
+        </>
     )
 }
+
+export default TemplateComponent;

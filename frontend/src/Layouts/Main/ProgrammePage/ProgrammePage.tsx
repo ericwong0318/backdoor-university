@@ -16,6 +16,7 @@ const ProgrammePage = (props: IProgrammePageProps) => {
         <React.Fragment>
             <h1> _ </h1>
             <h2 className="title"> Programmes </h2>
+            <h3 className="descript"> Choose a programme to check the specfic statistics </h3>
             <StyledEngineProvider injectFirst>
 
             </StyledEngineProvider>
