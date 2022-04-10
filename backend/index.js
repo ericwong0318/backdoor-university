@@ -163,7 +163,7 @@ async function sendEmail(email, option, newPassword) {
         http://localhost:3001/activate-email/${email}
         </a>`
             });
-            console.log("Message sent: %s", info.messageId);
+            console.log("Message sent to %s", email);
             return;
 
         case "reset":
@@ -174,17 +174,34 @@ async function sendEmail(email, option, newPassword) {
                 html: `<h1>Backdoor University</h1>
                         <h3>Your new password: ${newPassword} </h3>`
             });
-            console.log("Message sent: %s", info.messageId);
+            console.log("Message sent to %s", email);
             return;
         default:
             console.log("Wrong option for this function");
     }
 }
 
+/* upload photo */
+function uploadPhoto(req, res) {
+    if (!req.files || Object.keys(req.files).length === 0) {
+        return res.status(400).json({ err: 'No files are uploaded' });
+    }
+    // move photo to folder /photos /
+    let photoObj = req.files.photo;
+    let uploadPath = photoDir + photoObj.name;
+    photoObj.mv(uploadPath, function (err) {
+        if (err) {
+            return res.status(500).json(err);
+        }
+    });
+    return photoObj.name; // return photo name
+}
+
+/* download photo */
 app.post('/photo', (req, res) => {
-    let photo = req.body.photo;
+    let photoName = req.body.photo;
     res.set('Content-Type', 'image/jpeg');
-    res.sendFile(photo);
+    res.sendFile(photoDir + photoName);
 });
 
 /**
@@ -199,14 +216,7 @@ app.post('/register', (req, res) => {
     }
     /* encrypt password */
     bcrypt.hash(req.body.password, salt, (err, hash) => {
-        // move photo to folder /photos /
-        let photo = req.files.photo;
-        let uploadPath = photoDir + photo.name;
-        photo.mv(uploadPath, function (err) {
-            if (err) {
-                return res.status(500).json(err);
-            }
-        });
+        let photoName = uploadPhoto(req, res);
 
         /* create user */
         User.create(
@@ -214,7 +224,7 @@ app.post('/register', (req, res) => {
                 email: req.body.email,
                 password: hash,
                 name: req.body.name,
-                photo: uploadPath,
+                photo: photoName,
                 currProgramme: {
                     school: req.body.school,
                     programme: req.body.programme,
@@ -233,7 +243,7 @@ app.post('/register', (req, res) => {
                     return
                 } else {
                     /* send email verification */
-                    sendEmail(req.body.email, "verify").catch(console.error);
+                    sendEmail(req.body.email, "verify");
                     return res.json({ msg: "Please check the veriftication email, including spam folder" });
                 }
             });
@@ -463,9 +473,69 @@ app.post('/find-single-user', (req, res) => {
 
 
 /* todo */
-// app.post('/modify-info', (req, res) => {
-//     let info = 
-// });
+app.post('/modify-info', (req, res) => {
+    let modifyTarget = req.body.modifyTarget; // values are user, admin, programme, report
+
+    switch (modifyTarget) {
+        case 'user':
+            User
+                .findOne({ email: req.body.email }, 'email name photo currProgramme exam status offer')
+                .exec((err, user) => {
+                    user.email = req.body.email;
+                    bcrypt.hash(newPwd, salt, function (err, hash) {
+                        if (err) {
+                            return res.json(err);
+                        }
+                        user.password = hash;
+                    });
+                    user.name = req.body.name;
+                    user.photo = req.body.photo;
+                    user.currProgramme = {
+                        school: req.body.school,
+                        programme: req.body.programme,
+                        addmissionYear: req.body.addmissionYear,
+                        cgpa: req.body.cgpa
+                    };
+                    user.exam = {
+                        name: req.body.examname,
+                        result: req.body.result
+                    };
+                    user.offer = req.body.offer;
+
+                    user.save();
+                    res.json({ msg: "User information is modified" });
+                })
+            break;
+
+        case 'admin':
+
+
+        default:
+            res.json({ err: "modify target is incorrect" })
+    }
+});
+
+app.post('/create-programme', (req, res) => {
+    let school = req.body.school;
+    let prog = req.body.programme;
+    let type = req.body.type;
+    let info = req.body.info;
+    let subjects = req.body.subjects;
+    let interviwe = req.body.interviews;
+
+    Programme.create({
+
+    })
+})
+
+app.post('/submit-a-comment', (req, res) => {
+    let com = req.body.comment;
+    // programme.
+})
+
+app.post('/get-comments', (req, res) => {
+
+})
 
 
 const server = app.listen(3001);
