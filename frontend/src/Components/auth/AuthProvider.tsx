@@ -1,13 +1,11 @@
 import React, { useState } from 'react'
+import { IAdmin, IUser, IUserAbstract, UserTypeEnum as UserRoleEnum } from '../../App/interfaces';
 import * as auth from '../../auth'
-
-interface IUser {
-    email: string
-}
 
 // Authentication Global Context
 interface IAuthContext {
-    user: IUser | null
+    user: IUser | IAdmin | null,
+    role: UserRoleEnum | null,
     login: (email: string, password: string, successCallback?: () => void, failedCallback?: (err: auth.ILoginErrorParameter) => void) => void;
     attemptAutoLogin: () => void;
     canAutoLogin: () => boolean;
@@ -20,7 +18,8 @@ export const useAuth = () => React.useContext(AuthContext)
 
 
 const AuthProvider = ({ children }: { children: React.ReactNode }) => {
-    const [user, setUser] = useState<IUser | null>(null);
+    const [user, setUser] = useState<IUser | IAdmin | null>(null);
+    const [role, setRole] = useState<UserRoleEnum | null>(null);
     const [isLoggingIn, setIsLoggingIn] = useState<boolean>(false);
     const [attemptedAutoLogin, setAttemptedAutoLogin] = useState(false);
 
@@ -29,8 +28,9 @@ const AuthProvider = ({ children }: { children: React.ReactNode }) => {
             return;
 
         setIsLoggingIn(true);
-        auth.login(email, password, () => {
-            setUser({ email: email });
+        auth.login(email, password, (data) => {
+            setUser(data.user);
+            setRole(data.role);
             setIsLoggingIn(false)
             setAttemptedAutoLogin(false)
             if (successCallback)
@@ -78,7 +78,7 @@ const AuthProvider = ({ children }: { children: React.ReactNode }) => {
         localStorage.setItem('password', password)
     }
 
-    const value = { user, login, attemptAutoLogin, canAutoLogin, rememberLoginInfo, logout };
+    const value = { user, role, login, attemptAutoLogin, canAutoLogin, rememberLoginInfo, logout };
 
     return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>
 }
