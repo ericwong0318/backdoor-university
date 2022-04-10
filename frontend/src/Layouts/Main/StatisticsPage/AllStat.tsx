@@ -73,7 +73,7 @@ const TemplateComponent = (props: ITemplateComponentProps) => {
 
         // Use the data in the props to change the value of components
         <>
-            <ResponsiveContainer width="100%" aspect={4.5}>
+            <ResponsiveContainer width="100%" aspect={4}>
                 <ScatterChart
                     width={500}
                     height={250}

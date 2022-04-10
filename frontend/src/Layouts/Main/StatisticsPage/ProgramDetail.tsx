@@ -44,6 +44,7 @@ const rows2 = new Array();
 
 
 
+
 export default function ProgramDetail() {
     let params = useParams();
     rows2.length = 0;
