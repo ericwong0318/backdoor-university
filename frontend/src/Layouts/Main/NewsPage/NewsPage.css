@@ -1,0 +1,20 @@
+.container{
+  position: static;
+  align-content: center;
+  display:grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+  margin:10px;
+  margin-left: 10%;
+  margin-right: 10%;
+}
+.box{
+  padding: 5px;
+  height:500;
+}
+.title{
+  font-size: 40px;
+  font-style: bold;
+  border-bottom-style: groove;
+  border-bottom-width:5px;
+  padding-bottom:15px;
+}

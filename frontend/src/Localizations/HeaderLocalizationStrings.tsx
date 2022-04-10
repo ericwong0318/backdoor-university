@@ -7,8 +7,8 @@ export interface IHeaderLocalizationStrings extends LocalizedStringsMethods {
     programme: string,
     statistics: string,
     search: string
-    signIn: string,
-    signUp: string,
+    login: string,
+    register: string,
     language: string,
     zh: string,
     en: string
@@ -23,8 +23,8 @@ HeaderLocalizationStrings = new LocalizedStrings({
         programme: "Programme Catalog",
         statistics: "Statistics",
         search: "Search Programme",
-        signIn: "Login",
-        signUp: "Register",
+        login: "Login",
+        register: "Register",
         language: "Language",
         zh: "Traditional Chinese",
         en: "English"
@@ -35,8 +35,8 @@ HeaderLocalizationStrings = new LocalizedStrings({
     //     news: string,
     //     programmeCatalog: string,
     //     statistics: string,
-    //     signIn: string,
-    //     signUp: string,
+    //     login: string,
+    //     register: string,
     //     language: "語言",
     //     zh: "繁體中文",
     //     en: "英文"

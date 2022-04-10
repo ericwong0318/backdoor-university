@@ -4,7 +4,8 @@ export const LayoutPath = {
     news: "/news",
     programme: "/programme",
     statistics: "/stats",
-    signin: "/login",
-    signup: "/register",
-    forgotpassword: "/forgot-password"
+    login: "/login",
+    register: "/register",
+    forgotpassword: "/forgot-password",
+    default: "*",
 }
