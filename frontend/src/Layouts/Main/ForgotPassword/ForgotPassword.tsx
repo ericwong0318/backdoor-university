@@ -2,9 +2,9 @@ import { Grid, CssBaseline, Paper, Box, Avatar, Typography, Alert, TextField, Fo
 import React, { useState } from 'react'
 import QuestionMarkIcon from '@mui/icons-material/QuestionMark';
 import { Link } from 'react-router-dom'
-import { LayoutPath } from '../../../Constants/RoutePaths'
 import * as forgotPW from './ForgotPasswordFunctions'
 import { ForgotPasswordLocalizationStrings as localString } from "../../../Localizations/ForgotPasswordLocalizationStrings"
+import { LayoutPath } from '../../../App/constants';
 
 interface IForgotPasswordProps {
 
@@ -46,9 +46,18 @@ const ForgotPassword = (props: IForgotPasswordProps) => {
                 setRequestSuccess(true);
                 setRequesting(false);
             },
-            (error) => {
+            (err) => {
                 // Failed callback
-                setErrorResetPW(error)
+                switch (err.type) {
+                    case forgotPW.ErrorType.email_error:
+                        setErrorEmail(localString.email_unregistered_error);
+                        break;
+
+                    case forgotPW.ErrorType.unknown:
+                    case forgotPW.ErrorType.server_unavailable:
+                        setErrorEmail(localString.server_unavailable_error);
+                        break;
+                }
                 setRequesting(false);
             }
         );

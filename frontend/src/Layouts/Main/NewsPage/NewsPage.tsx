@@ -25,7 +25,7 @@ const NewsPage = (props: INewsPageProps) => {
 
     {"id": 4, "name": "CityU", "image": "/img/cityu_logo.png", "early":"Early Round Deadline: 15 Nov 2021", "main": "Regular Round Deadline: 13 Jan 2022", "extend": "Extended Application Deadline: N/A"},
 
-    {"id": 5, "name": "PolyU", "image": "/img/polyu_logo.jpg", "early":"Early Round Deadline: 17 November 2021", "main": "Regular Round Deadline: 6 January 2022", "extend": "Extended Application Deadline: 31 May 2022"},
+    {"id": 5, "name": "PolyU", "image": "/img/polyu_logo.png", "early":"Early Round Deadline: 17 November 2021", "main": "Regular Round Deadline: 6 January 2022", "extend": "Extended Application Deadline: 31 May 2022"},
 
     {"id": 6, "name": "EduHK", "image": "/img/eduhk_logo.png", "early":"Early Round Deadline: 12 Jan 2021", "main": "Regular Round Deadline: 12 May 2022", "extend": "Extended Application Deadline: N/A"},
 
@@ -43,7 +43,7 @@ const NewsPage = (props: INewsPageProps) => {
         <React.Fragment>
             <h1>NewsPage</h1>
             <h2 className="title">
-              Application
+              Application Deadline
             </h2>
             <div className="container">
               <div className="box">

@@ -1,5 +1,5 @@
 import { EditLocationTwoTone, PanoramaFishEyeOutlined, ViewKanban } from "@mui/icons-material"
-import { api } from "../../../Constants/RemoteInfo"
+import { api } from "../../../App/constants"
 
 export enum ErrorType {
     email_used,
@@ -13,6 +13,7 @@ export interface IRegisterFormData {
     username: string | undefined
     password: string | undefined
     confirmPassword: string | undefined
+    admissionYear: string | undefined
     school: string | undefined
     programme: string | undefined
     cgpa: string | undefined
@@ -27,9 +28,10 @@ export interface IUserRegisterSchema {
     school: string
     programme: string
     cgpa: string
+    admissionYear: string
     examname: string
     result: string
-    file: File | undefined | null
+    file: File
 }
 
 export interface IRegisterFailedCallbackParameters {
@@ -47,34 +49,38 @@ export const formKey = {
     cgpa: "cgpa",
     examName: "examname",
     examResult: "result",
-    file: "file"
+    file: "photo",
+    admissionYear: "addmissionYear",
 }
 
 export const toRegisterFormData = (data: FormData, file: File | undefined | null): IRegisterFormData => {
     return {
-        email: data.get(formKey.email)?.toString(),
-        username: data.get(formKey.username)?.toString(),
-        password: data.get(formKey.password)?.toString(),
-        confirmPassword: data.get(formKey.confirmPassword)?.toString(),
-        school: data.get(formKey.school)?.toString(),
-        programme: data.get(formKey.programme)?.toString(),
-        cgpa: data.get(formKey.cgpa)?.toString(),
-        examName: data.get(formKey.examName)?.toString(),
-        examResult: data.get(formKey.examResult)?.toString(),
-        file: file
+        email: data.get(formKey.email)?.toString().trim().trim(),
+        username: data.get(formKey.username)?.toString().trim(),
+        password: data.get(formKey.password)?.toString().trim(),
+        confirmPassword: data.get(formKey.confirmPassword)?.toString().trim(),
+        school: data.get(formKey.school)?.toString().trim(),
+        programme: data.get(formKey.programme)?.toString().trim(),
+        admissionYear: data.get(formKey.admissionYear)?.toString().trim(),
+        cgpa: data.get(formKey.cgpa)?.toString().trim(),
+        examName: data.get(formKey.examName)?.toString().trim(),
+        examResult: data.get(formKey.examResult)?.toString().trim(),
+        file: file,
     }
 }
 
-export const toUserRegiserSchema = (data: IRegisterFormData): FormData => {
+export const toUserRegiserSchema = (data: IRegisterFormData, file: File): FormData => {
     const fd = new FormData()
     fd.append('email', data.email!)
+    fd.append('name', data.username!)
     fd.append('password', data.password!)
     fd.append('school', data.school!)
     fd.append('programme', data.programme!)
     fd.append('cgpa', data.cgpa!)
     fd.append('examname', data.examName!)
     fd.append('result', data.examResult!)
-    fd.append('file', data.file!)
+    fd.append('addmissionYear', data.admissionYear!)
+    fd.append('photo', file)
     return fd
 }
 
@@ -101,27 +107,55 @@ export const registerWithData = async (data: FormData,
     onSuccessCallback: () => void,
     onFailedCallback: (params: IRegisterFailedCallbackParameters) => void
 ) => {
-    let headers = new Headers();
-    headers.append('Content-Type', 'application/json');
-
     fetch(`${api.url}${api.pathRegister}`, {
         method: "POST",
-        headers: headers,
         body: data,
     }).then(response => {
+        if (response.status) {
+            switch (response.status) {
+                case 400:
+                    // No files uploaded
+                    onFailedCallback({
+                        type: ErrorType.file_missing,
+                        reason: "Photo missing"
+                    })
+                    break;
+
+                case 409:
+                    // Email used
+                    onFailedCallback({
+                        type: ErrorType.email_used,
+                        reason: "Email used"
+                    })
+                    break;
+
+                default:
+                    onFailedCallback({
+                        type: ErrorType.unknown,
+                        reason: "unknown"
+                    })
+                    break;
+            }
+        }
+
         response.json().then(val => {
             console.log(val);
+            if (val.msg) {
+                onSuccessCallback()
+            }
             if (val.err) {
                 switch (val.err) {
                     case "No files are uploaded.":
+                        break;
 
+                    default:
+                        onFailedCallback({
+                            type: ErrorType.unknown,
+                            reason: val.err
+                        })
                         break;
                 }
             }
-            onFailedCallback({
-                type: ErrorType.file_missing,
-                reason: val.err
-            })
         }, reason => {
             onFailedCallback({
                 type: ErrorType.unknown,
