@@ -32,7 +32,6 @@ const fileUpload = require('express-fileupload');
 
 // default options
 app.use(fileUpload());
-const uploadPath = __dirname + '/photos/';
 
 /* mongoose */
 
@@ -223,10 +222,11 @@ app.post('/register', (req, res) => {
                 if (err) {
                     res.status(409).json(err);
                     return
+                } else {
+                    /* send email verification */
+                    sendEmail(req.body.email, "verify").catch(console.error);
+                    return res.json({ msg: "Please check the veriftication email, including spam folder" });
                 }
-                /* send email verification */
-                sendEmail(req.body.email, "verify").catch(console.error);
-                return res.json({ msg: "Please check the veriftication email, including spam folder" });
             });
     })
 
@@ -235,26 +235,56 @@ app.post('/register', (req, res) => {
 /* login todo: cookie? */
 app.post('/login', (req, res) => {
     let pwd = req.body.password;
+    let role = req.body.role;
     /* compare email and password in database and input */
-    User
-        .findOne({ email: req.body.email, status: "active" }, 'email password')
-        .exec((err, user) => {
-            if (user === null) { // email not found
-                res.status(401).json({ err: 'Incorrect email or This email is not verified' });
-                return;
-            } else {
-                bcrypt.compare(pwd, user.password, (err, result) => {
-                    if (result === true) { // password correct
-                        // res.cookie('saltedPassword', hash, { maxAge: 900000 });
-                        res.json({ msg: "Login successful" });
+    switch (role) {
+        case "user":
+            User
+                .findOne({ email: req.body.email, status: "active" }, 'email password')
+                .exec((err, user) => {
+                    if (user === null) { // email not found
+                        res.status(401).json({ err: 'Incorrect email or This email is not verified' });
                         return;
                     } else {
-                        res.status(401).json({ err: 'Incorrect password' });
-                        return;
+                        bcrypt.compare(pwd, user.password, (err, result) => {
+                            if (result === true) { // password correct
+                                // res.cookie('saltedPassword', hash, { maxAge: 900000 });
+                                res.json({ msg: "Login successful" });
+                                return;
+                            } else {
+                                res.status(401).json({ err: 'Incorrect password' });
+                                return;
+                            }
+                        });
                     }
                 });
-            }
-        });
+            break;
+        case "admin":
+            Admin
+                .findOne({ email: req.body.email }, 'email password')
+                .exec((err, admin) => {
+                    if (admin === null) { // email not found
+                        res.status(401).json({ err: 'Incorrect email' });
+                        return;
+                    } else {
+                        bcrypt.compare(pwd, admin.password, (err, result) => {
+                            if (result === true) { // password correct
+                                // res.cookie('saltedPassword', hash, { maxAge: 900000 });
+                                res.json({ msg: "Login successful" });
+                                return;
+                            } else {
+                                res.status(401).json({ err: 'Incorrect password' });
+                                return;
+                            }
+                        });
+                    }
+                });
+            break;
+        default:
+            res.status(401).json({ err: 'Incorrect role' });
+
+
+    }
 
 });
 
@@ -277,37 +307,85 @@ app.get('/activate-email/:email', (req, res) => {
 
 /* modify password */
 app.post('/modify-password', (req, res) => {
+
     let oldPwd = req.body.oldPassword;
     let newPwd = req.body.newPassword;
 
-    /* compare email and old password in database and input */
-    User
-        .findOne({ email: req.body.email }, 'email password')
-        .exec((err, user) => {
-            if (user === null) { // email not found
-                res.status(401).json({ err: 'Incorrect email' });
-                return;
-            } else {
-                bcrypt.compare(oldPwd, user.password, (err, result) => {
-                    if (result === true) { // password correct
+    let role = req.body.role;
+
+    switch (role) {
+        case ("user"):
+            /* compare email and old password in database and input */
+            User
+                .findOne({ email: req.body.email }, 'email password')
+                .exec((err, user) => {
+                    if (user === null) { // email not found
+                        res.status(401).json({ err: 'Incorrect email' });
+                        return;
+                    } else {
+                        bcrypt.compare(oldPwd, user.password, (err, result) => {
+                            if (result === true) { // password correct
+                                bcrypt.hash(newPwd, salt, function (err, newPwdHash) {
+                                    user.password = newPwdHash;
+                                    user.save();
+                                })
+
+                                res.json({ msg: "Modify password successful" });
+                                return;
+                            } else {
+                                res.status(401).json({ err: 'Incorrect old password' });
+                                return;
+                            }
+                        });
+                    }
+                });
+            break;
+        case ("admin"):
+            /* modify the password without validation of indentity */
+
+            /* if the email is a user email */
+            User
+                .findOne({ email: req.body.email }, 'email password')
+                .exec((err, user) => {
+                    if (user === null) { // email not found
+                        // res.status(401).json({ err: 'Incorrect email' });
+                        return;
+                    } else {
                         bcrypt.hash(newPwd, salt, function (err, newPwdHash) {
                             user.password = newPwdHash;
                             user.save();
-                        })
+                            res.json({ msg: "Modify user password successful" });
+                            return;
+                        });
+                    };
+                });
 
-                        res.json({ msg: "Modify password successful" });
+            /* if the email is a admin email */
+            Admin
+                .findOne({ email: req.body.email }, 'email password')
+                .exec((err, admin) => {
+                    if (admin === null) { // email not found
+                        res.status(401).json({ err: 'Incorrect email for both user and admin roles' });
                         return;
                     } else {
-                        res.status(401).json({ err: 'Incorrect old password' });
-                        return;
-                    }
+                        bcrypt.hash(newPwd, salt, function (err, newPwdHash) {
+                            admin.password = newPwdHash;
+                            admin.save();
+                            res.json({ msg: "Modify admin password successful" });
+                            return;
+                        });
+                    };
                 });
-            }
-        });
-
+            break;
+        default:
+            res.status(401).json({ err: 'Incorrect role' });
+            return;
+    }
 });
 
-/* foget password */
+/**
+ * forget passwrod
+ */
 app.post('/forget-password', (req, res) => {
     let userEmail = req.body.email;
 
@@ -318,11 +396,9 @@ app.post('/forget-password', (req, res) => {
                 return res.status(401).json({ err: "Incorrect email" });
             }
             else {
-                // g(userEmail, user, res);
                 let newPwd = Math.floor(Math.random() * 999).toString();
                 console.log(newPwd);
                 bcrypt.hash(newPwd, salt, function (err, newPwdHash) {
-                    console.log(newPwdHash);
                     user.password = newPwdHash;
                     user.save();
                 })
@@ -330,7 +406,34 @@ app.post('/forget-password', (req, res) => {
                 sendEmail(userEmail, "reset", newPwd);
                 return;
             };
-        })
+        });
 });
+
+app.post('/favourite-program', (req, res) => {
+
+});
+
+/**
+ * admin functions
+ */
+app.post('/list-all-users', (req, res) => {
+    User
+        .find({}, 'email name photo currProgramme exam status offer')
+        .exec((err, users) => {
+            if (users === []) {
+                return res.status(401).json({ msg: "No users in database" });
+            }
+            else {
+                res.json(users);
+                return;
+            };
+        });
+});
+
+/* todo */
+// app.post('/modify-all-information',(req, res)=>{
+//     let info = 
+// });
+
 
 const server = app.listen(3001);
