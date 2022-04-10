@@ -61,18 +61,17 @@ const UserProfile = (props: IUserProfileProps) => {
                     <Grid container spacing={2} item xs={12} md={8} lg={9}>
 
                         {/* Profile Card */}
-                        <Grid item xs={12} md={8} lg={9} ref={refProfile}>
+                        <Grid item xs={12} md={12} lg={12} ref={refProfile}>
                             <ProfileCard user={user} />
                         </Grid>
 
-
                         {/* Programme Card */}
-                        <Grid item xs={12} md={8} lg={9}>
+                        <Grid item xs={12} md={12} lg={12}>
                             <ProgrammeCard user={user} />
                         </Grid>
 
                         {/* Offer Card */}
-                        <Grid item xs={12} md={8} lg={9}>
+                        <Grid item xs={12} md={12} lg={12}>
                             <OffersCard user={user} />
                         </Grid>
                     </Grid>
