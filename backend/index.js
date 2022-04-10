@@ -33,9 +33,11 @@ const fileUpload = require('express-fileupload');
 // default options
 app.use(fileUpload());
 
-/* mongoose */
+/**
+ * mongoose
+ */
 
-// connection
+/* connection */
 const mongoose = require('mongoose');
 const dbUri = process.env.DB_URL;
 mongoose.connect(dbUri);
@@ -125,9 +127,9 @@ const reportSchema = Schema({
 });
 const Report = mongoose.model('Report', reportSchema);
 
-/* 
-* supporting functions 
-*/
+/**
+ * support functions
+ */
 
 /* send email for verification or reset password */
 async function sendEmail(email, option, newPassword) {
@@ -178,7 +180,7 @@ async function sendEmail(email, option, newPassword) {
     }
 }
 
-/*
+/**
  * routing
  */
 
@@ -199,7 +201,7 @@ app.post('/register', (req, res) => {
             }
         });
 
-        // create user
+        /* create user */
         User.create(
             {
                 email: req.body.email,
@@ -282,14 +284,10 @@ app.post('/login', (req, res) => {
             break;
         default:
             res.status(401).json({ err: 'Incorrect role' });
-
-
     }
-
 });
 
-
-
+/* activate email */
 app.get('/activate-email/:email', (req, res) => {
     let userEmail = req.params.email;
     /* set account status to active */
@@ -383,9 +381,7 @@ app.post('/modify-password', (req, res) => {
     }
 });
 
-/**
- * forget passwrod
- */
+/* forget password */
 app.post('/forget-password', (req, res) => {
     let userEmail = req.body.email;
 
@@ -416,6 +412,7 @@ app.post('/favourite-program', (req, res) => {
 /**
  * admin functions
  */
+/* find all users */
 app.post('/list-all-users', (req, res) => {
     User
         .find({}, 'email name photo currProgramme exam status offer')
@@ -430,6 +427,7 @@ app.post('/list-all-users', (req, res) => {
         });
 });
 
+/* find single user */
 app.post('/find-single-user', (req, res) => {
     let userEmail = req.body.email;
     let userName = req.body.name;
@@ -454,12 +452,10 @@ app.post('/find-single-user', (req, res) => {
                 return res.json(user);
             };
         });
-
-
 });
 
 /* todo */
-// app.post('/modify-all-information',(req, res)=>{
+// app.post('/modify-info', (req, res) => {
 //     let info = 
 // });
 
