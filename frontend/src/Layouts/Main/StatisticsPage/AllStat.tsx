@@ -73,7 +73,7 @@ const TemplateComponent = (props: ITemplateComponentProps) => {
 
         // Use the data in the props to change the value of components
         <>
-            <ResponsiveContainer width="100%" aspect={4}>
+            <ResponsiveContainer width="100%" aspect={4.5}>
                 <ScatterChart
                     width={500}
                     height={250}
@@ -107,7 +107,9 @@ const TemplateComponent = (props: ITemplateComponentProps) => {
                         <TableRow>
                             <TableCell width='1%' size='small'> <b>CC</b> </TableCell>
                             <TableCell width='1%' align="left"  > <b>cGPA</b></TableCell>
-                            <TableCell width='15%' align="left" > <b>CC Programme</b> </TableCell>
+                            <TableCell width='13%' align="left" > <b>CC Programme</b> </TableCell>
+                            <TableCell width='1%' align="left" > <b>Uni</b> </TableCell>
+                            <TableCell width='13%' align="left" > <b>Uni Programme</b> </TableCell>
                             <TableCell align="left"> <b>Comment</b> </TableCell>
                         </TableRow>
                     </TableHead>
@@ -122,6 +124,8 @@ const TemplateComponent = (props: ITemplateComponentProps) => {
                                 </TableCell>
                                 <TableCell align="left" size={'small'}>{row.gpa}</TableCell>
                                 <TableCell align="left" size={'small'}>{row.ccprog}</TableCell>
+                                <TableCell align="left" size={'small'}>{row.uni}</TableCell>
+                                <TableCell align="left" size={'small'}>{row.uniprog}</TableCell>
                                 <TableCell align="left">{row.comment}</TableCell>
                             </TableRow>
                         ))}

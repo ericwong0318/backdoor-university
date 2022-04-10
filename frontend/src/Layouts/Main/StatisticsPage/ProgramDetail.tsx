@@ -41,20 +41,44 @@ function createData2(
 
 const rows2 = new Array();
 
+
+
+
 export default function ProgramDetail() {
     let params = useParams();
     rows2.length = 0;
+
+    var total = 0;
+    var hkccOffer = 0;
+    var IVEOffer = 0;
+    var spaceOffer = 0;
+    var otherOffer = 0;
     for (var i = 0; i < data1.length; i++) {
         if (data1[i].id == params.id) {
             rows2.push(createData2(data1[i].College, data1[i].gpa, data1[i].uni, data1[i].comment, data1[i].uniprog, data1[i].ccprog));
+
+            total++;
+            if (data1[i].College == "HKCC") {
+                hkccOffer++;
+            }
+
+            if (data1[i].College == "IVE") {
+                IVEOffer++;
+            }
+            if (data1[i].College == "SPACE") {
+                spaceOffer++;
+            }
+            if (data1[i].College == "Other") {
+                otherOffer++;
+            }
         }
     }
 
     return (
         <div>
             <h1>___</h1>
-            <h1> {rows2[0].uni}, {rows2[0].uniprog} non-JUPAS Admission Statistics</h1>
-            <ResponsiveContainer width="100%" aspect={6}>
+            <h1 className="title" > {rows2[0].uni}, {rows2[0].uniprog} non-JUPAS Admission Statistics</h1>
+            <ResponsiveContainer width="100%" aspect={4.5}>
                 <ScatterChart
                     width={500}
                     height={250}
@@ -79,6 +103,7 @@ export default function ProgramDetail() {
 
                 </ScatterChart>
             </ResponsiveContainer>
+            <div> <b>Number of non-JUPAS Offer: </b> {total}, ( College from <b>HKCC</b>: {hkccOffer}, <b>IVE</b>: {IVEOffer}, <b>SPACE</b>: {spaceOffer}, <b>other</b>: {otherOffer} ) </div>
 
             <TableContainer component={Paper}>
                 <Table aria-label="simple table">
