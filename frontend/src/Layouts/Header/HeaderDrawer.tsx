@@ -13,10 +13,10 @@ import SportsEsportsIcon from '@mui/icons-material/SportsEsports';
 import LogoutIcon from '@mui/icons-material/Logout';
 import LoginIcon from '@mui/icons-material/Login';
 import React, { useState } from "react";
-import { HeaderLocalizationStrings as localString } from "../../Localizations/HeaderLocalizationStrings";
 import { useNavigate } from "react-router-dom";
 import { LayoutPath } from '../../App/constants';
 import { useAuth } from "../../Components/auth/AuthProvider";
+import { AppLocalizedStrings as localString } from "../../App/localization";
 
 // The list of items to display in the drawer along with their icon
 const drawerListItems = [

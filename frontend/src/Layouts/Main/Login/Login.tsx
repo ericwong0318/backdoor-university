@@ -10,13 +10,13 @@ import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
-import { LoginLocalizatiionStrings as localString } from '../../../Localizations/LoginLocalizatiionStrings';
 import { Link, Navigate, useNavigate } from 'react-router-dom';
 import * as login from './LoginFunctions';
 import { Alert } from '@mui/material';
 import { useAuth } from '../../../Components/auth/AuthProvider';
 import { LoginErrorType } from '../../../auth';
 import { LayoutPath } from '../../../App/constants';
+import { AppLocalizedStrings as localString } from '../../../App/localization';
 
 export default function Login() {
   // Determine if it is now loggin in
@@ -196,7 +196,7 @@ export default function Login() {
                 {/* Forgot Password Button */}
                 <Link to={LayoutPath.forgotpassword}>
                   <Typography>
-                    {localString.forgot_password}
+                    {localString.forgot_password_login}
                   </Typography>
                 </Link>
               </Grid>

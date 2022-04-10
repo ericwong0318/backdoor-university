@@ -2,12 +2,10 @@ import { Alert, Avatar, Box, Button, Card, CardActions, CardContent, CardHeader,
 import React, { useEffect, useState } from 'react'
 import { IUser, UserTypeEnum } from '../../../../../App/interfaces'
 import { useAuth } from '../../../../../Components/auth/AuthProvider'
-import { UserProfileLocalizationStrings as localString } from '../../../../../Localizations/UserProfileLocalizationStrings'
 import EditIcon from '@mui/icons-material/Edit';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
-import { LayoutPath } from '../../../../../App/constants'
-import { navItemRight } from '../../../../Header/HeaderStyle'
 import { modifyPassword, ModifyPasswordErrorType } from '../../../../../features/services'
+import { AppLocalizedStrings as localString } from '../../../../../App/localization';
 
 interface IProfileCard {
     user: IUser
@@ -20,6 +18,8 @@ const ProfileCard = (props: IProfileCard) => {
     const changePWPopperOpen = Boolean(anchorEl);
 
     const [editing, setEditing] = useState(false);
+
+    // Edit profile info
 
     // Forgot Password
     const [oldPW, setOldPW] = useState("");

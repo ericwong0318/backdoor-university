@@ -23,17 +23,17 @@
 
 import React, { useEffect, useState } from 'react'
 import { Button, Toolbar, AppBar, IconButton, Tabs, Tab, TextField, useTheme, useMediaQuery, Typography, Avatar } from '@mui/material';
-import { HeaderLocalizationStrings as localString } from '../../Localizations/HeaderLocalizationStrings';
 import SchoolIcon from '@mui/icons-material/School';
 import SearchIcon from '@mui/icons-material/Search';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
-import { navItemRight } from './HeaderStyle';
 import HeaderDrawer from './HeaderDrawer';
 import { LayoutPath } from '../../App/constants';
 import { useLocation, useNavigate } from 'react-router-dom';
 import FloatingMenu from '../../Components/FloatingMenu/FloatingMenu';
 import FloatingMenuItem from '../../Components/FloatingMenu/FloatingMenuItem';
 import { useAuth } from '../../Components/auth/AuthProvider';
+import { AppLocalizedStrings as localString } from '../../App/localization';
+import LocaleSelector from '../../Components/LocaleSelector/LocaleSelector';
 
 // The list of buttons and where it goes
 const tabButtons = [
@@ -174,8 +174,9 @@ const Header = (props: IHeaderProps) => {
                                     })}
                                 </Tabs>
 
-                                <SearchIcon sx={{ marginLeft: "auto" }} />
-                                <TextField variant="standard" label={localString.search} />
+                                <LocaleSelector sx={{ marginLeft: "auto" }} />
+                                <SearchIcon sx={{ marginLeft: "10px" }} />
+                                <TextField variant="standard" label={localString.search_prog} />
 
                                 {
                                     auth.user ? (
@@ -185,7 +186,7 @@ const Header = (props: IHeaderProps) => {
                                         // Display login and register buttons
                                         <>
                                             {/* Login Button */}
-                                            <Button sx={{ ...navItemRight }}
+                                            <Button sx={{ marginLeft: "10px" }}
                                                 variant="contained"
                                                 onClick={() => navigate(LayoutPath.login)}
                                             >
@@ -194,7 +195,7 @@ const Header = (props: IHeaderProps) => {
 
                                             {/* Register Button */}
                                             <Button variant="contained"
-                                                sx={{ ...navItemRight }}
+                                                sx={{ marginLeft: "10px" }}
                                                 onClick={() => navigate(LayoutPath.register)}
                                             >
                                                 {localString.register}

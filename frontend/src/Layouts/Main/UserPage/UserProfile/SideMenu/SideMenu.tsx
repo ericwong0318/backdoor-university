@@ -1,9 +1,9 @@
 import { List, ListItemButton, ListItemIcon, ListItemText } from '@mui/material'
 import React, { useRef } from 'react'
-import { UserProfileLocalizationStrings as localString } from '../../../../../Localizations/UserProfileLocalizationStrings'
 import AccountBoxTwoToneIcon from '@mui/icons-material/AccountBoxTwoTone';
 import MenuBookTwoToneIcon from '@mui/icons-material/MenuBookTwoTone';
 import SchoolTwoToneIcon from '@mui/icons-material/SchoolTwoTone';
+import { AppLocalizedStrings as localString } from '../../../../../App/localization';
 
 interface ISideMenu {
     refs: React.MutableRefObject<any>[]

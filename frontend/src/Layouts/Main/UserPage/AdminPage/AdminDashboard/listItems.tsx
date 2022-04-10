@@ -8,9 +8,9 @@ import AssignmentIndIcon from '@mui/icons-material/AssignmentInd';
 import AssignmentIcon from '@mui/icons-material/Assignment';
 import GroupIcon from '@mui/icons-material/Group';
 import ListAltIcon from '@mui/icons-material/ListAlt';
-import { AdminDashboardLocalizationStrings as localString } from '../../../../../Localizations/AdminDashboardLocalizationStrings';
 import { AdminDashboardPath } from '../../../../../App/constants';
 import AdminDashboard from './AdminDashboard';
+import { AppLocalizedStrings as localString } from '../../../../../App/localization';
 
 const mainListItemsData = [
   { text: localString.my_profile, icon: <AssignmentIndIcon />, path: AdminDashboardPath.myProfile },

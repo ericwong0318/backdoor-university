@@ -1,7 +1,7 @@
 import { Avatar, Card, CardContent, CardHeader, Grid, Typography } from '@mui/material'
 import React from 'react'
 import { IUser } from '../../../../../App/interfaces'
-import { UserProfileLocalizationStrings as localString } from '../../../../../Localizations/UserProfileLocalizationStrings'
+import { AppLocalizedStrings as localString } from '../../../../../App/localization'
 
 
 interface IProgrammeCard {
