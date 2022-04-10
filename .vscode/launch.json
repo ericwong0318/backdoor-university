@@ -7,9 +7,9 @@
         {
             "name": "Attach to node",
             "type": "node",
-            "request": "attach",
+            "request": "launch",
             "program": "node --inspect index.js",
-            "restart": true,
+            "restart": false,
             "port": 3001
         },
         // {
