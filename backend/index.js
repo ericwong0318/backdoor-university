@@ -29,6 +29,7 @@ app.use((req, res, next) => {
 });
 // upload file
 const fileUpload = require('express-fileupload');
+const photoDir = __dirname + '/photos/';
 
 // default options
 app.use(fileUpload());
@@ -180,6 +181,12 @@ async function sendEmail(email, option, newPassword) {
     }
 }
 
+app.post('/photo', (req, res) => {
+    let photo = req.body.photo;
+    res.set('Content-Type', 'image/jpeg');
+    res.sendFile(photo);
+});
+
 /**
  * routing
  */
@@ -194,7 +201,7 @@ app.post('/register', (req, res) => {
     bcrypt.hash(req.body.password, salt, (err, hash) => {
         // move photo to folder /photos /
         let photo = req.files.photo;
-        let uploadPath = __dirname + '/photos/' + photo.name;
+        let uploadPath = photoDir + photo.name;
         photo.mv(uploadPath, function (err) {
             if (err) {
                 return res.status(500).json(err);
@@ -453,6 +460,7 @@ app.post('/find-single-user', (req, res) => {
             };
         });
 });
+
 
 /* todo */
 // app.post('/modify-info', (req, res) => {
