@@ -9,6 +9,7 @@ import TipsAndUpdatesIcon from '@mui/icons-material/TipsAndUpdates';
 import NewspaperIcon from '@mui/icons-material/Newspaper';
 import BookIcon from '@mui/icons-material/Book';
 import BarChartIcon from '@mui/icons-material/BarChart';
+import SportsEsportsIcon from '@mui/icons-material/SportsEsports';
 import LogoutIcon from '@mui/icons-material/Logout';
 import LoginIcon from '@mui/icons-material/Login';
 import React, { useState } from "react";
@@ -23,7 +24,7 @@ const drawerListItems = [
     { text: localString.tips, icon: <TipsAndUpdatesIcon />, path: LayoutPath.tips },
     { text: localString.news, icon: <NewspaperIcon />, path: LayoutPath.news },
     { text: localString.programme, icon: <BookIcon />, path: LayoutPath.programme },
-    { text: localString.statistics, icon: <BarChartIcon />, path: LayoutPath.statistics },
+    // { text: localString.statistics, icon: <BarChartIcon />, path: LayoutPath.statistics },
 ]
 
 const HeaderDrawer = () => {
@@ -56,14 +57,30 @@ const HeaderDrawer = () => {
                         <ListItemButton key={o.text} onClick={() => onListItemClicked(o.path)}>
                             <ListItemIcon>
                                 {o.icon}
-                                <ListItemText sx={{ marginLeft: "10px" }}>
-                                    {o.text}
-                                </ListItemText>
                             </ListItemIcon>
+                            <ListItemText>
+                                {o.text}
+                            </ListItemText>
                         </ListItemButton>
                     )}
+                    <Divider sx={{ my: 1 }} />
+
+                    {/* Display the game page option if the user is logged */}
+                    {
+                        auth.user &&
+                        <ListItemButton onClick={() => {
+                            navigate(LayoutPath.games)
+                            setDrawerOpen(false);
+                        }}>
+                            <ListItemIcon>
+                                <SportsEsportsIcon />
+                            </ListItemIcon>
+                            <ListItemText>
+                                {localString.games}
+                            </ListItemText>
+                        </ListItemButton>
+                    }
                 </List>
-                <Divider sx={{ my: 1 }} />
 
                 {/* Change the login button to logout button after logged-in */}
                 {

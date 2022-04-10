@@ -22,7 +22,7 @@
 */
 
 import React, { useEffect, useState } from 'react'
-import { Button, Toolbar, AppBar, IconButton, Tabs, Tab, TextField, useTheme, useMediaQuery } from '@mui/material';
+import { Button, Toolbar, AppBar, IconButton, Tabs, Tab, TextField, useTheme, useMediaQuery, Typography } from '@mui/material';
 import { HeaderLocalizationStrings as localString } from '../../Localizations/HeaderLocalizationStrings';
 import SchoolIcon from '@mui/icons-material/School';
 import SearchIcon from '@mui/icons-material/Search';
@@ -37,11 +37,13 @@ import { useAuth } from '../../Components/auth/AuthProvider';
 
 // The list of buttons and where it goes
 const tabButtons = [
-    { text: localString.home, path: LayoutPath.home },
-    { text: localString.tips, path: LayoutPath.tips },
-    { text: localString.news, path: LayoutPath.news },
-    { text: localString.programme, path: LayoutPath.programme },
-    { text: localString.statistics, path: LayoutPath.statistics },
+    { text: localString.home, path: LayoutPath.home, authRequired: false },
+    { text: localString.tips, path: LayoutPath.tips, authRequired: false },
+    { text: localString.news, path: LayoutPath.news, authRequired: false },
+    { text: localString.programme, path: LayoutPath.programme, authRequired: false },
+    // Login required tabs
+    { text: localString.games, path: LayoutPath.games, authRequired: true },
+    // { text: localString.statistics, path: LayoutPath.statistics },
 ]
 
 interface IHeaderProps {
@@ -153,8 +155,11 @@ const Header = (props: IHeaderProps) => {
                                     scrollButtons="auto"
                                     onChange={onTabChanged}
                                 >
-                                    {tabButtons.map((t) => <Tab key={t.text} label={t.text} />)}
+                                    {tabButtons.map((t) => {
+                                        return (!t.authRequired || auth.user) && <Tab key={t.text} label={t.text} />
+                                    })}
                                 </Tabs>
+
                                 <SearchIcon sx={{ marginLeft: "auto" }} />
                                 <TextField variant="standard" label={localString.search} />
 
@@ -164,6 +169,11 @@ const Header = (props: IHeaderProps) => {
                                         <>
                                             <FloatingMenu toggleButton={profileButton}>
                                                 {/* To user profile */}
+                                                <FloatingMenuItem onClick={() => {
+                                                    navigate(`${LayoutPath.user}/:user`);
+                                                }}>
+                                                    {localString.logout}
+                                                </FloatingMenuItem>
                                                 {/* Login button */}
                                                 <FloatingMenuItem onClick={() => {
                                                     auth.logout();

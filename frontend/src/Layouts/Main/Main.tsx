@@ -12,6 +12,9 @@ import NotFound from './404/404';
 import { LayoutPath } from '../../App/constants';
 import AdminDashboard from './UserPage/AdminPage/AdminDashboard/AdminDashboard';
 import UserProfile from './UserPage/UserProfile/UserProfile';
+import ProgramDetail from './StatisticsPage/ProgramDetail';
+import GamePage from './GamePage/GamePage';
+import RequireAuth from '../../Components/auth/RequireAuth';
 
 interface IMainProps {
 
@@ -38,6 +41,8 @@ const Main = (props: IMainProps) => {
                 <Route path={LayoutPath.login} element={<Login />} />
                 <Route path={LayoutPath.register} element={<Register />} />
                 <Route path={LayoutPath.forgotpassword} element={<ForgotPassword />} />
+
+                <Route path={LayoutPath.games} element={<RequireAuth><GamePage /></RequireAuth>} />
 
                 <Route path={`${LayoutPath.user}`} element={<UserProfile user={null} />} />
                 <Route path={`${LayoutPath.admin}`} element={<AdminDashboard />} />
