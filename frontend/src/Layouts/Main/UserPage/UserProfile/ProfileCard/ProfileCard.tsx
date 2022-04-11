@@ -28,8 +28,8 @@ const renderProgType = (type: string) => {
 const ProfileCard = (props: IProfileCard) => {
     const user = props.user;
     const auth = useAuth();
-    const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
-    const changePWPopperOpen = Boolean(anchorEl);
+    const [modifyPWAnchorEl, setModifyPWAnchorEl] = React.useState<null | HTMLElement>(null);
+    const [verifyPWAnchorEl, setVerifyPWAnchorEl] = React.useState<null | HTMLElement>(null);
     const [avatar, setAvatar] = useState("")
 
     // Edit profile info
@@ -41,6 +41,9 @@ const ProfileCard = (props: IProfileCard) => {
     const [editType, setEditType] = useState(user.type)
     const [editAdmissionYear, setEditAdmissionYear] = useState(user.admissionYear)
     const [editCGPA, setEditCGPA] = useState(user.cgpa)
+    const [editAvatar, setEditAvatar] = useState<File | null>(null)
+    const [verifyPW, setVerifyPW] = useState('')
+    const [verifyPWError, setVerifyPWError] = useState('')
 
     useEffect(() => {
         if (editing) {
@@ -62,8 +65,9 @@ const ProfileCard = (props: IProfileCard) => {
     const [successSnackbarOpen, setSuccessSnackbarOpen] = useState(false);
     const [errorSnackbarOpen, setErrorSnackbarOpen] = useState(false);
 
-    const handleSaveButtonClick = () => {
-
+    const handleCancelEditButtonClick = () => {
+        setEditing(false)
+        setEditAvatar(null)
     }
 
     const handleConfirmNewPWClick = () => {
@@ -93,7 +97,7 @@ const ProfileCard = (props: IProfileCard) => {
         modifyPassword(user.email, oldPW.trim(), newPW.trim(), UserTypeEnum.user,
             () => {
                 setSuccessSnackbarOpen(true);
-                setAnchorEl(null);
+                setModifyPWAnchorEl(null);
             }, err => {
                 switch (err) {
                     case ModifyPasswordErrorType.IncorrectOldPassword:
@@ -108,7 +112,17 @@ const ProfileCard = (props: IProfileCard) => {
         setOldPW("")
         setOldPWError("")
         setNewPWError("")
-        setAnchorEl(null)
+        setModifyPWAnchorEl(null)
+    }
+
+    const handleConfirmVerifyPWClick = () => {
+
+    }
+
+    const handleCancelVerifyPWClick = () => {
+        setVerifyPW("")
+        setVerifyPWError('')
+        setVerifyPWAnchorEl(null)
     }
 
     const handleSuccessSnackbarClose = (event?: React.SyntheticEvent | Event, reason?: string) => {
@@ -147,17 +161,43 @@ const ProfileCard = (props: IProfileCard) => {
                 />
                 <CardContent>
                     <Grid container spacing={5}>
+                        {/* Avatar */}
                         <Grid item xs={12} md={12} lg={12}>
-                            <Typography>
-                                {avatar ? (
-                                    <Avatar sx={{ width: "120px", height: "120px" }}
-                                        alt={user.name}
-                                        src={avatar} />
-                                )
-                                    : (
-                                        <AccountCircleIcon sx={{ width: "120px", height: "120px" }} />
-                                    )}
-                            </Typography>
+                            <Grid container item >
+                                <Grid item xs={4} md={4} lg={4}>
+                                    <Typography>
+                                        {avatar ? (
+                                            <Avatar sx={{ width: "120px", height: "120px" }}
+                                                alt={user.name}
+                                                src={avatar} />
+                                        )
+                                            : (
+                                                <AccountCircleIcon sx={{ width: "120px", height: "120px" }} />
+                                            )}
+                                    </Typography>
+                                </Grid>
+                                <Grid item xs={8} md={8} lg={8}>
+                                    {editing && <>
+                                        <Button
+                                            variant="contained"
+                                            component="label"
+                                        >
+                                            {localString.choose_photo}
+                                            <input
+                                                type="file"
+                                                accept="image/png, image/gif, image/jpeg"
+                                                hidden
+                                                onChange={(e) => {
+                                                    if (e.target.files)
+                                                        setEditAvatar(e.target.files[0])
+                                                }}
+                                            />
+                                        </Button>
+                                        {/* Display file name */}
+                                        {editAvatar && <Typography>{editAvatar.name}</Typography>}
+                                    </>}
+                                </Grid>
+                            </Grid>
                         </Grid>
 
                         {/* Info table */}
@@ -315,7 +355,7 @@ const ProfileCard = (props: IProfileCard) => {
                         <Grid item xs={12} md={12} lg={12}>
                             {
                                 (auth.user && auth.user.email === user.email) &&
-                                <Button onClick={e => setAnchorEl(anchorEl ? null : e.currentTarget)}>
+                                <Button onClick={e => setModifyPWAnchorEl(modifyPWAnchorEl ? null : e.currentTarget)}>
                                     {localString.change_password}
                                 </Button>
                             }
@@ -323,14 +363,13 @@ const ProfileCard = (props: IProfileCard) => {
                         {editing && <>
                             <Button sx={{ marginLeft: "auto" }}
                                 variant="text"
-                                onClick={() =>
-                                    setEditing(!editing)}
+                                onClick={handleCancelEditButtonClick}
                             >
                                 {localString.cancel}
                             </Button>
                             <Button
                                 variant="outlined"
-                                onClick={handleSaveButtonClick}
+                                onClick={e => setVerifyPWAnchorEl(e.currentTarget)}
                             >
                                 {localString.save}
                             </Button>
@@ -341,7 +380,7 @@ const ProfileCard = (props: IProfileCard) => {
             </Card>
 
             {/* Modify Password */}
-            <Popper open={changePWPopperOpen} anchorEl={anchorEl}>
+            <Popper open={Boolean(modifyPWAnchorEl)} anchorEl={modifyPWAnchorEl}>
                 <Box sx={{ width: "240px", border: 1, p: 1, bgcolor: 'background.paper' }}>
                     <Grid container spacing={3}>
                         {/* Old Password */}
@@ -400,6 +439,45 @@ const ProfileCard = (props: IProfileCard) => {
                             <Button
                                 variant="text"
                                 onClick={handleCancelNewPWClick}
+                            >
+                                {localString.cancel}
+                            </Button>
+                        </Grid>
+                    </Grid>
+                </Box>
+            </Popper>
+
+            {/* Verify password */}
+            <Popper open={Boolean(verifyPWAnchorEl)} anchorEl={verifyPWAnchorEl}>
+                <Box sx={{ width: "240px", border: 1, p: 1, bgcolor: 'background.paper' }}>
+                    <Grid container spacing={3}>
+                        {/* Password */}
+                        <Grid item xs={12} md={12} lg={12}>
+                            <Typography>
+                                <TextField
+                                    type="password"
+                                    error={Boolean(verifyPWError)}
+                                    label={localString.password}
+                                    value={verifyPW}
+                                    onChange={e => {
+                                        setVerifyPWError('')
+                                        setVerifyPW(e.target.value)
+                                    }}
+                                    helperText={verifyPWError}
+                                />
+                            </Typography>
+                        </Grid>
+
+                        <Grid item xs={12} md={12} lg={12} >
+                            <Button
+                                variant="outlined"
+                                onClick={handleConfirmVerifyPWClick}
+                            >
+                                {localString.confirm}
+                            </Button>
+                            <Button
+                                variant="text"
+                                onClick={handleCancelVerifyPWClick}
                             >
                                 {localString.cancel}
                             </Button>
