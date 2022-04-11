@@ -9,9 +9,11 @@ import {
     ZAxis,
     CartesianGrid,
     Tooltip,
-    ResponsiveContainer
+    ResponsiveContainer,
+    PieChart, Pie, Sector, Cell, Legend,
 } from 'recharts';
 
+import './StatisticsPage.css'
 import { data1 } from './SpecDataSet'
 
 import Table from '@mui/material/Table';
@@ -66,7 +68,13 @@ for (var i = 1; i < data1.length; i++) {
         otherOffer++;
     }
 }
-
+const data2 = [
+    { name: 'HKCC', value: hkccOffer },
+    { name: 'IVE', value: IVEOffer },
+    { name: 'SPACE', value: spaceOffer },
+    { name: 'Other', value: otherOffer },
+];
+const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042'];
 
 // Change the component name and the file name yourselve
 const TemplateComponent = (props: ITemplateComponentProps) => {
@@ -76,7 +84,28 @@ const TemplateComponent = (props: ITemplateComponentProps) => {
 
         // Use the data in the props to change the value of components
         <>
-            <ResponsiveContainer width="100%" aspect={4}>
+            <ResponsiveContainer width="100%" height={240}>
+                <PieChart width={800} height={150}>
+                    <Pie
+                        data={data2}
+                        cx={"50%"}
+                        cy={"50%"}
+                        innerRadius={40}
+                        outerRadius={110}
+                        fill="#8884d8"
+                        paddingAngle={5}
+                        dataKey="value"
+                    >
+                        {data2.map((entry, index) => (
+                            <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+                        ))}
+                    </Pie>
+                    <Legend />
+                    <Tooltip />
+                </PieChart>
+            </ResponsiveContainer>
+            <div style={{ textAlign: "center" }}> <b>{localString.totalOffer}: </b> {total}, ( <b>HKCC</b>: {hkccOffer}, <b>IVE</b>: {IVEOffer}, <b>SPACE</b>: {spaceOffer}, <b>{localString.otherCC}</b>: {otherOffer} ) </div>
+            <ResponsiveContainer width="100%" height={250}>
                 <ScatterChart
                     width={500}
                     height={250}
@@ -101,8 +130,6 @@ const TemplateComponent = (props: ITemplateComponentProps) => {
 
                 </ScatterChart>
             </ResponsiveContainer>
-
-            <div> <b>{localString.totalOffer}: </b> {total}, ( <b>HKCC</b>: {hkccOffer}, <b>IVE</b>: {IVEOffer}, <b>SPACE</b>: {spaceOffer}, <b>{localString.otherCC}</b>: {otherOffer} ) </div>
 
             <TableContainer component={Paper}>
                 <Table aria-label="simple table">

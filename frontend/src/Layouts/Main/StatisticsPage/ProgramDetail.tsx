@@ -13,7 +13,8 @@ import {
     ZAxis,
     CartesianGrid,
     Tooltip,
-    ResponsiveContainer
+    ResponsiveContainer,
+    PieChart, Pie, Sector, Cell,
 } from 'recharts';
 
 import { useContext } from 'react';
@@ -53,6 +54,8 @@ export default function ProgramDetail() {
     var IVEOffer = 0;
     var spaceOffer = 0;
     var otherOffer = 0;
+
+
     for (var i = 0; i < data1.length; i++) {
         if (data1[i].id == params.id) {
             rows2.push(createData2(data1[i].College, data1[i].gpa, data1[i].uni, data1[i].comment, data1[i].uniprog, data1[i].ccprog));
@@ -74,6 +77,14 @@ export default function ProgramDetail() {
         }
     }
 
+    const data2 = [
+        { name: 'HKCC', value: hkccOffer },
+        { name: 'IVE', value: IVEOffer },
+        { name: 'SPACE', value: spaceOffer },
+        { name: 'Other', value: otherOffer },
+    ];
+    const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042'];
+
     var ProgrammeName = rows2[0].uniprog;
     var University = rows2[0].uni;
 
@@ -93,7 +104,28 @@ export default function ProgramDetail() {
         <div>
             <h1>___</h1>
             <h1 className="title" > {rows2[0].uni}, {ProgrammeName} {localString.SpecProgPage_Title}</h1>
-            <ResponsiveContainer width="100%" aspect={4.5}>
+            <ResponsiveContainer width="100%" height={240}>
+                <PieChart width={800} height={150}>
+                    <Pie
+                        data={data2}
+                        cx={"50%"}
+                        cy={"50%"}
+                        innerRadius={40}
+                        outerRadius={110}
+                        fill="#8884d8"
+                        paddingAngle={5}
+                        dataKey="value"
+                    >
+                        {data2.map((entry, index) => (
+                            <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+                        ))}
+                    </Pie>
+                    <Legend />
+                    <Tooltip />
+                </PieChart>
+            </ResponsiveContainer>
+            <div style={{ textAlign: "center" }}> <b>{localString.totalOffer}: </b> {total}, ( <b>HKCC</b>: {hkccOffer}, <b>IVE</b>: {IVEOffer}, <b>SPACE</b>: {spaceOffer}, <b>{localString.otherCC}</b>: {otherOffer} ) </div>
+            <ResponsiveContainer width="100%" height={250}>
                 <ScatterChart
                     width={500}
                     height={250}
@@ -118,7 +150,6 @@ export default function ProgramDetail() {
 
                 </ScatterChart>
             </ResponsiveContainer>
-            <div> <b>{localString.totalOffer}: </b> {total}, ( <b>HKCC</b>: {hkccOffer}, <b>IVE</b>: {IVEOffer}, <b>SPACE</b>: {spaceOffer}, <b>{localString.otherCC}</b>: {otherOffer} ) </div>
 
             <TableContainer component={Paper}>
                 <Table aria-label="simple table">
@@ -147,6 +178,6 @@ export default function ProgramDetail() {
                     </TableBody>
                 </Table>
             </TableContainer>
-        </div>
+        </div >
     )
 }
