@@ -1,31 +1,19 @@
 import { Alert, Avatar, Box, Button, Card, CardActions, CardContent, CardHeader, Divider, Grid, IconButton, OutlinedInput, List, ListItem, ListItemText, Paper, Popper, Snackbar, TextField, Typography, Select, MenuItem } from '@mui/material'
-import React, { useEffect, useState } from 'react'
-import { IUser, UserTypeEnum } from '../../../../../App/interfaces'
+import React, { useContext, useEffect, useState } from 'react'
+import { IUser, UserRoleEnum } from '../../../../../App/interfaces'
 import { useAuth } from '../../../../../Components/auth/AuthProvider'
 import EditIcon from '@mui/icons-material/Edit';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import { modifyPassword, ModifyPasswordErrorType } from '../../../../../features/services'
-import { AppLocalizedStrings as localString } from '../../../../../App/localization';
+import { LanguageContext } from '../../../../../Components/LanguageProvider/LanguageProvider';
 
 interface IProfileCard {
     user: IUser
 }
 
-const renderProgType = (type: string) => {
-    switch (type) {
-        case 'undergrad':
-            return localString.undergrad;
-        case 'asso':
-            return localString.asso
-        case 'hd':
-            return localString.hd
-
-        default:
-            return "?"
-    }
-}
-
 const ProfileCard = (props: IProfileCard) => {
+    const { localString } = useContext(LanguageContext)
+
     const user = props.user;
     const auth = useAuth();
     const [modifyPWAnchorEl, setModifyPWAnchorEl] = React.useState<null | HTMLElement>(null);
@@ -44,6 +32,20 @@ const ProfileCard = (props: IProfileCard) => {
     const [editAvatar, setEditAvatar] = useState<File | null>(null)
     const [verifyPW, setVerifyPW] = useState('')
     const [verifyPWError, setVerifyPWError] = useState('')
+
+    const renderProgType = (type: string) => {
+        switch (type) {
+            case 'undergrad':
+                return localString.undergrad;
+            case 'asso':
+                return localString.asso
+            case 'hd':
+                return localString.hd
+
+            default:
+                return "?"
+        }
+    }
 
     useEffect(() => {
         if (editing) {
@@ -94,7 +96,7 @@ const ProfileCard = (props: IProfileCard) => {
         }
 
         // Request to change password
-        modifyPassword(user.email, oldPW.trim(), newPW.trim(), UserTypeEnum.user,
+        modifyPassword(user.email, oldPW.trim(), newPW.trim(), UserRoleEnum.user,
             () => {
                 setSuccessSnackbarOpen(true);
                 setModifyPWAnchorEl(null);

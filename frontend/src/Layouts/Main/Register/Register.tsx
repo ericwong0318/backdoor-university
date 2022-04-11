@@ -1,16 +1,18 @@
 import { Grid, CssBaseline, Paper, Box, Avatar, Typography, TextField, FormControlLabel, Checkbox, Button, Alert, AlertTitle } from '@mui/material';
-import React, { createRef, useState } from 'react';
+import React, { useContext, useState } from 'react';
 import CreateIcon from '@mui/icons-material/Create';
 import * as register from './RegisterFunctions';
 import { Link } from 'react-router-dom';
 import { LayoutPath } from '../../../App/constants';
-import { AppLocalizedStrings as localString } from '../../../App/localization';
+import { LanguageContext } from '../../../Components/LanguageProvider/LanguageProvider';
 
 interface IRegisterProps {
 
 }
 
 const Register = (props: IRegisterProps) => {
+    const { localString } = useContext(LanguageContext)
+
     // Registering state
     const [isRegistering, setIsRegistering] = useState(false);
 

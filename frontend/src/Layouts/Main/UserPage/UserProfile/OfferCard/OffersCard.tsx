@@ -1,8 +1,8 @@
 import { Avatar, Card, CardContent, CardHeader, Divider, Grid, Typography } from '@mui/material'
-import React from 'react'
+import React, { useContext } from 'react'
 import { IUser } from '../../../../../App/interfaces'
-import { AppLocalizedStrings as localString } from '../../../../../App/localization'
 import { useAuth } from '../../../../../Components/auth/AuthProvider'
+import { LanguageContext } from '../../../../../Components/LanguageProvider/LanguageProvider'
 
 
 interface IOffersCard {
@@ -10,6 +10,7 @@ interface IOffersCard {
 }
 
 const OffersCard = (props: IOffersCard) => {
+    const { localString } = useContext(LanguageContext)
     const user = props.user;
     const auth = useAuth();
 

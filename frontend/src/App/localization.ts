@@ -260,7 +260,7 @@ export const AppLocalizedStrings: IAppLocalizedStrings = new LocalizedStrings(
             new_pw_too_weak_error: "The password is too weak!",
             new_old_pw_same_error: "The new password and the old password cannot be the same!",
         },
-        /* zh: {
+        zh: {
             //404 done
             not_found_header: "404 找不到",
             not_found_message: "這個頁面並不存在",
@@ -280,7 +280,8 @@ export const AppLocalizedStrings: IAppLocalizedStrings = new LocalizedStrings(
             search: "搜尋",
             name: "姓名",
             school: "學校",
-            
+            user_not_found: "用戶不存在",
+
             //Forget Password
             forgot_password: "忘記密碼",
             hint: "請輸入你的電郵地址以重置密碼",
@@ -297,7 +298,7 @@ export const AppLocalizedStrings: IAppLocalizedStrings = new LocalizedStrings(
             home: "主頁",
             tips: "提示",
             news: "最新資訊",
-            programmeCatalog: "課程資訊",
+            programme_cat: "課程資訊",
             statistics: "收生數據",
             search_prog: "搜尋課程",
             games: "遊戲",
@@ -359,12 +360,15 @@ export const AppLocalizedStrings: IAppLocalizedStrings = new LocalizedStrings(
             prog_info: '資料',
             subjects: '科目',
             interviews: '面試',
+            programme: '課程',
 
 
             // Fixed info
             undergrad: '學士',
             asso: '副學士',
             hd: '高級文憑',
+            you_no_offer: '你尚未有任何錄取記錄',
+            user_has_no_offer: "此用戶未有任何錄取記錄",
 
 
             // Features
@@ -377,12 +381,12 @@ export const AppLocalizedStrings: IAppLocalizedStrings = new LocalizedStrings(
             old_password: "舊密碼",
             new_password: "新密碼",
             confirm: "確認",
-            change_pw_success: "密碼已變更"！,
+            change_pw_success: "密碼已變更！",
             opps: "有些東西錯了！",
 
             // Errors
             old_pw_incorrect_error: "舊密碼錯誤！",
             new_pw_too_weak_error: "密碼強度不足！",
             new_old_pw_same_error: "新密碼與薺密碼不能相同！",
-            } */
+        }
     })

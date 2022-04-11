@@ -1,8 +1,8 @@
 import { Card, CardContent, CardHeader, Container, Grid } from '@mui/material'
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useContext, useEffect, useRef, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import { IUser } from '../../../../App/interfaces'
-import { AppLocalizedStrings as localString } from '../../../../App/localization'
+import { LanguageContext } from '../../../../Components/LanguageProvider/LanguageProvider'
 import { getUser, GetUserErrorType } from '../../../../features/services'
 import OffersCard from './OfferCard/OffersCard'
 import ProfileCard from './ProfileCard/ProfileCard'
@@ -38,6 +38,8 @@ const dummyUser: IUser = {
     }]
 }
 const UserProfile = (props: IUserProfileProps) => {
+    const { localString } = useContext(LanguageContext)
+
     // Data
     const param = useParams();
 

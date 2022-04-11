@@ -12,22 +12,24 @@ import BarChartIcon from '@mui/icons-material/BarChart';
 import SportsEsportsIcon from '@mui/icons-material/SportsEsports';
 import LogoutIcon from '@mui/icons-material/Logout';
 import LoginIcon from '@mui/icons-material/Login';
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { LayoutPath } from '../../App/constants';
 import { useAuth } from "../../Components/auth/AuthProvider";
-import { AppLocalizedStrings as localString } from "../../App/localization";
-
-// The list of items to display in the drawer along with their icon
-const drawerListItems = [
-    { text: localString.home, icon: <HomeIcon />, path: LayoutPath.home },
-    { text: localString.tips, icon: <TipsAndUpdatesIcon />, path: LayoutPath.tips },
-    { text: localString.news, icon: <NewspaperIcon />, path: LayoutPath.news },
-    { text: localString.programme_cat, icon: <BookIcon />, path: LayoutPath.programme },
-    { text: localString.statistics, icon: <BarChartIcon />, path: LayoutPath.statistics },
-]
+import { LanguageContext } from "../../Components/LanguageProvider/LanguageProvider";
 
 const HeaderDrawer = () => {
+    const { localString } = useContext(LanguageContext)
+
+    // The list of items to display in the drawer along with their icon
+    const drawerListItems = [
+        { text: localString.home, icon: <HomeIcon />, path: LayoutPath.home },
+        { text: localString.tips, icon: <TipsAndUpdatesIcon />, path: LayoutPath.tips },
+        { text: localString.news, icon: <NewspaperIcon />, path: LayoutPath.news },
+        { text: localString.programme_cat, icon: <BookIcon />, path: LayoutPath.programme },
+        { text: localString.statistics, icon: <BarChartIcon />, path: LayoutPath.statistics },
+    ]
+
     // The state of whether the drawer is opened
     const [drawerOpen, setDrawerOpen] = useState(false);
     const auth = useAuth();

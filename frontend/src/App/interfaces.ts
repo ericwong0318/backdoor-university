@@ -18,10 +18,10 @@ export interface IAdmin {
 
 export interface IUserAbstract {
     user: IUser | IAdmin | null,
-    role: UserTypeEnum
+    role: UserRoleEnum
 }
 
-export enum UserTypeEnum {
+export enum UserRoleEnum {
     user,
     admin,
 }

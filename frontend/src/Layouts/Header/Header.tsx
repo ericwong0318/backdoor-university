@@ -21,7 +21,7 @@
 
 */
 
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { Button, Toolbar, AppBar, IconButton, Tabs, Tab, TextField, useTheme, useMediaQuery, Typography, Avatar } from '@mui/material';
 import SchoolIcon from '@mui/icons-material/School';
 import SearchIcon from '@mui/icons-material/Search';
@@ -32,25 +32,27 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import FloatingMenu from '../../Components/FloatingMenu/FloatingMenu';
 import FloatingMenuItem from '../../Components/FloatingMenu/FloatingMenuItem';
 import { useAuth } from '../../Components/auth/AuthProvider';
-import { AppLocalizedStrings as localString } from '../../App/localization';
 import LocaleSelector from '../../Components/LocaleSelector/LocaleSelector';
-
-// The list of buttons and where it goes
-const tabButtons = [
-    { text: localString.home, path: LayoutPath.home, authRequired: false },
-    { text: localString.tips, path: LayoutPath.tips, authRequired: false },
-    { text: localString.news, path: LayoutPath.news, authRequired: false },
-    { text: localString.programme_cat, path: LayoutPath.programme, authRequired: false },
-    { text: localString.statistics, path: LayoutPath.statistics, authRequired: false },
-    // Login required tabs
-    { text: localString.games, path: LayoutPath.games, authRequired: true },
-]
+import { LanguageContext } from '../../Components/LanguageProvider/LanguageProvider';
 
 interface IHeaderProps {
 
 }
 
 const Header = (props: IHeaderProps) => {
+    const { localString } = useContext(LanguageContext)
+
+    // The list of buttons and where it goes
+    const tabButtons = [
+        { text: localString.home, path: LayoutPath.home, authRequired: false },
+        { text: localString.tips, path: LayoutPath.tips, authRequired: false },
+        { text: localString.news, path: LayoutPath.news, authRequired: false },
+        { text: localString.programme_cat, path: LayoutPath.programme, authRequired: false },
+        { text: localString.statistics, path: LayoutPath.statistics, authRequired: false },
+        // Login required tabs
+        { text: localString.games, path: LayoutPath.games, authRequired: true },
+    ]
+
     /* Hooks */
     // Which tab is being showed
     const [tabValue, setTabValue] = useState<number | false>(0);
@@ -159,6 +161,7 @@ const Header = (props: IHeaderProps) => {
                                     <SchoolIcon />
                                 </IconButton>
 
+                                <LocaleSelector sx={{ marginLeft: "auto" }} />
                                 {
                                     /* profile button */
                                     auth.user ? (
