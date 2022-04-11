@@ -62,17 +62,15 @@ const UserSchema = Schema({
         type: {
             type: String,
             required: true,
-            enum: ['undergrad', 'asso', 'hd'],
+            enum: ['undergrad', 'asso', 'hd', 'secondary school'],
             default: 'undergrad'
         },
         addmissionYear: { type: Number, required: true },
         cgpa: { type: Number },
-    }
-    , // monitor is a user who got a offer
+    },
     exam: {
         name: { type: String },
         result: { type: String },
-        // year: { type: Number, required: true }
     },
     status: {
         type: String,
@@ -81,11 +79,8 @@ const UserSchema = Schema({
         default: 'unverified'
     },
     offer: {
-        programme: { type: Schema.Types.ObjectId, ref: 'Programme' }
-        // school: { type: String, required: true },
-        // programme: { type: String, required: true },
-        // year: { type: Number, required: true },
-        // detail: { type: String }
+        school: { type: String, required: true },
+        programme: { type: String, required: true }
     }
 });
 const User = mongoose.model('User', UserSchema);
@@ -107,22 +102,12 @@ const ProgrammeSchema = Schema({
         default: 'undergrad'
     },
     info: { type: String, required: true },
-    comments: [{
+    comments: [{ // include the content of interviews
         email: { type: String },
         content: { type: String }
-    }], // include the content of interviews
+    }],
 });
 const Programme = mongoose.model('Programme', ProgrammeSchema);
-
-const reportSchema = Schema({
-    content: { type: String, required: true },
-    status: {
-        type: String,
-        enum: ['waiting', 'done'],
-        default: 'waiting'
-    }
-});
-const Report = mongoose.model('Report', reportSchema);
 
 /**
  * support functions
@@ -153,11 +138,12 @@ async function sendEmail(email, option, newPassword) {
                 from: 'Backdoor-University@gmail.com',
                 to: email, // list of receivers
                 subject: "Click the Link for register",
-                html: `<h1>Backdoor University</h1>
-        <h3>Please click the following Link for register: </h3>
-        <a href="http://localhost:3001/activate-email/${email}">
-        http://localhost:3001/activate-email/${email}
-        </a>`
+                html: `
+                        <h1>Backdoor University</h1>
+                        <h3>Please click the following Link for register: </h3>
+                        <a href="http://localhost:3001/activate-email/${email}">
+                        http://localhost:3001/activate-email/${email}</a>
+                    `
             });
             console.log("Message sent to %s", email);
             return;
@@ -168,7 +154,7 @@ async function sendEmail(email, option, newPassword) {
                 to: email, // list of receivers
                 subject: "Your new password",
                 html: `<h1>Backdoor University</h1>
-                        <h3>Your new password: ${newPassword} </h3>`
+                        <h3>Your new password: ${newPassword}</h3>`
             });
             console.log("Message sent to %s", email);
             return;
@@ -182,7 +168,7 @@ function uploadPhoto(req, res) {
     if (!req.files || Object.keys(req.files).length === 0) {
         return res.status(400).json({ err: 'No files are uploaded' });
     }
-    // move photo to folder /photos /
+    // move photo to folder /photos
     let photoObj = req.files.photo;
     let uploadPath = photoDir + photoObj.name;
     photoObj.mv(uploadPath, function (err) {
@@ -232,7 +218,10 @@ app.post('/register', (req, res) => {
                     result: req.body.result
                 },
                 status: 'unverified', // will change to active after passed email verification
-                offer: req.body.offer /* need checking correctness*/
+                offer: {
+                    programme: req.body.programme,
+                    school: req.body.school
+                }
             }, (err) => {
                 if (err) {
                     res.status(409).json(err);
@@ -243,8 +232,7 @@ app.post('/register', (req, res) => {
                     return res.json({ msg: "Please check the veriftication email, including spam folder" });
                 }
             });
-    })
-
+    });
 });
 
 /* login todo: cookie? */
@@ -325,7 +313,7 @@ app.post('/modify-password', (req, res) => {
     let role = req.body.role;
 
     switch (role) {
-        case ("user"):
+        case "user":
             /* compare email and old password in database and input */
             User
                 .findOne({ email: req.body.email }, 'email password')
@@ -351,7 +339,7 @@ app.post('/modify-password', (req, res) => {
                     }
                 });
             break;
-        case ("admin"):
+        case "admin":
             /* modify the password without validation of indentity */
 
             /* if the email is a user email */
@@ -388,6 +376,7 @@ app.post('/modify-password', (req, res) => {
                     };
                 });
             break;
+
         default:
             res.status(401).json({ err: 'Incorrect role' });
             return;
@@ -418,13 +407,10 @@ app.post('/forget-password', (req, res) => {
         });
 });
 
-app.post('/favourite-program', (req, res) => {
-
-});
-
 /**
  * admin functions
  */
+
 /* find all users */
 app.post('/list-all-users', (req, res) => {
     User
@@ -496,7 +482,10 @@ app.post('/modify-info', (req, res) => {
                         name: req.body.examname,
                         result: req.body.result
                     };
-                    user.offer = req.body.offer;
+                    user.offer = {
+                        school: req.body.offerSchool,
+                        programme: req.body.offerProgramme
+                    }
 
                     user.save();
                     res.json({ msg: "User information is modified" });
@@ -504,6 +493,8 @@ app.post('/modify-info', (req, res) => {
             break;
 
         case 'admin':
+
+        case 'programme':
 
 
         default:
@@ -546,7 +537,7 @@ app.post('/submit-a-comment', (req, res) => {
             return res.json({ err: "Comment cannot submitted" });
         }
         programme.comments.push({
-            email: email, 
+            email: email,
             content: content
         });
         programme.save();
