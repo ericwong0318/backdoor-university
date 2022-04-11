@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
@@ -16,9 +16,11 @@ import { Alert } from '@mui/material';
 import { useAuth } from '../../../Components/auth/AuthProvider';
 import { LoginErrorType } from '../../../auth';
 import { LayoutPath } from '../../../App/constants';
-import { AppLocalizedStrings as localString } from '../../../App/localization';
+import { LanguageContext } from '../../../Components/LanguageProvider/LanguageProvider';
 
 export default function Login() {
+  const { localString } = useContext(LanguageContext)
+
   // Determine if it is now loggin in
   const [isLogingIn, setIsLogingIn] = useState(false);
 

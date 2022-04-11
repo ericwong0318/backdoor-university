@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { IAdmin, IUser, IUserAbstract, UserTypeEnum as UserRoleEnum } from '../../App/interfaces';
+import { IAdmin, IUser, UserRoleEnum } from '../../App/interfaces';
 import * as auth from '../../auth'
 
 // Authentication Global Context
@@ -46,6 +46,7 @@ const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     const logout = (callback?: VoidFunction): void => {
         auth.logout();
         setUser(null);
+        setRole(null);
         setAttemptedAutoLogin(false)
         if (callback)
             callback();

@@ -21,7 +21,7 @@
 
 */
 
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { Button, Toolbar, AppBar, IconButton, Tabs, Tab, TextField, useTheme, useMediaQuery, Typography, Avatar } from '@mui/material';
 import SchoolIcon from '@mui/icons-material/School';
 import SearchIcon from '@mui/icons-material/Search';
@@ -32,25 +32,27 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import FloatingMenu from '../../Components/FloatingMenu/FloatingMenu';
 import FloatingMenuItem from '../../Components/FloatingMenu/FloatingMenuItem';
 import { useAuth } from '../../Components/auth/AuthProvider';
-import { AppLocalizedStrings as localString } from '../../App/localization';
 import LocaleSelector from '../../Components/LocaleSelector/LocaleSelector';
-
-// The list of buttons and where it goes
-const tabButtons = [
-    { text: localString.home, path: LayoutPath.home, authRequired: false },
-    { text: localString.tips, path: LayoutPath.tips, authRequired: false },
-    { text: localString.news, path: LayoutPath.news, authRequired: false },
-    { text: localString.programme, path: LayoutPath.programme, authRequired: false },
-    { text: localString.statistics, path: LayoutPath.statistics, authRequired: false },
-    // Login required tabs
-    { text: localString.games, path: LayoutPath.games, authRequired: true },
-]
+import { LanguageContext } from '../../Components/LanguageProvider/LanguageProvider';
 
 interface IHeaderProps {
 
 }
 
 const Header = (props: IHeaderProps) => {
+    const { localString } = useContext(LanguageContext)
+
+    // The list of buttons and where it goes
+    const tabButtons = [
+        { text: localString.home, path: LayoutPath.home, authRequired: false },
+        { text: localString.tips, path: LayoutPath.tips, authRequired: false },
+        { text: localString.news, path: LayoutPath.news, authRequired: false },
+        { text: localString.programme_cat, path: LayoutPath.programme, authRequired: false },
+        { text: localString.statistics, path: LayoutPath.statistics, authRequired: false },
+        // Login required tabs
+        { text: localString.games, path: LayoutPath.games, authRequired: true },
+    ]
+
     /* Hooks */
     // Which tab is being showed
     const [tabValue, setTabValue] = useState<number | false>(0);
@@ -64,6 +66,9 @@ const Header = (props: IHeaderProps) => {
     // For mobile adaptivity
     const theme = useTheme();
     const isSmallVerticalScreen = useMediaQuery(theme.breakpoints.down(1024));
+
+    const [avatar, setAvatar] = useState("");
+
 
     // For routing
     const navigate = useNavigate();
@@ -82,6 +87,18 @@ const Header = (props: IHeaderProps) => {
 
     }
 
+    const profileButton =
+        <IconButton aria-label="Profile"
+            sx={{ marginLeft: "auto" }}
+            onClick={onProfileIconClicked}>
+            {
+                (avatar) ? (
+                    <Avatar src={avatar} />
+                ) : (
+                    <AccountCircleIcon />)
+            }
+        </IconButton>
+
     // Change the tab base on the location
     useEffect(() => {
         // Check which tab should be set to active
@@ -97,19 +114,25 @@ const Header = (props: IHeaderProps) => {
         setTabValue(false);
     })
 
-    const profileButton = <IconButton aria-label="Profile"
-        sx={{ marginLeft: "auto" }}
-        onClick={onProfileIconClicked}>
-        {
-            auth.user && "photo" in auth.user && auth.user.photo ? (
-                <Avatar src={auth.user.photo} />
-            ) : (
-                <AccountCircleIcon />)
+    // Update profile pic
+    useEffect(() => {
+        if (!avatar && auth.user && "photo" in auth.user && auth.user.photo) {
+            setAvatar(auth.user.photo)
         }
-    </IconButton>
+    })
 
     const profileAvatarMenu =
-        <FloatingMenu sx={{ marginLeft: "auto" }} toggleButton={profileButton}>
+        <FloatingMenu sx={{ marginLeft: isSmallVerticalScreen ? "auto" : "10px" }} toggleButton={
+            <IconButton aria-label="Profile"
+                onClick={onProfileIconClicked}>
+                {
+                    auth.user && "photo" in auth.user && auth.user.photo ? (
+                        <Avatar src={auth.user.photo} />
+                    ) : (
+                        <AccountCircleIcon />)
+                }
+            </IconButton>
+        }>
             {/* To user profile */}
             <FloatingMenuItem onClick={() => {
                 if (auth.user && "name" in auth.user) {
@@ -138,12 +161,13 @@ const Header = (props: IHeaderProps) => {
                                     <SchoolIcon />
                                 </IconButton>
 
+                                <LocaleSelector sx={{ marginLeft: "auto" }} />
                                 {
                                     /* profile button */
                                     auth.user ? (
                                         profileAvatarMenu
                                     ) : (
-                                        <FloatingMenu sx={{ marginLeft: "auto" }} toggleButton={profileButton}>
+                                        <FloatingMenu toggleButton={profileButton}>
                                             {/* Login Button */}
                                             <FloatingMenuItem onClick={() => navigate(LayoutPath.login)}>
                                                 {localString.login}

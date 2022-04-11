@@ -40,7 +40,7 @@ export interface IAppLocalizedStrings extends LocalizedStringsMethods {
     home: string,
     tips: string,
     news: string,
-    programme: string,
+    programme_cat: string,
     statistics: string,
     games: string,
     search_prog: string
@@ -89,6 +89,7 @@ export interface IAppLocalizedStrings extends LocalizedStringsMethods {
     // Headers
     curr_prog: string,
     offers: string,
+    user_not_found: string,
 
     // Profile info headers
     avatar: string,
@@ -99,13 +100,15 @@ export interface IAppLocalizedStrings extends LocalizedStringsMethods {
     prog_info: string,
     subjects: string,
     interviews: string,
+    programme: string,
 
 
     // Fixed info
     undergrad: string,
     asso: string,
     hd: string,
-
+    you_no_offer: string,
+    user_has_no_offer: string,
 
     // Features
     edit: string,
@@ -149,6 +152,7 @@ export const AppLocalizedStrings: IAppLocalizedStrings = new LocalizedStrings(
             search: "Search",
             name: "Name",
             school: "School",
+            user_not_found: "No user found",
 
             /* Forgot Password */
             forgot_password: "Forgot Password",
@@ -166,7 +170,7 @@ export const AppLocalizedStrings: IAppLocalizedStrings = new LocalizedStrings(
             home: "Home",
             tips: "Tips",
             news: "News",
-            programme: "Programme Catalog",
+            programme_cat: "Programme Catalog",
             statistics: "Statistics",
             search_prog: "Search Programme",
             games: "Games",
@@ -228,13 +232,15 @@ export const AppLocalizedStrings: IAppLocalizedStrings = new LocalizedStrings(
             prog_info: 'Info',
             subjects: 'Subjects',
             interviews: 'Interviews',
+            programme: 'Programme',
 
 
             // Fixed info
             undergrad: 'Undergraduate',
             asso: 'Associate degree',
             hd: 'Higher Diploma',
-
+            you_no_offer: 'You have no offer yet',
+            user_has_no_offer: "This user don't have any offer yet.",
 
             // Features
             edit: 'Edit',
@@ -254,70 +260,133 @@ export const AppLocalizedStrings: IAppLocalizedStrings = new LocalizedStrings(
             new_pw_too_weak_error: "The password is too weak!",
             new_old_pw_same_error: "The new password and the old password cannot be the same!",
         },
-        /* zh: {
+        zh: {
+            //404 done
             not_found_header: "404 找不到",
             not_found_message: "這個頁面並不存在",
             back_to_home: "返回主頁",
 
-            
-            
-            forgot_password: "忘記密碼",
+            // Admin Dashboard 
+            // Side menu 
+            my_profile: "我的個人檔案",
+            users: "用戶",
+            programmes: "課程",
+            reports: "報告",
+            comments: "評論",
+
+            //My Profile & User
+            email: "電郵",
             reset_password: "重置密碼",
-            email: "電郵地址",
+            search: "搜尋",
+            name: "姓名",
+            school: "學校",
+            user_not_found: "用戶不存在",
+
+            //Forget Password
+            forgot_password: "忘記密碼",
             hint: "請輸入你的電郵地址以重置密碼",
             wait: "請稍候片刻 . . .",
             submit: "提交",
-            field_empty_error: "* 必須填寫！",
             success: "成功",
             success_message: "請檢查你的電子郵箱以重置密碼！",
             back_to_login: "返回登入頁",
             no_account_error: "這個電郵尚未登記！",
             invalid_email_format_error: "無效電郵地址",
-            server_unavailable_error: "對不起！伺服器暫時停止運作以供維修！",
             email_unregistered_error: "這個電郵尚未登記！",
 
-            
-        home: "主頁",
-        tips: "提示",
-        news: "最新資訊",
-        programmeCatalog: "課程資訊",
-        statistics: "收生數據",
-        login: "登入",
-        register: "註冊",
-        language: "語言",
-        zh: "繁體中文",
-        en: "英文",
+            //header
+            home: "主頁",
+            tips: "提示",
+            news: "最新資訊",
+            programme_cat: "課程資訊",
+            statistics: "收生數據",
+            search_prog: "搜尋課程",
+            games: "遊戲",
+            login: "登入",
+            logout: "登出",
+            register: "註冊",
+            language: "語言",
+            profile: "個人檔案",
+            dashboard: "儀錶板",
+            zh: "繁體中文",
+            en: "英文",
 
-        // Register 
-        username: "用戶名稱",
-        username_hint: "你的用戶名稱",
-        password: "密碼",
-        confirm_password: "確認密碼",
-        school: "在讀學校",
-        programme: "現時課程",
-        cgpa: "現時 CGPA",
-        exam_name: "Taken Exam Name",
-        exam_result: "考試成績",
-        register: "註冊帳號",
-        login: "登入",
-        email: "學校電郵",
-        email_hint: "你的學校電郵",
-        agree_statement: "我甚麼都同意，因為我甚麼都無須同意",
-        field_empty_error: "* 必須填寫！",
-        email_format_error: "* 無效電郵地址",
-        password_not_match_error: "* 密碼不正確！",
-        weak_password_error: "* 密碼太弱！",
-        email_used_error: "* 這個電郵尚未註冊！",
-        username_used_error: "* 用戶名稱已被使用！",
-        did_not_agree_error: "* 這項必須同意",
-        registering: "正在註冊 . . . ",
-        server_unavailable_error: "對不起！伺服器暫時停止運作以供維護！",
-        success: "成功",
-        success_message: "請確認你的電子郵箱",
-        back_to_login: "返回登入頁",
-        choose_photo: "請選擇一張相片...",
-        no_file_error: "請上傳一張個人相片！",
-        admission_year: "入學年",
-        file_size_error: "最大容量 2MB!",
-        } */
+            //Login
+            password: "密碼",
+            forgot_password_login: "忘記密碼？",
+            email_adress: "電郵地址",
+            remember_me: "記住我",
+            loging_in: "登入中 . . . ",
+            incorrect_info_error: "電郵地址或密碼不正確！",
+            field_empty_error: "* 必須填寫！",
+            server_unavailable_error: "對不起！伺服器暫時停止運作以供維修！",
+
+            // Register 
+            username: "用戶名稱",
+            username_hint: "你的用戶名稱",
+            confirm_password: "確認密碼",
+            curr_school: "在讀學校",
+            curr_programme: "現時課程",
+            cgpa: "現時 CGPA",
+            exam_name: "考試",
+            exam_result: "考試成績",
+            school_email: "學校電郵",
+            email_hint: "你的學校電郵",
+            agree_statement: "我甚麼都同意，因為我甚麼都無須同意",
+            email_format_error: "* 無效電郵地址",
+            password_not_match_error: "* 密碼不正確！",
+            weak_password_error: "* 密碼強度不足！",
+            email_used_error: "* 這個電郵已註冊！",
+            username_used_error: "* 用戶名稱已被使用！",
+            did_not_agree_error: "* 這項必須同意",
+            registering: "正在註冊 . . . ",
+            register_success_message: "請檢查您的電子郵箱，以驗證您的電子郵件地址，包括垃圾郵件！",
+            choose_photo: "請選擇一張相片...",
+            no_file_error: "請上傳一張個人相片！",
+            admission_year: "入學年",
+            file_size_error: "最大容量 2MB!",
+
+            // User Profile
+            // Headers
+            curr_prog: '現時課程',
+            offers: '取錄條件',
+
+            // Profile info headers
+            avatar: '個人檔案相片',
+
+            // Programme info headers
+            prog_name: '課程名稱',
+            prog_type: '類型',
+            prog_info: '資料',
+            subjects: '科目',
+            interviews: '面試',
+            programme: '課程',
+
+
+            // Fixed info
+            undergrad: '學士',
+            asso: '副學士',
+            hd: '高級文憑',
+            you_no_offer: '你尚未有任何錄取記錄',
+            user_has_no_offer: "此用戶未有任何錄取記錄",
+
+
+            // Features
+            edit: '編輯',
+            edit_profile: '編輯個人檔案',
+            change_password: '更改密碼',
+            change_avatar: '編輯個人相片',
+            cancel: "取消",
+            save: "儲存",
+            old_password: "舊密碼",
+            new_password: "新密碼",
+            confirm: "確認",
+            change_pw_success: "密碼已變更！",
+            opps: "有些東西錯了！",
+
+            // Errors
+            old_pw_incorrect_error: "舊密碼錯誤！",
+            new_pw_too_weak_error: "密碼強度不足！",
+            new_old_pw_same_error: "新密碼與薺密碼不能相同！",
+        }
     })

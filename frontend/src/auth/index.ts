@@ -1,5 +1,5 @@
 import { api } from "../App/constants"
-import { IUserAbstract, UserTypeEnum } from "../App/interfaces"
+import { IUserAbstract, UserRoleEnum } from "../App/interfaces"
 import { getUser } from "../features/services"
 import { resetPasswordWithEmail } from "../Layouts/Main/ForgotPassword/ForgotPasswordFunctions"
 /*
@@ -62,11 +62,11 @@ const loginAsUser = (email: string, password: string,
                 getUser({ email: email }, (user) => {
                     // Retrieved data
                     if (successCallback)
-                        successCallback({ user: user, role: UserTypeEnum.user });
+                        successCallback({ user: user, role: UserRoleEnum.user });
                 }, (err) => {
                     // Can't get data yet, still trigger the callback and let other components get the data later
                     if (successCallback)
-                        successCallback({ user: null, role: UserTypeEnum.user });
+                        successCallback({ user: null, role: UserRoleEnum.user });
                 })
             }
             else if (val.err) {
@@ -132,7 +132,7 @@ const loginAsAdmin = (email: string, password: string,
                 sessionStorage.setItem('password', password);
 
                 if (successCallback)
-                    successCallback({ user: { email: email }, role: UserTypeEnum.admin });
+                    successCallback({ user: { email: email }, role: UserRoleEnum.admin });
             }
             else if (val.err) {
                 // Login failed

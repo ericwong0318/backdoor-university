@@ -1,16 +1,18 @@
 import { Grid, CssBaseline, Paper, Box, Avatar, Typography, Alert, TextField, FormControlLabel, Checkbox, Button, AlertTitle } from '@mui/material'
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
 import QuestionMarkIcon from '@mui/icons-material/QuestionMark';
 import { Link } from 'react-router-dom'
 import * as forgotPW from './ForgotPasswordFunctions'
 import { LayoutPath } from '../../../App/constants';
-import { AppLocalizedStrings as localString } from '../../../App/localization';
+import { LanguageContext } from '../../../Components/LanguageProvider/LanguageProvider';
 
 interface IForgotPasswordProps {
 
 }
 
 const ForgotPassword = (props: IForgotPasswordProps) => {
+    const { localString } = useContext(LanguageContext)
+
     // states
     const [requesting, setRequesting] = useState(false);
     const [requestSuccess, setRequestSuccess] = useState(false);
