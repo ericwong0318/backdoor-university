@@ -1,26 +1,32 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom'
 import './HomePage.css'
+import { useContext } from 'react';
+import { LanguageContext } from '../../../Components/LanguageProvider/LanguageProvider';
 
 interface IHomePageProps {
 
 }
 
 const HomePage = (props: IHomePageProps) => {
+    const { localString } = useContext(LanguageContext)
 
     return (
         <React.Fragment>
             <h1>HomePage</h1>
             <div className="bg">
-                <div /* style={{padding:100}} */>
+            <div>
                     <h1 className="text">
-                        Welcome! All the Non-Jupas student<br/>
-                        Here, we provide all the information you need!<br/>
+                    <h1 className="bigtitle">
+                            BACKDOOR UNIVERSITY
+                        </h1>
+                        {localString.wel_1speech}<br/>
+                        {localString.wel_2speech}<br/>
                     </h1>
                 </div>
             </div>
             <div>
-                <h1 className="title">Things You Have to Know</h1>
+                <h1 className="title">{localString.hm_title}</h1>
             </div>
 
             <div className="big">
@@ -30,11 +36,11 @@ const HomePage = (props: IHomePageProps) => {
                     </div>
                     <div className="notice-content">
 
-                        <h1 className="notice-title"><NavLink to="/tips">Interview Tips</NavLink></h1>
+                        <h1 className="notice-title"><NavLink to="/tips">{localString.hm_tips}</NavLink></h1>
 
-                        <p className="notice-desc">Have you got a oppotunity of interview, and are now feeling nervous and wondering how to prepare?</p>
+                        <p className="notice-desc">{localString.hm_tips_content}</p>
 
-                        <NavLink to="/tips">Click here for more information</NavLink>
+                        <NavLink to="/tips">{localString.click_here}</NavLink>
 
                     </div>
                 </article>
@@ -47,11 +53,11 @@ const HomePage = (props: IHomePageProps) => {
                     </div>
                     <div className="notice-content">
 
-                        <h1 className="notice-title"><NavLink to="/news">Application Deadline</NavLink></h1>
+                        <h1 className="notice-title"><NavLink to="/news">{localString.hm_dl}</NavLink></h1>
 
-                        <p className="notice-desc">Remember to apply the non jupas application before the deadline</p>
+                        <p className="notice-desc">{localString.hm_dl_content}</p>
 
-                        <NavLink to="/news">Click here for more information</NavLink>
+                        <NavLink to="/news">{localString.click_here}</NavLink>
 
                     </div>
                 </article>

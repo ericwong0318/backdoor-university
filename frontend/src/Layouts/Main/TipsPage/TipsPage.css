@@ -17,6 +17,8 @@
     margin-right: auto;
     width: 50%;
     line-height: 50px;
+}.box{
+    width:60%;
 }
 .Content{
     font-size: 18px;
