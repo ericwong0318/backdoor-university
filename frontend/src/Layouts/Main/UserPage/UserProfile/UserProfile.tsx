@@ -25,15 +25,10 @@ const dummyUser: IUser = {
         result: 'Totally failed'
     },
     status: 'unverified',
-    offer: [{
-        programme: {
-            school: 'MIT',
-            programme: 'Introduction to Toilet Washing',
-            type: 'asso',
-            info: 'You learn how to clean up your toilet',
-            comments: [],
-        }
-    }]
+    offer: {
+        school: 'MIT',
+        programme: 'Introduction to Toilet Washing',
+    }
 }
 const UserProfile = (props: IUserProfileProps) => {
     const { localString } = useContext(LanguageContext)

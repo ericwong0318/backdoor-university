@@ -1,5 +1,5 @@
-import { EditLocationTwoTone, PanoramaFishEyeOutlined, ViewKanban } from "@mui/icons-material"
 import { api } from "../../../App/constants"
+import { v4 as uuidv4 } from 'uuid';
 
 export enum ErrorType {
     email_used,
@@ -80,7 +80,7 @@ export const toUserRegiserSchema = (data: IRegisterFormData, file: File): FormDa
     fd.append('examname', data.examName!)
     fd.append('result', data.examResult!)
     fd.append('addmissionYear', data.admissionYear!)
-    fd.append('photo', file)
+    fd.append('photo', file, `${uuidv4()}.jpg`)
     return fd
 }
 
@@ -128,13 +128,6 @@ export const registerWithData = async (data: FormData,
                         reason: "Email used"
                     })
                     return;
-
-                default:
-                    onFailedCallback({
-                        type: ErrorType.unknown,
-                        reason: "unknown"
-                    })
-                    return;
             }
         }
 
@@ -160,11 +153,6 @@ export const registerWithData = async (data: FormData,
                         return;
                 }
             }
-        }, reason => {
-            onFailedCallback({
-                type: ErrorType.unknown,
-                reason: reason
-            })
         })
     }).catch(reason => {
         // server unavailble

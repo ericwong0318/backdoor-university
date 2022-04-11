@@ -2,7 +2,7 @@ import React, { useContext, useEffect, useState } from 'react'
 import { DataGrid, GridColDef, GridValueGetterParams } from '@mui/x-data-grid'
 import { getAllProgramme, getAllUser } from '../../../../../../features/services'
 import { LanguageContext } from '../../../../../../Components/LanguageProvider/LanguageProvider'
-import { Card, CardContent, Paper, Typography } from '@mui/material'
+import { Button, Card, CardActions, CardContent, Dialog, DialogActions, DialogContent, DialogTitle, Paper, TextField, Typography } from '@mui/material'
 
 interface IUserManagePageProps {
 
@@ -14,6 +14,7 @@ const UserManagePage = (props: IUserManagePageProps) => {
     const [triedGetData, setTriedGetData] = useState(false)
     const [users, setUsers] = useState<any[]>([])
     const [loadingError, setLoadingError] = useState("");
+    const [editUserFormOpen, setEditUserFormOpen] = useState(false)
 
     const columns: GridColDef[] = [
         { field: 'email', headerName: localString.email, width: 240 },
@@ -25,6 +26,11 @@ const UserManagePage = (props: IUserManagePageProps) => {
         // { field: 'cgpa', headerName: localString.cgpa, width: 120 },
         { field: 'status', headerName: localString.status, width: 90 },
     ]
+
+    const handleEditUserSaveButtonClick = () => {
+        // Save the user data to db
+
+    }
 
     useEffect(() => {
         if (!triedGetData) {
@@ -38,6 +44,11 @@ const UserManagePage = (props: IUserManagePageProps) => {
             setTriedGetData(true);
         }
     })
+
+    // Button click events
+    const handleEditButtonClick = () => {
+        setEditUserFormOpen(true);
+    }
 
     return (
         <React.Fragment>
@@ -57,7 +68,58 @@ const UserManagePage = (props: IUserManagePageProps) => {
                         )
                     }
                 </CardContent>
+                <CardActions>
+                    <Button variant='contained' onClick={handleEditButtonClick}>
+                        {localString.edit}
+                    </Button>
+                </CardActions>
             </Card>
+            <Dialog
+                open={editUserFormOpen}
+                onClose={() => setEditUserFormOpen(false)}
+            >
+                <DialogTitle>{localString.edit_user}</DialogTitle>
+                <DialogContent>
+                    <TextField
+                        margin="dense"
+                        label={localString.username}
+                        fullWidth
+                        variant="standard"
+                    />
+                    <TextField
+                        margin="dense"
+                        label={localString.school}
+                        fullWidth
+                        variant="standard"
+                    />
+                    <TextField
+                        margin="dense"
+                        label={localString.programme}
+                        fullWidth
+                        variant="standard"
+                    />
+                    <TextField
+                        margin="dense"
+                        label={localString.status}
+                        fullWidth
+                        variant="standard"
+                    />
+                </DialogContent>
+                <DialogActions>
+                    <Button
+                        variant="outlined"
+                        onClick={handleEditUserSaveButtonClick}
+                    >
+                        {localString.confirm}
+                    </Button>
+                    <Button
+                        variant="text"
+                        onClick={() => setEditUserFormOpen(false)}
+                    >
+                        {localString.cancel}
+                    </Button>
+                </DialogActions>
+            </Dialog>
         </React.Fragment>
     )
 }

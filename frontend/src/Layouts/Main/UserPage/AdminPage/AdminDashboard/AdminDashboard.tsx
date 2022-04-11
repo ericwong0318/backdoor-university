@@ -133,7 +133,7 @@ function DashboardContent() {
           </Typography>
 
           <Typography sx={{ marginLeft: "auto" }}>
-            <Button onClick={() => navigate(LayoutPath.home)}>
+            <Button color="secondary" onClick={() => navigate(LayoutPath.home)}>
               {localString.back_to_home}
             </Button>
           </Typography>

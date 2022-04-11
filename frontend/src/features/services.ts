@@ -8,7 +8,7 @@ export enum GetUserErrorType {
     Unknown
 }
 
-export const getUser = (data: any, successCallback?: (user: IUser) => void, failedCallback?: (err: GetUserErrorType) => void) => {
+export const getUser = (data: any, successCallback?: (user: IUser) => void, failedCallback?: (err: GetUserErrorType) => void, waitForPhoto = false) => {
     let headers = new Headers();
     headers.append('Content-Type', 'application/json');
 
@@ -64,7 +64,7 @@ export const getUser = (data: any, successCallback?: (user: IUser) => void, fail
                     })
 
                     // callback once before finish loading the photo
-                    if (successCallback)
+                    if (successCallback && !waitForPhoto)
                         successCallback(user);
                 }
             })
@@ -130,8 +130,34 @@ export const modifyPassword = (email: string, oldPassword: string, newPassword: 
     })
 }
 
-export const modifyUserInfo = () => {
+export enum ModifyUserInfoErrorType {
+    ServerUnavailable,
+    Failed,
+}
 
+export const modifyUserInfo = (data: FormData,
+    successCallback?: VoidFunction,
+    failedCallback?: (err: ModifyUserInfoErrorType) => void) => {
+    fetch(`${api.url}${api.modifyInfo}`, {
+        method: "POST",
+        body: data,
+    }).then(res => {
+        res.json().then(val => {
+            if (val.err) {
+                if (failedCallback)
+                    failedCallback(ModifyUserInfoErrorType.Failed)
+                return
+            }
+
+            if (val.msg) {
+                if (successCallback)
+                    successCallback();
+            }
+        })
+    }).catch(err => {
+        if (failedCallback)
+            failedCallback(ModifyUserInfoErrorType.ServerUnavailable);
+    })
 }
 
 export enum GetAllRequestErrorType {

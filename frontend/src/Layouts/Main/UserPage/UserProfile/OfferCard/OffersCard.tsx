@@ -28,7 +28,7 @@ const OffersCard = (props: IOffersCard) => {
                         })} */}
 
                     {
-                        (user.offer && user.offer?.length) ? (
+                        (user.offer) ? (
                             <></>
                         ) : (
                             <Typography>

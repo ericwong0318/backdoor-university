@@ -9,7 +9,7 @@ export interface IUser {
     cgpa: number,
     exam: { name: string, result: string }
     status: string,
-    offer: { programme: IProgramme }[] | null
+    offer: { school: string, programme: string } | null
 }
 
 export interface IAdmin {
