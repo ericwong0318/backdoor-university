@@ -22,6 +22,8 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 
+import { useContext } from 'react';
+import { LanguageContext } from '../../../Components/LanguageProvider/LanguageProvider';
 
 
 // Use Interface to define what this component can take in
@@ -68,6 +70,7 @@ for (var i = 1; i < data1.length; i++) {
 
 // Change the component name and the file name yourselve
 const TemplateComponent = (props: ITemplateComponentProps) => {
+    const { localString } = useContext(LanguageContext)
     // You can access the data like this:
     return (
 
@@ -99,18 +102,18 @@ const TemplateComponent = (props: ITemplateComponentProps) => {
                 </ScatterChart>
             </ResponsiveContainer>
 
-            <div> <b>Total non-JUPAS Offer: </b> {total}, ( College from <b>HKCC</b>: {hkccOffer}, <b>IVE</b>: {IVEOffer}, <b>SPACE</b>: {spaceOffer}, <b>other</b>: {otherOffer} ) </div>
+            <div> <b>{localString.totalOffer}: </b> {total}, ( <b>HKCC</b>: {hkccOffer}, <b>IVE</b>: {IVEOffer}, <b>SPACE</b>: {spaceOffer}, <b>{localString.otherCC}</b>: {otherOffer} ) </div>
 
             <TableContainer component={Paper}>
                 <Table aria-label="simple table">
                     <TableHead>
                         <TableRow>
-                            <TableCell width='1%' size='small'> <b>CC</b> </TableCell>
+                            <TableCell width='1%' size='small'> <b>{localString.CC}</b> </TableCell>
                             <TableCell width='1%' align="left"  > <b>cGPA</b></TableCell>
-                            <TableCell width='13%' align="left" > <b>CC Programme</b> </TableCell>
-                            <TableCell width='1%' align="left" > <b>Uni</b> </TableCell>
-                            <TableCell width='13%' align="left" > <b>Uni Programme</b> </TableCell>
-                            <TableCell align="left"> <b>Comment</b> </TableCell>
+                            <TableCell width='13%' align="left" > <b>{localString.CCProgramme}</b> </TableCell>
+                            <TableCell width='1%' align="left" > <b>{localString.Uni}</b> </TableCell>
+                            <TableCell width='13%' align="left" > <b>{localString.UniProgramme}</b> </TableCell>
+                            <TableCell align="left"> <b>{localString.comment}</b> </TableCell>
                         </TableRow>
                     </TableHead>
                     <TableBody>
