@@ -4,6 +4,8 @@ import './ProgrammePage.css'
 import ProgramList from './listProgramme'
 import { StyledEngineProvider } from '@mui/material/styles';
 import ReactDOM from 'react-dom/client';
+import { useContext } from 'react';
+import { LanguageContext } from '../../../Components/LanguageProvider/LanguageProvider';
 
 interface IProgrammePageProps {
 
@@ -12,11 +14,13 @@ interface IProgrammePageProps {
 
 const ProgrammePage = (props: IProgrammePageProps) => {
 
+    const { localString } = useContext(LanguageContext)
+
     return (
         <React.Fragment>
             <h1> _ </h1>
-            <h2 className="title"> Programmes </h2>
-            <h3 className="descript"> Choose a programme to check the specfic statistics </h3>
+            <h2 className="title"> {localString.ProgrammePage_Title} </h2>
+            <h3 className="descript"> {localString.choose_programme_guide} </h3>
             <StyledEngineProvider injectFirst>
 
             </StyledEngineProvider>

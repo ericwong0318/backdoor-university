@@ -127,6 +127,38 @@ export interface IAppLocalizedStrings extends LocalizedStringsMethods {
     old_pw_incorrect_error: string,
     new_pw_too_weak_error: string,
     new_old_pw_same_error: string,
+
+
+    // ProgrammePage
+    ProgrammePage_Title: String,
+    choose_programme_guide: String,
+    hku_name: String,
+    cuhk_name: String,
+    ust_name: String,
+    cityu_name: String,
+    polyu_name: String,
+    edu_name: String,
+    hsu_name: String,
+    cuhk_ai: String,
+    cuhk_ce: String,
+    cuhk_cs: String,
+    hku_civil: String,
+    hku_mech: String,
+    hku_eee: String,
+    ust_civil: String,
+    ust_chem: String,
+    ust_mech: String,
+
+    // StatisticsPage
+    StatisticsPage_Title: String,
+    SpecProgPage_Title: String,
+    comment: String,
+    UniProgramme: String,
+    CCProgramme: String,
+    CC: String,
+    Uni: String,
+    totalOffer: String,
+    otherCC: String,
 }
 
 export const AppLocalizedStrings: IAppLocalizedStrings = new LocalizedStrings(
@@ -259,6 +291,40 @@ export const AppLocalizedStrings: IAppLocalizedStrings = new LocalizedStrings(
             old_pw_incorrect_error: "Incorrect old password!",
             new_pw_too_weak_error: "The password is too weak!",
             new_old_pw_same_error: "The new password and the old password cannot be the same!",
+
+            // ProgrammePage
+            ProgrammePage_Title: "Non-JUPAS Programmes",
+            choose_programme_guide: "Choose a programme to check the specfic statistics",
+            hku_name: "The University of Hong Kong (HKU)",
+            cuhk_name: "The Chinese University of Hong Kong (CUHK)",
+            ust_name: "The Hong Kong University of Science and Technology (UST)",
+            cityu_name: "The City University of Hong Kong (CityU)",
+            polyu_name: "The Hong Kong Polytechnic University (PolyU)",
+            edu_name: "The Education University of Hong Kong (EdU)",
+            hsu_name: "The Hang Seng University of Hong Kong (HSU)",
+
+            cuhk_ai: "Artificial Intelligence",
+            cuhk_ce: "Computer Engineering",
+            cuhk_cs: "Computer Science",
+
+            hku_civil: "Civil Engineering",
+            hku_eee: "Electrical Engineering",
+            hku_mech: "Mechanical Engineering",
+
+            ust_civil: "Civil Engineering",
+            ust_chem: "Chemical Engineering",
+            ust_mech: "Mechanical Engineering",
+
+            // StatisticsPage
+            StatisticsPage_Title: "General non-JUPAS Admission Statistics",
+            SpecProgPage_Title: "Non-JUPAS Admission Statistics",
+            comment: "Comment",
+            UniProgramme: "Uni Programme",
+            CCProgramme: "CC Programme",
+            CC: "CC",
+            Uni: "Uni",
+            totalOffer: "Total Non-JUPAS Offer",
+            otherCC: "other",
         },
         zh: {
             //404 done
@@ -388,5 +454,39 @@ export const AppLocalizedStrings: IAppLocalizedStrings = new LocalizedStrings(
             old_pw_incorrect_error: "舊密碼錯誤！",
             new_pw_too_weak_error: "密碼強度不足！",
             new_old_pw_same_error: "新密碼與薺密碼不能相同！",
+
+            // ProgrammePage
+            ProgrammePage_Title: "非大學聯合招生課程",
+            choose_programme_guide: "請選擇課程查看收生數據",
+            hku_name: "香港大學 (HKU)",
+            cuhk_name: "香港中文大學 (CUHK)",
+            ust_name: "香港科技大學 (UST)",
+            cityu_name: "香港城市大學 (CityU)",
+            polyu_name: "香港理工大學 (PolyU)",
+            edu_name: "香港教育大學 (EdU)",
+            hsu_name: "香港恒生大學 (HSU)",
+
+            cuhk_ai: "人工智能",
+            cuhk_ce: "計算機工程學",
+            cuhk_cs: "計算機科學",
+
+            hku_civil: "土木工程學",
+            hku_eee: "電機工程學",
+            hku_mech: "機械工程學",
+
+            ust_civil: "土木工程學",
+            ust_chem: "化學工程學",
+            ust_mech: "機械工程學",
+
+            // StatisticsPage
+            StatisticsPage_Title: "非聯招收生 總體數據",
+            SpecProgPage_Title: "非聯招收生數據",
+            comment: "留言",
+            UniProgramme: "大學課程",
+            CCProgramme: "大專課程",
+            CC: "大專",
+            Uni: "大學",
+            totalOffer: "非聯招錄取總數",
+            otherCC: "其他",
         }
     })

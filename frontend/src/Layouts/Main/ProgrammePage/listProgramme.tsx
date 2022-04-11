@@ -13,21 +13,22 @@ import ExpandMore from '@mui/icons-material/ExpandMore';
 import SchoolIcon from '@mui/icons-material/School';
 import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
 
-
+import { useContext } from 'react';
+import { LanguageContext } from '../../../Components/LanguageProvider/LanguageProvider';
 
 export default function listProg() {
+
+    const { localString } = useContext(LanguageContext)
     let progList = [
-        { "id": 1, "name": "Artificial Intelligence", "school": "CUHK" },
-        { "id": 2, "name": "Computer Engineering", "school": "CUHK" },
-        { "id": 3, "name": "Computer Science", "school": "CUHK" },
-        { "id": 4, "name": "Computational Data Science", "school": "CUHK" },
-        { "id": 5, "name": "BEng Financial Technology", "school": "CUHK" },
-        { "id": 6, "name": "BEng in Civil Engineering", "school": "HKU" },
-        { "id": 7, "name": "BEng in Computer Science", "school": "HKU" },
-        { "id": 8, "name": "BEng in Computer Engineering", "school": "HKU" },
-        { "id": 9, "name": "BEng in Electrical Engineering", "school": "HKU" },
-        { "id": 10, "name": "BEng in Industrial Engineering and Logistics Management", "school": "HKU" },
-        { "id": 11, "name": "BEng Financial Technology", "school": "HKU" }
+        { "id": 1, "name": localString.cuhk_ai, "school": localString.cuhk_name },
+        { "id": 2, "name": localString.cuhk_ce, "school": localString.cuhk_name },
+        { "id": 3, "name": localString.cuhk_cs, "school": localString.cuhk_name },
+        { "id": 4, "name": localString.hku_civil, "school": localString.hku_name },
+        { "id": 5, "name": localString.hku_eee, "school": localString.hku_name },
+        { "id": 6, "name": localString.hku_mech, "school": localString.hku_name },
+        { "id": 7, "name": localString.ust_civil, "school": localString.ust_name },
+        { "id": 8, "name": localString.ust_chem, "school": localString.ust_name },
+        { "id": 9, "name": localString.ust_mech, "school": localString.ust_name },
     ]
 
 
@@ -64,7 +65,7 @@ export default function listProg() {
                         <ListItemIcon >
                             <SchoolIcon />
                         </ListItemIcon>
-                        <ListItemText primary="The Chinese University of Hong Kong (CUHK)" />
+                        <ListItemText primary={localString.cuhk_name} />
                         {open ? <ExpandLess /> : <ExpandMore />}
                     </ListItemButton>
                     <Collapse in={open} timeout="auto" unmountOnExit sx={{ width: '100%' }}>
@@ -101,10 +102,40 @@ export default function listProg() {
                         <ListItemIcon >
                             <SchoolIcon />
                         </ListItemIcon>
-                        <ListItemText primary="The University of Hong Kong (HKU)" />
+                        <ListItemText primary={localString.hku_name} />
                         {open2 ? <ExpandLess /> : <ExpandMore />}
                     </ListItemButton>
                     <Collapse in={open2} timeout="auto" unmountOnExit sx={{ width: '100%' }}>
+                        <List component="div" disablePadding>
+                            <ListItemButton sx={{ pl: 4, width: '100%' }}>
+                                <ListItemIcon>
+                                    <KeyboardArrowRightIcon />
+                                </ListItemIcon>
+                                <ListItemText primary={progList[3].name} />
+                            </ListItemButton>
+                            <ListItemButton sx={{ pl: 4, width: '100%' }}>
+                                <ListItemIcon>
+                                    <KeyboardArrowRightIcon />
+                                </ListItemIcon>
+                                <ListItemText primary={progList[4].name} />
+                            </ListItemButton>
+                            <ListItemButton sx={{ pl: 4, width: '100%' }}>
+                                <ListItemIcon>
+                                    <KeyboardArrowRightIcon />
+                                </ListItemIcon>
+                                <ListItemText primary={progList[5].name} />
+                            </ListItemButton>
+                        </List>
+                    </Collapse>
+
+                    <ListItemButton onClick={handleClick3}>
+                        <ListItemIcon >
+                            <SchoolIcon />
+                        </ListItemIcon>
+                        <ListItemText primary={localString.ust_name} />
+                        {open3 ? <ExpandLess /> : <ExpandMore />}
+                    </ListItemButton>
+                    <Collapse in={open3} timeout="auto" unmountOnExit sx={{ width: '100%' }}>
                         <List component="div" disablePadding>
                             <ListItemButton sx={{ pl: 4, width: '100%' }}>
                                 <ListItemIcon>
@@ -124,60 +155,6 @@ export default function listProg() {
                                 </ListItemIcon>
                                 <ListItemText primary={progList[8].name} />
                             </ListItemButton>
-                            <ListItemButton sx={{ pl: 4, width: '100%' }}>
-                                <ListItemIcon>
-                                    <KeyboardArrowRightIcon />
-                                </ListItemIcon>
-                                <ListItemText primary={progList[9].name} />
-                            </ListItemButton>
-                            <ListItemButton sx={{ pl: 4, width: '100%' }}>
-                                <ListItemIcon>
-                                    <KeyboardArrowRightIcon />
-                                </ListItemIcon>
-                                <ListItemText primary={progList[10].name} />
-                            </ListItemButton>
-                        </List>
-                    </Collapse>
-
-                    <ListItemButton onClick={handleClick3}>
-                        <ListItemIcon >
-                            <SchoolIcon />
-                        </ListItemIcon>
-                        <ListItemText primary="The Hong Kong University of Science and Technology (UST)" />
-                        {open3 ? <ExpandLess /> : <ExpandMore />}
-                    </ListItemButton>
-                    <Collapse in={open3} timeout="auto" unmountOnExit sx={{ width: '100%' }}>
-                        <List component="div" disablePadding>
-                            <ListItemButton sx={{ pl: 4, width: '100%' }}>
-                                <ListItemIcon>
-                                    <KeyboardArrowRightIcon />
-                                </ListItemIcon>
-                                <ListItemText primary="BEng in Aerospace Engineering " />
-                            </ListItemButton>
-                            <ListItemButton sx={{ pl: 4, width: '100%' }}>
-                                <ListItemIcon>
-                                    <KeyboardArrowRightIcon />
-                                </ListItemIcon>
-                                <ListItemText primary="BEng in Bioengineering " />
-                            </ListItemButton>
-                            <ListItemButton sx={{ pl: 4, width: '100%' }}>
-                                <ListItemIcon>
-                                    <KeyboardArrowRightIcon />
-                                </ListItemIcon>
-                                <ListItemText primary="BEng in Chemical Engineering " />
-                            </ListItemButton>
-                            <ListItemButton sx={{ pl: 4, width: '100%' }}>
-                                <ListItemIcon>
-                                    <KeyboardArrowRightIcon />
-                                </ListItemIcon>
-                                <ListItemText primary="BEng in Civil Engineering " />
-                            </ListItemButton>
-                            <ListItemButton sx={{ pl: 4, width: '100%' }}>
-                                <ListItemIcon>
-                                    <KeyboardArrowRightIcon />
-                                </ListItemIcon>
-                                <ListItemText primary="BEng in Computer Engineering " />
-                            </ListItemButton>
                         </List>
                     </Collapse>
 
@@ -185,28 +162,28 @@ export default function listProg() {
                         <ListItemIcon >
                             <SchoolIcon />
                         </ListItemIcon>
-                        <ListItemText primary="The City University of Hong Kong (CityU)" />
+                        <ListItemText primary={localString.cityu_name} />
                         {open ? <ExpandLess /> : <ExpandMore />}
                     </ListItemButton>
                     <ListItemButton>
                         <ListItemIcon >
                             <SchoolIcon />
                         </ListItemIcon>
-                        <ListItemText primary="The Hong Kong Polytechnic University (PolyU)" />
+                        <ListItemText primary={localString.polyu_name} />
                         {open ? <ExpandLess /> : <ExpandMore />}
                     </ListItemButton>
                     <ListItemButton>
                         <ListItemIcon >
                             <SchoolIcon />
                         </ListItemIcon>
-                        <ListItemText primary="The Education University of Hong Kong (EdUHK)" />
+                        <ListItemText primary={localString.edu_name} />
                         {open ? <ExpandLess /> : <ExpandMore />}
                     </ListItemButton>
                     <ListItemButton>
                         <ListItemIcon >
                             <SchoolIcon />
                         </ListItemIcon>
-                        <ListItemText primary="Hang Seng University of Hong Kong (HSU)" />
+                        <ListItemText primary={localString.hsu_name} />
                         {open ? <ExpandLess /> : <ExpandMore />}
                     </ListItemButton>
                 </List>
