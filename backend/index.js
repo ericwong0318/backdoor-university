@@ -34,6 +34,7 @@ const photoDir = __dirname + '/photos/';
 // default options
 app.use(fileUpload());
 
+
 /**
  * mongoose
  */
@@ -51,6 +52,7 @@ db.once('open', function () {
 /* schemas and models */
 const Schema = mongoose.Schema;
 
+// user
 const UserSchema = Schema({
     email: { type: String, unique: true, required: true },
     password: { type: String, required: true },
@@ -85,13 +87,14 @@ const UserSchema = Schema({
 });
 const User = mongoose.model('User', UserSchema);
 
+// admin
 const AdminSchema = Schema({
     email: { type: String, unique: true, required: true },
     password: { type: String, required: true },
-    name: { type: String, unique: true, required: true }
 });
 const Admin = mongoose.model('Admin', AdminSchema);
 
+// programme
 const ProgrammeSchema = Schema({
     school: { type: String, required: true },
     programme: { type: String, required: true },
@@ -103,7 +106,7 @@ const ProgrammeSchema = Schema({
     },
     info: { type: String, required: true },
     comments: [{ // include the content of interviews
-        email: { type: String },
+        email: { type: String }, // user's email
         content: { type: String }
     }],
 });
@@ -408,7 +411,7 @@ app.post('/forget-password', (req, res) => {
 });
 
 /**
- * admin functions
+ * user related functions
  */
 
 /* find all users */
@@ -454,53 +457,55 @@ app.post('/find-single-user', (req, res) => {
 });
 
 
-/* todo */
-app.post('/modify-info', (req, res) => {
-    let modifyTarget = req.body.modifyTarget; // values are user, admin, programme, report
+/* modify user */
+// email can not be modified
+app.post('/modify-user', (req, res) => {
+    User
+        .findOne({ email: req.body.email }, 'name photo currProgramme exam status offer')
+        .exec((err, user) => {
+            let photoName = uploadPhoto(req, res);
 
-    switch (modifyTarget) {
-        case 'user':
-            User
-                .findOne({ email: req.body.email }, 'email name photo currProgramme exam status offer')
-                .exec((err, user) => {
-                    user.email = req.body.email;
-                    bcrypt.hash(newPwd, salt, function (err, hash) {
-                        if (err) {
-                            return res.json(err);
-                        }
-                        user.password = hash;
-                    });
-                    user.name = req.body.name;
-                    user.photo = req.body.photo;
-                    user.currProgramme = {
-                        school: req.body.school,
-                        programme: req.body.programme,
-                        addmissionYear: req.body.addmissionYear,
-                        cgpa: req.body.cgpa
-                    };
-                    user.exam = {
-                        name: req.body.examname,
-                        result: req.body.result
-                    };
-                    user.offer = {
-                        school: req.body.offerSchool,
-                        programme: req.body.offerProgramme
-                    }
-
-                    user.save();
-                    res.json({ msg: "User information is modified" });
-                })
-            break;
-
-        case 'admin':
-
-        case 'programme':
+            if (err) {
+                return res.json({ err: "Cannot modify user information" });
+            }
+            user.name = req.body.name;
+            user.photo = photoName;
+            user.currProgramme = {
+                school: req.body.school,
+                programme: req.body.programme,
+                addmissionYear: req.body.addmissionYear,
+                type: req.body.type,
+                cgpa: req.body.cgpa
+            };
+            user.exam = {
+                name: req.body.examname,
+                result: req.body.result
+            };
+            user.offer = {
+                school: req.body.offerSchool,
+                programme: req.body.offerProgramme
+            }
 
 
-        default:
-            res.json({ err: "modify target is incorrect" })
-    }
+            user.save();
+            res.json({ msg: "User information is modified" });
+        });
 });
+
+/**
+ * programme related functions
+ */
+
+/* list all programmes */
+app.post('/list-all-programmes', (req, res) => {
+    Programme.find({}, 'school programme type info comments', {}, (err, programme) => {
+        if (programme === []) {
+            return res.status(401).json({ err: "No programme in the database" });
+        }
+        return res.json(programme);
+    });
+});
+
 
 /* create a programme */
 app.post('/create-a-programme', (req, res) => {
@@ -518,14 +523,23 @@ app.post('/create-a-programme', (req, res) => {
     });
 });
 
-/* list all programmes */
-app.post('/list-all-programmes', (req, res) => {
-    Programme.find({}, 'school programme type info comments', {}, (err, programme) => {
-        if (programme === []) {
-            return res.status(401).json({ err: "No programme in the database" });
-        }
-        return res.json(programme);
-    });
+/* modify programme */
+app.post("/modify-programme", (req, res) => {
+    Programme
+        .findOne(
+            { school: req.body.oldSchool, programme: req.body.oldProgramme }, 'school programme type info subjects')
+        .exec((err, programme) => {
+            if (err) {
+                return res.json({ err: "modify failed" })
+            }
+            programme.school = req.body.newSchool;
+            programme.programme = req.body.newProgramme;
+            programme.type = req.body.type;
+            programme.info = req.body.info;
+            programme.subjects = req.body.subjects;
+            programme.save();
+            return res.json({ msg: "Programme is modified successfully" })
+        });
 });
 
 /* submit a comment from a user */
@@ -544,6 +558,5 @@ app.post('/submit-a-comment', (req, res) => {
         res.json({ msg: "Comment submitted" });
     });
 });
-
 
 const server = app.listen(3001);
