@@ -119,7 +119,7 @@ export const registerWithData = async (data: FormData,
                         type: ErrorType.file_missing,
                         reason: "Photo missing"
                     })
-                    break;
+                    return;
 
                 case 409:
                     // Email used
@@ -127,14 +127,14 @@ export const registerWithData = async (data: FormData,
                         type: ErrorType.email_used,
                         reason: "Email used"
                     })
-                    break;
+                    return;
 
                 default:
                     onFailedCallback({
                         type: ErrorType.unknown,
                         reason: "unknown"
                     })
-                    break;
+                    return;
             }
         }
 
@@ -146,14 +146,18 @@ export const registerWithData = async (data: FormData,
             if (val.err) {
                 switch (val.err) {
                     case "No files are uploaded.":
-                        break;
+                        onFailedCallback({
+                            type: ErrorType.file_missing,
+                            reason: "Photo missing"
+                        })
+                        return;
 
                     default:
                         onFailedCallback({
                             type: ErrorType.unknown,
                             reason: val.err
                         })
-                        break;
+                        return;
                 }
             }
         }, reason => {
