@@ -35,7 +35,12 @@ export const api = {
     pathLogin: '/login',
     pathResetPW: '/forget-password',
     changePW: '/modify-password',
-    modifyInfo: '/modify-info',
+    modifyInfo: '/modify-user',
     getUser: '/find-single-user',
     getPhoto: '/photo',
+    getAllUser: '/list-all-users',
+    getAllProgramme: '/list-all-programmes',
+    addNewProgramme: '/create-a-programme',
+    updateProgramme: '/modify-programme',
+    submitComment: '/submit-a-comment',
 }

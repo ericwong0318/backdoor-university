@@ -101,7 +101,7 @@ export interface IAppLocalizedStrings extends LocalizedStringsMethods {
     subjects: string,
     interviews: string,
     programme: string,
-
+    status: string,
 
     // Fixed info
     undergrad: string,
@@ -109,6 +109,9 @@ export interface IAppLocalizedStrings extends LocalizedStringsMethods {
     hd: string,
     you_no_offer: string,
     user_has_no_offer: string,
+    unverified: string,
+    active: string,
+    banned: string,
 
     // Features
     edit: string,
@@ -127,6 +130,8 @@ export interface IAppLocalizedStrings extends LocalizedStringsMethods {
     old_pw_incorrect_error: string,
     new_pw_too_weak_error: string,
     new_old_pw_same_error: string,
+    get_user_error: string,
+    get_programme_error: string,
 }
 
 export const AppLocalizedStrings: IAppLocalizedStrings = new LocalizedStrings(
@@ -153,6 +158,11 @@ export const AppLocalizedStrings: IAppLocalizedStrings = new LocalizedStrings(
             name: "Name",
             school: "School",
             user_not_found: "No user found",
+            status: "Status",
+            unverified: "Unverified",
+            active: "Active",
+            banned: "Banned",
+
 
             /* Forgot Password */
             forgot_password: "Forgot Password",
@@ -259,6 +269,8 @@ export const AppLocalizedStrings: IAppLocalizedStrings = new LocalizedStrings(
             old_pw_incorrect_error: "Incorrect old password!",
             new_pw_too_weak_error: "The password is too weak!",
             new_old_pw_same_error: "The new password and the old password cannot be the same!",
+            get_user_error: "Error loading users",
+            get_programme_error: "Error loading programmes",
         },
         zh: {
             //404 done
@@ -281,6 +293,11 @@ export const AppLocalizedStrings: IAppLocalizedStrings = new LocalizedStrings(
             name: "姓名",
             school: "學校",
             user_not_found: "用戶不存在",
+            status: "帳戶狀態",
+            unverified: "未驗證",
+            active: "啟用中",
+            banned: "停權",
+
 
             //Forget Password
             forgot_password: "忘記密碼",
@@ -388,5 +405,7 @@ export const AppLocalizedStrings: IAppLocalizedStrings = new LocalizedStrings(
             old_pw_incorrect_error: "舊密碼錯誤！",
             new_pw_too_weak_error: "密碼強度不足！",
             new_old_pw_same_error: "新密碼與薺密碼不能相同！",
+            get_user_error: "未能取得用戶資料",
+            get_programme_error: "未能取得課程資料",
         }
     })

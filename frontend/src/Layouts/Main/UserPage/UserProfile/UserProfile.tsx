@@ -32,8 +32,6 @@ const dummyUser: IUser = {
             type: 'asso',
             info: 'You learn how to clean up your toilet',
             comments: [],
-            subjects: [],
-            interviews: undefined
         }
     }]
 }

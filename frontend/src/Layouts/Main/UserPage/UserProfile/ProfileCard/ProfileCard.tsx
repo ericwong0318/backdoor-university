@@ -59,7 +59,7 @@ const ProfileCard = (props: IProfileCard) => {
         }
     }, [editing])
 
-    // Forgot Password
+    // Change Password
     const [oldPW, setOldPW] = useState("");
     const [newPW, setNewPW] = useState("");
     const [oldPWError, setOldPWError] = useState("")
