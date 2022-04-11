@@ -1,39 +1,41 @@
 import { Avatar, Card, CardContent, CardHeader, Grid, Typography } from '@mui/material'
-import React from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { IUser } from '../../../../../App/interfaces'
-import { AppLocalizedStrings as localString } from '../../../../../App/localization'
+import { LanguageContext } from '../../../../../Components/LanguageProvider/LanguageProvider'
 
 
 interface IProgrammeCard {
     user: IUser
 }
 
-const renderProgType = (type: string) => {
-    switch (type) {
-        case 'undergrad':
-            return localString.undergrad;
-        case 'asso':
-            return localString.asso
-        case 'hd':
-            return localString.hd
-
-        default:
-            return "?"
-    }
-}
-
 const ProgrammeCard = (props: IProgrammeCard) => {
+    const { localString } = useContext(LanguageContext)
+
     const user = props.user;
+
+    const renderProgType = (type: string) => {
+        switch (type) {
+            case 'undergrad':
+                return localString.undergrad;
+            case 'asso':
+                return localString.asso
+            case 'hd':
+                return localString.hd
+
+            default:
+                return "?"
+        }
+    }
 
     return (
         <Card>
-            <CardHeader title={localString.programme} />
+            <CardHeader title={localString.programme_cat} />
             <CardContent>
                 <Grid container>
                     {/* Programme */}
                     <Grid item xs={3} md={3} lg={3}>
                         <Typography>
-                            {localString.programme}:
+                            {localString.programme_cat}:
                         </Typography>
                     </Grid>
                     <Grid item xs={9} md={9} lg={9}>

@@ -1,6 +1,8 @@
 import * as React from 'react';
 import { useEffect } from 'react';
+import { AppLocalizedStrings } from './App/localization';
 import { useAuth } from './Components/auth/AuthProvider';
+import LanguageProvider from './Components/LanguageProvider/LanguageProvider';
 import Footer from './Layouts/Footer/Footer';
 import Header from './Layouts/Header/Header';
 import Main from './Layouts/Main/Main';
@@ -15,17 +17,13 @@ function App() {
     }
   })
 
-
   return (
     <div className="App">
-      <head>
-        <title>
-          Backdoor-University
-        </title>
-      </head>
-      <Header />
-      <Main />
-      <Footer />
+      <LanguageProvider>
+        <Header />
+        <Main />
+        <Footer />
+      </LanguageProvider>
     </div>
   );
 }

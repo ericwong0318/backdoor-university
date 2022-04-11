@@ -1,15 +1,17 @@
 import { List, ListItemButton, ListItemIcon, ListItemText } from '@mui/material'
-import React, { useRef } from 'react'
+import React, { useContext, useRef } from 'react'
 import AccountBoxTwoToneIcon from '@mui/icons-material/AccountBoxTwoTone';
 import MenuBookTwoToneIcon from '@mui/icons-material/MenuBookTwoTone';
 import SchoolTwoToneIcon from '@mui/icons-material/SchoolTwoTone';
-import { AppLocalizedStrings as localString } from '../../../../../App/localization';
+import { LanguageContext } from '../../../../../Components/LanguageProvider/LanguageProvider';
 
 interface ISideMenu {
     refs: React.MutableRefObject<any>[]
 }
 
 const SideMenu = (props: ISideMenu) => {
+    const { localString } = useContext(LanguageContext)
+
     const menuItems = [
         { text: localString.profile, icon: <AccountBoxTwoToneIcon />, ref: props.refs[0] },
         { text: localString.curr_prog, icon: <MenuBookTwoToneIcon />, ref: props.refs[1] },

@@ -1,40 +1,36 @@
-import React, { useEffect, useState } from 'react'
+import React, { useContext } from 'react'
 import Select, { SelectChangeEvent, SelectProps } from '@mui/material/Select';
-import LocalizedStrings from 'react-localization';
-import { AppLocalizedStrings } from '../../App/localization';
 import { MenuItem } from '@mui/material';
+import { LanguageContext } from '../LanguageProvider/LanguageProvider';
 
 interface ILocaleSelectorProps extends SelectProps {
 }
 
-const getTranslatedLanCode = (code: string) => {
-    switch (code) {
-        case 'en':
-            return AppLocalizedStrings.en;
-
-        case 'zh':
-            return AppLocalizedStrings.zh;
-    }
-}
-
 const LocaleSelector = (props: ILocaleSelectorProps) => {
-    const lanOpts = AppLocalizedStrings.getAvailableLanguages()
-    const [lan, setLan] = useState(lanOpts[0])
-    const defaultLan = (AppLocalizedStrings.getInterfaceLanguage() in lanOpts) ?
-        AppLocalizedStrings.getInterfaceLanguage() :
-        lanOpts[0]
+    const { language, setLanguage, localString } = useContext(LanguageContext);
+    const lanOpts = localString.getAvailableLanguages()
+
+    const getTranslatedLanCode = (code: string) => {
+        switch (code) {
+            case 'en':
+                return localString.en;
+
+            case 'zh':
+                return localString.zh;
+        }
+    }
+
 
     const handleChange = (event: SelectChangeEvent) => {
-        setLan(event.target.value);
+        localStorage.setItem('backdoor-university-pref-lan', event.target.value)
+        setLanguage(event.target.value)
     }
-
-    useEffect(() => console.log(lanOpts))
 
     return (
         <Select
-            value={lan}
-            label={AppLocalizedStrings.language}
-            defaultValue={defaultLan}
+            value={language}
+            label={localString.language}
+            defaultValue={localString.getLanguage()}
             onChange={handleChange}
             sx={props.sx}
         >

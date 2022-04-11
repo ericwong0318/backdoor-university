@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { styled, createTheme, ThemeProvider } from '@mui/material/styles';
+import { styled } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
 import MuiDrawer from '@mui/material/Drawer';
 import Box from '@mui/material/Box';
@@ -9,18 +9,23 @@ import List from '@mui/material/List';
 import Typography from '@mui/material/Typography';
 import Divider from '@mui/material/Divider';
 import IconButton from '@mui/material/IconButton';
-import Badge from '@mui/material/Badge';
 import Container from '@mui/material/Container';
 import Grid from '@mui/material/Grid';
 import Paper from '@mui/material/Paper';
-import Link from '@mui/material/Link';
 import MenuIcon from '@mui/icons-material/Menu';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
-import NotificationsIcon from '@mui/icons-material/Notifications';
-import { mainListItems, secondaryListItems } from './listItems';
 import Chart from './Chart';
 import Deposits from './Deposits';
 import Orders from './Orders';
+import { LanguageContext } from '../../../../../Components/LanguageProvider/LanguageProvider';
+import ListItemButton from '@mui/material/ListItemButton';
+import ListItemIcon from '@mui/material/ListItemIcon';
+import ListItemText from '@mui/material/ListItemText';
+import CommentIcon from '@mui/icons-material/Comment';
+import AssignmentIndIcon from '@mui/icons-material/AssignmentInd';
+import GroupIcon from '@mui/icons-material/Group';
+import ListAltIcon from '@mui/icons-material/ListAlt';
+import { AdminDashboardPath } from '../../../../../App/constants';
 
 const drawerWidth: number = 240;
 
@@ -73,10 +78,18 @@ const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' 
 );
 
 function DashboardContent() {
+  const { localString } = React.useContext(LanguageContext)
   const [open, setOpen] = React.useState(true);
   const toggleDrawer = () => {
     setOpen(!open);
   };
+
+  const mainListItemsData = [
+    { text: localString.my_profile, icon: <AssignmentIndIcon />, path: AdminDashboardPath.myProfile },
+    { text: localString.users, icon: <GroupIcon />, path: AdminDashboardPath.users },
+    { text: localString.programmes, icon: <ListAltIcon />, path: AdminDashboardPath.programmes },
+    { text: localString.comments, icon: <CommentIcon />, path: AdminDashboardPath.comments },
+  ]
 
   return (
     <Box sx={{ display: 'flex' }}>
@@ -124,10 +137,18 @@ function DashboardContent() {
           </IconButton>
         </Toolbar>
         <Divider />
-        <List component="nav">
-          {mainListItems}
+        <List component="nav"><React.Fragment>
+          {mainListItemsData.map((d) => {
+            return <ListItemButton>
+              <ListItemIcon>
+                {d.icon}
+              </ListItemIcon>
+              <ListItemText primary={d.text} />
+            </ListItemButton>
+          })}
+        </React.Fragment>
           <Divider sx={{ my: 1 }} />
-          {secondaryListItems}
+
         </List>
       </Drawer>
       <Box

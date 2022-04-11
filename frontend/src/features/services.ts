@@ -1,6 +1,6 @@
 import { ReadMoreRounded } from "@mui/icons-material";
 import { api } from "../App/constants"
-import { IUser, UserTypeEnum } from "../App/interfaces"
+import { IUser, UserRoleEnum } from "../App/interfaces"
 
 export enum GetUserErrorType {
     ServerUnavailable,
@@ -82,10 +82,10 @@ export enum ModifyPasswordErrorType {
     Unknown
 }
 
-export const modifyPassword = (email: string, oldPassword: string, newPassword: string, role: UserTypeEnum,
+export const modifyPassword = (email: string, oldPassword: string, newPassword: string, role: UserRoleEnum,
     successCallback: VoidFunction,
     failedCallback: (err: ModifyPasswordErrorType) => void) => {
-    const userRole = (role === UserTypeEnum.admin) ? 'admin' : 'user';
+    const userRole = (role === UserRoleEnum.admin) ? 'admin' : 'user';
 
     const headers = new Headers();
     headers.append('Content-Type', 'application/json');
@@ -129,3 +129,5 @@ export const modifyPassword = (email: string, oldPassword: string, newPassword: 
             failedCallback(ModifyPasswordErrorType.ServerUnavailable);
     })
 }
+
+// export const modifyUserInfo= ()

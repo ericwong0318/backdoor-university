@@ -14,6 +14,7 @@ export const LayoutPath = {
     forgotpassword: "/forgot-password",
     user: "/user",
     admin: "/admin",
+    error: "/404",
     default: "*",
 }
 
