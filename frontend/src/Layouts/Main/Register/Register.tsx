@@ -307,7 +307,7 @@ const Register = (props: IRegisterProps) => {
                                         fullWidth
                                         id={register.formKey.programme}
                                         name={register.formKey.programme}
-                                        label={localString.programme}
+                                        label={localString.programme_cat}
                                         onChange={() => {
                                             setErrorProgramme("");
                                         }}

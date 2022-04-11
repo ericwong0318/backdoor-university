@@ -23,7 +23,7 @@ const drawerListItems = [
     { text: localString.home, icon: <HomeIcon />, path: LayoutPath.home },
     { text: localString.tips, icon: <TipsAndUpdatesIcon />, path: LayoutPath.tips },
     { text: localString.news, icon: <NewspaperIcon />, path: LayoutPath.news },
-    { text: localString.programme, icon: <BookIcon />, path: LayoutPath.programme },
+    { text: localString.programme_cat, icon: <BookIcon />, path: LayoutPath.programme },
     { text: localString.statistics, icon: <BarChartIcon />, path: LayoutPath.statistics },
 ]
 

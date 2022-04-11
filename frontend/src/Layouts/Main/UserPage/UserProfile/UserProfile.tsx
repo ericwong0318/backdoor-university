@@ -2,6 +2,7 @@ import { Card, CardContent, CardHeader, Container, Grid } from '@mui/material'
 import React, { useEffect, useRef, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import { IUser } from '../../../../App/interfaces'
+import { AppLocalizedStrings as localString } from '../../../../App/localization'
 import { getUser, GetUserErrorType } from '../../../../features/services'
 import OffersCard from './OfferCard/OffersCard'
 import ProfileCard from './ProfileCard/ProfileCard'
@@ -24,7 +25,7 @@ const dummyUser: IUser = {
         result: 'Totally failed'
     },
     status: 'unverified',
-    offer: {
+    offer: [{
         programme: {
             school: 'MIT',
             programme: 'Introduction to Toilet Washing',
@@ -34,7 +35,7 @@ const dummyUser: IUser = {
             subjects: [],
             interviews: undefined
         }
-    }
+    }]
 }
 const UserProfile = (props: IUserProfileProps) => {
     // Data
@@ -52,6 +53,7 @@ const UserProfile = (props: IUserProfileProps) => {
     const refProg = useRef(null);
     const refOffer = useRef(null);
 
+    // Load user info
     useEffect(() => {
         if (!triedLoadInfo) {
             setTriedLoadInfo(true);
@@ -79,35 +81,39 @@ const UserProfile = (props: IUserProfileProps) => {
         <React.Fragment>
 
             <Container sx={{ marginTop: '6%' }}>
-                <Grid container spacing={2}>
-                    <Grid container spacing={2} item xs={12} md={4} lg={3}>
-                        <Grid item xs={12} md={12} lg={12}>
-                            <Card >
-                                <CardHeader />
-                                <CardContent>
-                                    <SideMenu refs={[refProfile, refProg, refOffer]} />
-                                </CardContent>
-                            </Card>
-                        </Grid>
-                    </Grid>
-                    <Grid container spacing={2} item xs={12} md={8} lg={9}>
+                {
+                    (!isLoadingInfo && userNotFound) ? (
+                        <Card>
+                            <CardHeader
+                                title={localString.user_not_found}
+                            />
+                        </Card>
+                    ) : (
+                        <Grid container spacing={2}>
+                            <Grid container spacing={2} item xs={12} md={4} lg={3}>
+                                <Grid item xs={12} md={12} lg={12}>
+                                    <Card >
+                                        <CardHeader />
+                                        <CardContent>
+                                            <SideMenu refs={[refProfile, refProg, refOffer]} />
+                                        </CardContent>
+                                    </Card>
+                                </Grid>
+                            </Grid>
+                            <Grid container spacing={2} item xs={12} md={8} lg={9}>
 
-                        {/* Profile Card */}
-                        <Grid item xs={12} md={12} lg={12} ref={refProfile}>
-                            <ProfileCard user={user} />
-                        </Grid>
+                                {/* Profile Card */}
+                                <Grid item xs={12} md={12} lg={12} ref={refProfile}>
+                                    <ProfileCard user={user} />
+                                </Grid>
 
-                        {/* Programme Card */}
-                        <Grid item xs={12} md={12} lg={12}>
-                            <ProgrammeCard user={user} />
-                        </Grid>
-
-                        {/* Offer Card */}
-                        <Grid item xs={12} md={12} lg={12}>
-                            <OffersCard user={user} />
-                        </Grid>
-                    </Grid>
-                </Grid>
+                                {/* Offer Card */}
+                                <Grid item xs={12} md={12} lg={12}>
+                                    <OffersCard user={user} />
+                                </Grid>
+                            </Grid>
+                        </Grid>)
+                }
             </Container>
         </React.Fragment>
     )

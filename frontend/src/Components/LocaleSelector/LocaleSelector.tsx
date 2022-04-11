@@ -28,8 +28,6 @@ const LocaleSelector = (props: ILocaleSelectorProps) => {
         setLan(event.target.value);
     }
 
-    useEffect(() => console.log(lanOpts))
-
     return (
         <Select
             value={lan}

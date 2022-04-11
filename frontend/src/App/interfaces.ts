@@ -9,7 +9,7 @@ export interface IUser {
     cgpa: number,
     exam: { name: string, result: string }
     status: 'unverified' | 'active' | 'banned',
-    offer: { programme: IProgramme } | null
+    offer: { programme: IProgramme }[] | null
 }
 
 export interface IAdmin {

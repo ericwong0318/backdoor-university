@@ -1,4 +1,4 @@
-import { Alert, Avatar, Box, Button, Card, CardActions, CardContent, CardHeader, Divider, Grid, IconButton, Paper, Popper, Snackbar, TextField, Typography } from '@mui/material'
+import { Alert, Avatar, Box, Button, Card, CardActions, CardContent, CardHeader, Divider, Grid, IconButton, OutlinedInput, List, ListItem, ListItemText, Paper, Popper, Snackbar, TextField, Typography, Select, MenuItem } from '@mui/material'
 import React, { useEffect, useState } from 'react'
 import { IUser, UserTypeEnum } from '../../../../../App/interfaces'
 import { useAuth } from '../../../../../Components/auth/AuthProvider'
@@ -11,15 +11,48 @@ interface IProfileCard {
     user: IUser
 }
 
+const renderProgType = (type: string) => {
+    switch (type) {
+        case 'undergrad':
+            return localString.undergrad;
+        case 'asso':
+            return localString.asso
+        case 'hd':
+            return localString.hd
+
+        default:
+            return "?"
+    }
+}
+
 const ProfileCard = (props: IProfileCard) => {
     const user = props.user;
     const auth = useAuth();
     const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
     const changePWPopperOpen = Boolean(anchorEl);
-
-    const [editing, setEditing] = useState(false);
+    const [avatar, setAvatar] = useState("")
 
     // Edit profile info
+    const [editing, setEditing] = useState(false);
+    const [editEmail, setEditEmail] = useState(user.email)
+    const [editUsername, setEditUsername] = useState(user.name)
+    const [editSchool, setEditSchool] = useState(user.school)
+    const [editProgramme, setEditProgramme] = useState(user.programme)
+    const [editType, setEditType] = useState(user.type)
+    const [editAdmissionYear, setEditAdmissionYear] = useState(user.admissionYear)
+    const [editCGPA, setEditCGPA] = useState(user.cgpa)
+
+    useEffect(() => {
+        if (editing) {
+            setEditEmail(user.email)
+            setEditUsername(user.name)
+            setEditSchool(user.school)
+            setEditProgramme(user.programme)
+            setEditType(user.type)
+            setEditAdmissionYear(user.admissionYear)
+            setEditCGPA(user.cgpa)
+        }
+    }, [editing])
 
     // Forgot Password
     const [oldPW, setOldPW] = useState("");
@@ -94,6 +127,12 @@ const ProfileCard = (props: IProfileCard) => {
         setErrorSnackbarOpen(false);
     }
 
+    useEffect(() => {
+        if (!avatar && props.user.photo) {
+            setAvatar(props.user.photo)
+        }
+    })
+
     return (
         <React.Fragment>
             <Card>
@@ -110,10 +149,10 @@ const ProfileCard = (props: IProfileCard) => {
                     <Grid container spacing={5}>
                         <Grid item xs={12} md={12} lg={12}>
                             <Typography>
-                                {user.photo ? (
+                                {avatar ? (
                                     <Avatar sx={{ width: "120px", height: "120px" }}
                                         alt={user.name}
-                                        src={user.photo!} />
+                                        src={avatar} />
                                 )
                                     : (
                                         <AccountCircleIcon sx={{ width: "120px", height: "120px" }} />
@@ -123,7 +162,7 @@ const ProfileCard = (props: IProfileCard) => {
 
                         {/* Info table */}
                         <Grid item xs={12} md={12} lg={12}>
-                            <Grid container>
+                            <Grid container spacing={1}>
                                 {/* Email */}
                                 <Grid item xs={3} md={3} lg={3}>
                                     <Typography>
@@ -133,9 +172,7 @@ const ProfileCard = (props: IProfileCard) => {
                                 <Grid item xs={9} md={9} lg={9}>
                                     {
                                         editing ? (
-                                            <TextField>
-
-                                            </TextField>
+                                            <TextField fullWidth size="small" value={editEmail} onChange={e => setEditEmail(e.target.value)} />
                                         ) : (
                                             <Typography >
                                                 {user.email}
@@ -151,9 +188,15 @@ const ProfileCard = (props: IProfileCard) => {
                                     </Typography>
                                 </Grid>
                                 <Grid item xs={9} md={9} lg={9}>
-                                    <Typography >
-                                        {user.name}
-                                    </Typography>
+                                    {
+                                        editing ? (
+                                            <TextField fullWidth size="small" value={editUsername} onChange={e => setEditUsername(e.target.value)} />
+                                        ) : (
+                                            <Typography >
+                                                {user.name}
+                                            </Typography>
+                                        )
+                                    }
                                 </Grid>
 
                                 {/* School */}
@@ -163,21 +206,119 @@ const ProfileCard = (props: IProfileCard) => {
                                     </Typography>
                                 </Grid>
                                 <Grid item xs={9} md={9} lg={9}>
-                                    <Typography >
-                                        {user.school}
-                                    </Typography>
+                                    {
+                                        editing ? (
+                                            <TextField fullWidth size="small" value={editSchool} onChange={e => setEditSchool(e.target.value)} />
+                                        ) : (
+                                            <Typography >
+                                                {user.school}
+                                            </Typography>
+                                        )
+                                    }
                                 </Grid>
                             </Grid>
                         </Grid>
                     </Grid>
+                    <Divider sx={{ my: '3%' }} />
+                    <Grid container spacing={1}>
+                        {/* Programme */}
+                        <Grid item xs={12} md={12} lg={12} sx={{ marginBottom: "10px" }}>
+                            <Typography variant="h5">
+                                {localString.programme}
+                            </Typography>
+                        </Grid>
+                        <Grid item xs={3} md={3} lg={3}>
+                            <Typography>
+                                {localString.name}:
+                            </Typography>
+                        </Grid>
+                        <Grid item xs={9} md={9} lg={9}>
+                            <Typography >
+                                {
+                                    editing ? (
+                                        <TextField fullWidth size="small" value={editProgramme} onChange={e => setEditProgramme(e.target.value)} />
+                                    ) : (
+                                        <Typography >
+                                            {user.programme}
+                                        </Typography>
+                                    )
+                                }
+                            </Typography>
+                        </Grid>
+
+                        {/* Type */}
+                        <Grid item xs={3} md={3} lg={3}>
+                            <Typography>
+                                {localString.prog_type}:
+                            </Typography>
+                        </Grid>
+                        <Grid item xs={9} md={9} lg={9}>
+
+                            {
+                                editing ? (
+                                    <Select value={editType} onChange={e => {
+                                        if (e.target.value === "undergrad" || e.target.value === "asso" || e.target.value === "hd")
+                                            setEditType(e.target.value)
+                                    }}>
+                                        <MenuItem value={"undergrad"}>{renderProgType("undergrad")}</MenuItem>
+                                        <MenuItem value={"asso"}>{renderProgType("asso")}</MenuItem>
+                                        <MenuItem value={"hd"}>{renderProgType("hd")}</MenuItem>
+                                    </Select>
+                                ) : (
+                                    <Typography >
+                                        {renderProgType(user.type)}
+                                    </Typography>
+                                )
+                            }
+                        </Grid>
+
+                        {/* Admission Year */}
+                        <Grid item xs={3} md={3} lg={3}>
+                            <Typography>
+                                {localString.admission_year}:
+                            </Typography>
+                        </Grid>
+                        <Grid item xs={9} md={9} lg={9}>
+                            {
+                                editing ? (
+                                    <OutlinedInput type="number" fullWidth size="small" value={editAdmissionYear} onChange={e => setEditAdmissionYear(Number(e.target.value))} />
+                                ) : (
+                                    <Typography >
+                                        {user.admissionYear}
+                                    </Typography>
+                                )
+                            }
+                        </Grid>
+
+                        {/* CGPA */}
+                        <Grid item xs={3} md={3} lg={3}>
+                            <Typography>
+                                {localString.cgpa}:
+                            </Typography>
+                        </Grid>
+                        <Grid item xs={9} md={9} lg={9}>
+                            {
+                                editing ? (
+                                    <OutlinedInput type='number' fullWidth size="small" value={editCGPA} onChange={e => setEditCGPA(Number(e.target.value))} />
+                                ) : (
+                                    <Typography >
+                                        {user.cgpa}
+                                    </Typography>
+                                )
+                            }
+                        </Grid>
+                    </Grid>
 
                     {/* Editing related buttons */}
-                    <Divider sx={{ marginTop: '3%' }} />
+                    <Divider sx={{ my: '3%' }} />
                     <CardActions>
                         <Grid item xs={12} md={12} lg={12}>
-                            <Button onClick={e => setAnchorEl(anchorEl ? null : e.currentTarget)}>
-                                {localString.change_password}
-                            </Button>
+                            {
+                                (auth.user && auth.user.email === user.email) &&
+                                <Button onClick={e => setAnchorEl(anchorEl ? null : e.currentTarget)}>
+                                    {localString.change_password}
+                                </Button>
+                            }
                         </Grid>
                         {editing && <>
                             <Button sx={{ marginLeft: "auto" }}
@@ -198,6 +339,8 @@ const ProfileCard = (props: IProfileCard) => {
                     </CardActions>
                 </CardContent>
             </Card>
+
+            {/* Modify Password */}
             <Popper open={changePWPopperOpen} anchorEl={anchorEl}>
                 <Box sx={{ width: "240px", border: 1, p: 1, bgcolor: 'background.paper' }}>
                     <Grid container spacing={3}>

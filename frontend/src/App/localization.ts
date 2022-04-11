@@ -40,7 +40,7 @@ export interface IAppLocalizedStrings extends LocalizedStringsMethods {
     home: string,
     tips: string,
     news: string,
-    programme: string,
+    programme_cat: string,
     statistics: string,
     games: string,
     search_prog: string
@@ -89,6 +89,7 @@ export interface IAppLocalizedStrings extends LocalizedStringsMethods {
     // Headers
     curr_prog: string,
     offers: string,
+    user_not_found: string,
 
     // Profile info headers
     avatar: string,
@@ -99,13 +100,15 @@ export interface IAppLocalizedStrings extends LocalizedStringsMethods {
     prog_info: string,
     subjects: string,
     interviews: string,
+    programme: string,
 
 
     // Fixed info
     undergrad: string,
     asso: string,
     hd: string,
-
+    you_no_offer: string,
+    user_has_no_offer: string,
 
     // Features
     edit: string,
@@ -149,6 +152,7 @@ export const AppLocalizedStrings: IAppLocalizedStrings = new LocalizedStrings(
             search: "Search",
             name: "Name",
             school: "School",
+            user_not_found: "No user found",
 
             /* Forgot Password */
             forgot_password: "Forgot Password",
@@ -166,7 +170,7 @@ export const AppLocalizedStrings: IAppLocalizedStrings = new LocalizedStrings(
             home: "Home",
             tips: "Tips",
             news: "News",
-            programme: "Programme Catalog",
+            programme_cat: "Programme Catalog",
             statistics: "Statistics",
             search_prog: "Search Programme",
             games: "Games",
@@ -228,13 +232,15 @@ export const AppLocalizedStrings: IAppLocalizedStrings = new LocalizedStrings(
             prog_info: 'Info',
             subjects: 'Subjects',
             interviews: 'Interviews',
+            programme: 'Programme',
 
 
             // Fixed info
             undergrad: 'Undergraduate',
             asso: 'Associate degree',
             hd: 'Higher Diploma',
-
+            you_no_offer: 'You have no offer yet',
+            user_has_no_offer: "This user don't have any offer yet.",
 
             // Features
             edit: 'Edit',

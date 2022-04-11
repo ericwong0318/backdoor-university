@@ -1,5 +1,5 @@
 import { Avatar, Card, CardContent, CardHeader, Grid, Typography } from '@mui/material'
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { IUser } from '../../../../../App/interfaces'
 import { AppLocalizedStrings as localString } from '../../../../../App/localization'
 
@@ -27,13 +27,13 @@ const ProgrammeCard = (props: IProgrammeCard) => {
 
     return (
         <Card>
-            <CardHeader title={localString.programme} />
+            <CardHeader title={localString.programme_cat} />
             <CardContent>
                 <Grid container>
                     {/* Programme */}
                     <Grid item xs={3} md={3} lg={3}>
                         <Typography>
-                            {localString.programme}:
+                            {localString.programme_cat}:
                         </Typography>
                     </Grid>
                     <Grid item xs={9} md={9} lg={9}>
