@@ -74,10 +74,25 @@ export default function ProgramDetail() {
         }
     }
 
+    var ProgrammeName = rows2[0].uniprog;
+    var University = rows2[0].uni;
+
+    if (ProgrammeName == "Artificial Intelligence" && University == "CUHK") {
+        ProgrammeName = localString.cuhk_ai;
+    }
+
+    if (ProgrammeName == "Computer Engineering" && University == "CUHK") {
+        ProgrammeName = localString.cuhk_ce;
+    }
+
+    if (ProgrammeName == "Computer Science" && University == "CUHK") {
+        ProgrammeName = localString.cuhk_cs;
+    }
+
     return (
         <div>
             <h1>___</h1>
-            <h1 className="title" > {rows2[0].uni}, {rows2[0].uniprog} {localString.SpecProgPage_Title}</h1>
+            <h1 className="title" > {rows2[0].uni}, {ProgrammeName} {localString.SpecProgPage_Title}</h1>
             <ResponsiveContainer width="100%" aspect={4.5}>
                 <ScatterChart
                     width={500}

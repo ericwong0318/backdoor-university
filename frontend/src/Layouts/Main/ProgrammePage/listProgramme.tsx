@@ -31,7 +31,6 @@ export default function listProg() {
         { "id": 9, "name": localString.ust_mech, "school": localString.ust_name },
     ]
 
-
     const [open, setOpen] = React.useState(false);
     const handleClick = () => {
         setOpen(!open);
