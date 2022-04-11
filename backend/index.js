@@ -80,13 +80,13 @@ const UserSchema = Schema({
         enum: ['unverified', 'active', 'banned'],
         default: 'unverified'
     },
-    offer: [{
-        programme: [{ type: Schema.Types.ObjectId, ref: 'Programme' }]
+    offer: {
+        programme: { type: Schema.Types.ObjectId, ref: 'Programme' }
         // school: { type: String, required: true },
         // programme: { type: String, required: true },
         // year: { type: Number, required: true },
         // detail: { type: String }
-    }]
+    }
 });
 const User = mongoose.model('User', UserSchema);
 
@@ -107,14 +107,10 @@ const ProgrammeSchema = Schema({
         default: 'undergrad'
     },
     info: { type: String, required: true },
-    comments: [{ type: String }],
-    subjects: [{ type: String, required: true }],
-    interviews: [{
-        user: { type: Schema.Types.ObjectId, ref: 'User' },
-        // date: { type: Date("<YYYY-mm-dd>"), required: true },
-        date: { type: String, required: true },
-        content: { type: String, required: true },
-    }]
+    comments: [{
+        email: { type: String },
+        content: { type: String }
+    }], // include the content of interviews
 });
 const Programme = mongoose.model('Programme', ProgrammeSchema);
 
@@ -237,7 +233,7 @@ app.post('/register', (req, res) => {
                 },
                 status: 'unverified', // will change to active after passed email verification
                 offer: req.body.offer /* need checking correctness*/
-            }, (err, user) => {
+            }, (err) => {
                 if (err) {
                     res.status(409).json(err);
                     return
@@ -435,7 +431,7 @@ app.post('/list-all-users', (req, res) => {
         .find({}, 'email name photo currProgramme exam status offer')
         .exec((err, users) => {
             if (users === []) {
-                return res.status(401).json({ msg: "Email" });
+                return res.status(401).json({ err: "No users in the database" });
             }
             else {
                 res.json(users);
@@ -515,27 +511,48 @@ app.post('/modify-info', (req, res) => {
     }
 });
 
-app.post('/create-programme', (req, res) => {
-    let school = req.body.school;
-    let prog = req.body.programme;
-    let type = req.body.type;
-    let info = req.body.info;
-    let subjects = req.body.subjects;
-    let interviwe = req.body.interviews;
-
+/* create a programme */
+app.post('/create-a-programme', (req, res) => {
     Programme.create({
+        school: req.body.school,
+        programme: req.body.programme,
+        type: req.body.type,
+        info: req.body.info,
+        subjects: req.body.subjects,
+    }, (err) => {
+        if (err) {
+            return res.json({ err: "Can not create a programme" });
+        }
+        return res.json({ msg: "Programme created successful" });
+    });
+});
 
-    })
-})
+/* list all programmes */
+app.post('/list-all-programmes', (req, res) => {
+    Programme.find({}, 'school programme type info comments', {}, (err, programme) => {
+        if (programme === []) {
+            return res.status(401).json({ err: "No programme in the database" });
+        }
+        return res.json(programme);
+    });
+});
 
+/* submit a comment from a user */
 app.post('/submit-a-comment', (req, res) => {
-    let com = req.body.comment;
-    // programme.
-})
-
-app.post('/get-comments', (req, res) => {
-
-})
+    let email = req.body.email;
+    let content = req.body.content;
+    Programme.findOne({ school: req.body.school, programme: req.body.programme }, 'comments', {}, (err, programme) => {
+        if (err) {
+            return res.json({ err: "Comment cannot submitted" });
+        }
+        programme.comments.push({
+            email: email, 
+            content: content
+        });
+        programme.save();
+        res.json({ msg: "Comment submitted" });
+    });
+});
 
 
 const server = app.listen(3001);
