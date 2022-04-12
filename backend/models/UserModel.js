@@ -31,8 +31,8 @@ const UserSchema = Schema({
         default: 'unverified'
     },
     offer: {
-        school: { type: String, required: true },
-        programme: { type: String, required: true }
+        school: { type: String },
+        programme: { type: String }
     }
 });
 const User = mongoose.model('User', UserSchema);
