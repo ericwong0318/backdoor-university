@@ -16,6 +16,8 @@ import {
     ResponsiveContainer
 } from 'recharts';
 
+import { useContext } from 'react';
+import { LanguageContext } from '../../../Components/LanguageProvider/LanguageProvider';
 
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
@@ -41,11 +43,8 @@ function createData2(
 
 const rows2 = new Array();
 
-
-
-
-
 export default function ProgramDetail() {
+    const { localString } = useContext(LanguageContext)
     let params = useParams();
     rows2.length = 0;
 
@@ -78,7 +77,7 @@ export default function ProgramDetail() {
     return (
         <div>
             <h1>___</h1>
-            <h1 className="title" > {rows2[0].uni}, {rows2[0].uniprog} non-JUPAS Admission Statistics</h1>
+            <h1 className="title" > {rows2[0].uni}, {rows2[0].uniprog} {localString.SpecProgPage_Title}</h1>
             <ResponsiveContainer width="100%" aspect={4.5}>
                 <ScatterChart
                     width={500}
@@ -104,16 +103,16 @@ export default function ProgramDetail() {
 
                 </ScatterChart>
             </ResponsiveContainer>
-            <div> <b>Number of non-JUPAS Offer: </b> {total}, ( College from <b>HKCC</b>: {hkccOffer}, <b>IVE</b>: {IVEOffer}, <b>SPACE</b>: {spaceOffer}, <b>other</b>: {otherOffer} ) </div>
+            <div> <b>{localString.totalOffer}: </b> {total}, ( <b>HKCC</b>: {hkccOffer}, <b>IVE</b>: {IVEOffer}, <b>SPACE</b>: {spaceOffer}, <b>{localString.otherCC}</b>: {otherOffer} ) </div>
 
             <TableContainer component={Paper}>
                 <Table aria-label="simple table">
                     <TableHead>
                         <TableRow>
-                            <TableCell width='1%' size='small'> <b>CC</b> </TableCell>
+                            <TableCell width='1%' size='small'> <b>{localString.CC}</b> </TableCell>
                             <TableCell width='1%' align="left"  > <b>cGPA</b></TableCell>
-                            <TableCell width='15%' align="left" > <b>CC Programme</b> </TableCell>
-                            <TableCell align="left"> <b>Comment</b> </TableCell>
+                            <TableCell width='15%' align="left" > <b>{localString.CCProgramme}</b> </TableCell>
+                            <TableCell align="left"> <b>{localString.comment}</b> </TableCell>
                         </TableRow>
                     </TableHead>
                     <TableBody>

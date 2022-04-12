@@ -3,6 +3,8 @@ import { alignProperty } from '@mui/material/styles/cssUtils';
 import { fontSize } from '@mui/system';
 import React from 'react';
 import './NewsPage.css'
+import { useContext } from 'react';
+import { LanguageContext } from '../../../Components/LanguageProvider/LanguageProvider';
 
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
@@ -16,26 +18,27 @@ interface INewsPageProps {
 }
 
 const NewsPage = (props: INewsPageProps) => {
+  const { localString } = useContext(LanguageContext)
   let uniList=[
-    {"id": 1, "name": "CUHK", "image": "/img/cuhk_logo.jpg", "early":"Early Round Deadline: 17 Nov 2021", "main": "Regular Round Deadline: 6 Jan 2022", "extend": "Extended Application Deadline: 31 May 2022"},
+    {"id": 1, "name": localString.cuhk_name, "image": "/img/cuhk_logo.jpg", "early":localString.cuhk_early, "main": localString.cuhk_main, "extend": localString.cuhk_extend},
 
-    {"id": 2, "name": "HKUST", "image": "/img/hkust_logo.png", "early":"Early Round Deadline: 19 Nov 2021", "main": "Regular Round Deadline: 14 Jan 2022", "extend": "Extended Application Deadline: N/A"},
+    {"id": 2, "name": localString.ust_name, "image": "/img/hkust_logo.png", "early":localString.ust_early, "main": localString.ust_main, "extend": localString.ust_extend},
 
-    {"id": 3, "name": "HKU", "image": "/img/hku_logo.jpg", "early":"Early Round Deadline: 17 Nov 2021", "main": "Regular Round Deadline: 24 Aug 2022", "extend": "Extended Application Deadline: N/A"},
+    {"id": 3, "name": localString.hku_name, "image": "/img/hku_logo.jpg", "early":localString.hku_early, "main": localString.hku_main, "extend": localString.hku_extend},
 
-    {"id": 4, "name": "CityU", "image": "/img/cityu_logo.png", "early":"Early Round Deadline: 15 Nov 2021", "main": "Regular Round Deadline: 13 Jan 2022", "extend": "Extended Application Deadline: N/A"},
+    {"id": 4, "name": localString.cityu_name,"image": "/img/cityu_logo.png", "early":localString.cityu_early, "main": localString.cityu_main, "extend": localString.cityu_extend},
 
-    {"id": 5, "name": "PolyU", "image": "/img/polyu_logo.png", "early":"Early Round Deadline: 17 November 2021", "main": "Regular Round Deadline: 6 January 2022", "extend": "Extended Application Deadline: 31 May 2022"},
+    {"id": 5, "name": localString.polyu_name,"image": "/img/polyu_logo.png", "early":localString.polyu_early, "main": localString.polyu_main, "extend": localString.polyu_extend},
 
-    {"id": 6, "name": "EduHK", "image": "/img/eduhk_logo.png", "early":"Early Round Deadline: 12 Jan 2021", "main": "Regular Round Deadline: 12 May 2022", "extend": "Extended Application Deadline: N/A"},
+    {"id": 6, "name": localString.edu_name, "image": "/img/eduhk_logo.png", "early":localString.edu_early, "main": localString.edu_main, "extend": localString.edu_extend},
 
-    {"id": 7, "name": "HSU", "image": "/img/hsu_logo.png", "early":"Early Round Deadline: N/A", "main": "Regular Round Deadline: 8 Aug 2022", "extend": "Extended Application Deadline: N/A"},
+    {"id": 7, "name": localString.hsu_name, "image": "/img/hsu_logo.png", "early":localString.hsu_early, "main": localString.hsu_main, "extend": localString.hsu_extend},
 
-    {"id": 8, "name": "LingU", "image": "/img/lingu_logo.png", "early":"Early Round Deadline: 7 Dec 2021", "main": "Regular Round Deadline: 17 May 2022", "extend": "Extended Application Deadline: 28 Jul 2022"},
+    {"id": 8, "name": localString.lingu_name, "image":"/img/lingu_logo.png", "early":localString.lingu_early, "main": localString.lingu_main, "extend": localString.lingu_extend},
 
-    {"id": 9, "name": "HKMU", "image": "/img/hkmu_logo.png", "early":"Early Round Deadline: 31 Mar 2021", "main": "Regular Round Deadline: 5 Aug 2022", "extend": "Extended Application Deadline: N/A"},
+    {"id": 9, "name": localString.hkmu_name, "image": "/img/hkmu_logo.png", "early":localString.hkmu_early, "main": localString.hkmu_main, "extend": localString.hkmu_extend},
     
-    {"id": 10, "name": "HKBU", "image": "/img/hkbu_logo.png", "early":"Early Round Deadline: N/A", "main": "Regular Round Deadline: 4 Jan 2022", "extend": "Extended Application Deadline: 31 May 2022"}
+    {"id": 10, "name": localString.hkbu_name, "image": "/img/hkbu_logo.png", "early":localString.hkbu_early, "main": localString.hkbu_main, "extend": localString.hkbu_extend}
 ]
 
 
@@ -43,7 +46,7 @@ const NewsPage = (props: INewsPageProps) => {
         <React.Fragment>
             <h1>NewsPage</h1>
             <h2 className="title">
-              Application Deadline
+              {localString.hm_dl}
             </h2>
             <div className="container">
               <div className="box">
