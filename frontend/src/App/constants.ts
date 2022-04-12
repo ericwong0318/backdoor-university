@@ -33,9 +33,11 @@ export const api = {
     url: 'http://localhost:3001',
     pathRegister: '/register',
     pathLogin: '/login',
-    pathResetPW: '/forget-password',
+    pathUserLogin: '/user-login',
+    pathAdminLogin: '/admin-login',
+    pathResetPW: '/user-forget-password',
     changePW: '/modify-password',
     modifyInfo: '/modify-info',
-    getUser: '/find-single-user',
+    getUser: '/user-list-one',
     getPhoto: '/photo',
 }
