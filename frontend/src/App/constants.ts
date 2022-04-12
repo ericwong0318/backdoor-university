@@ -48,4 +48,3 @@ export const api = {
     submitComment: '/submit-a-comment',
     activateEmail: '/activate-email',
 }
-}

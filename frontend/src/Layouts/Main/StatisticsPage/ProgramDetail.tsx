@@ -85,14 +85,6 @@ export default function ProgramDetail() {
     ];
     const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042'];
 
-    const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042'];
-    const data2 = [
-        { name: 'HKCC', value: hkccOffer },
-        { name: 'IVE', value: IVEOffer },
-        { name: 'SPACE', value: spaceOffer },
-        { name: 'Other', value: otherOffer },
-    ];
-
 
     var ProgrammeName = rows2[0].uniprog;
     var University = rows2[0].uni;
