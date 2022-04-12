@@ -1,9 +1,10 @@
 import React, { useContext, useEffect, useState } from 'react'
 import { DataGrid, GridColDef, GridRenderEditCellParams, GridRowParams } from '@mui/x-data-grid'
-import { getAllUser, getUser } from '../../../../../../features/services'
+import { getAllUser, getUser, updatePasswordAsAdmin } from '../../../../../../features/services'
 import { LanguageContext } from '../../../../../../Components/LanguageProvider/LanguageProvider'
 import { Alert, Button, Card, CardActions, CardContent, CircularProgress, Dialog, DialogActions, DialogContent, DialogTitle, Snackbar, TextField, Typography } from '@mui/material'
 import ProgTypeEditInputCell from './ProgTypeEditInputCell/ProgTypeEditInputCell'
+import { UserRoleEnum } from '../../../../../../App/interfaces'
 
 interface IUserManagePageProps {
 
@@ -24,6 +25,8 @@ const UserManagePage = (props: IUserManagePageProps) => {
     const [selectedUserEmail, setSelectedUserEmail] = useState('')
     const [successSnakbarText, setSuccessSnakbarText] = useState('')
     const [failSnakbarText, setFailSnakbarText] = useState('')
+    const [editUserPassword, setEditUserPassword] = useState('')
+    const [editUserPasswordError, setEditUserPasswordError] = useState('')
 
     const columns: GridColDef[] = [
         { field: 'email', headerName: localString.email, width: 240 },
@@ -33,11 +36,6 @@ const UserManagePage = (props: IUserManagePageProps) => {
         { field: 'type', headerName: localString.prog_type, width: 240, renderEditCell: renderProgTypeEditInputCell },
         { field: 'status', headerName: localString.status, width: 90 },
     ]
-
-    const handleEditUserSaveButtonClick = () => {
-        // Save the user data to db
-
-    }
 
     useEffect(() => {
         if (!triedGetData) {
@@ -63,6 +61,29 @@ const UserManagePage = (props: IUserManagePageProps) => {
         setSelectedUserEmail(params.row.email)
     }
 
+    const handleEditUserPasswordButtonClick = () => {
+        setEditUserPasswordError('')
+        if (!editUserPassword)
+        {
+            setEditUserPasswordError(localString.field_empty_error)
+            return;
+        }
+
+        // Save to db
+        updatePasswordAsAdmin(selectedUserEmail, editUserPassword,
+        ()=>{
+            setEditUserFormOpen(false);
+            setSuccessSnakbarText(localString.change_pw_success)
+        },(e)=>{
+            setFailSnakbarText(localString.opps)
+        })
+    }
+
+    const handleEditUserSaveButtonClick = () => {
+        // Save the user data to db
+
+    }
+
     const handleGridRowDoubleClick = (params: GridRowParams<any>) => {
         setSelectedUserEmail(params.row.email)
         getUser({ email: selectedUserEmail }, user => {
@@ -85,6 +106,7 @@ const UserManagePage = (props: IUserManagePageProps) => {
 
         setFailSnakbarText('')
     }
+
     return (
         <React.Fragment>
             <Card>
@@ -122,7 +144,7 @@ const UserManagePage = (props: IUserManagePageProps) => {
             </Card>
 
             {/* The dialog that pops up when clicked on the edit button */}
-            <Dialog
+            {/* <Dialog
                 open={editUserFormOpen}
                 onClose={() => setEditUserFormOpen(false)}
             >
@@ -167,7 +189,7 @@ const UserManagePage = (props: IUserManagePageProps) => {
                         {localString.cancel}
                     </Button>
                 </DialogActions>
-            </Dialog>
+            </Dialog> */}
 
             <Dialog
                 open={editUserFormOpen}
@@ -175,18 +197,27 @@ const UserManagePage = (props: IUserManagePageProps) => {
             >
                 <DialogTitle>{localString.change_password}</DialogTitle>
                 <DialogContent>
-
+                    <TextField
+                        type='password'
+                        value={editUserPassword}
+                        error={Boolean(editUserPasswordError)}
+                        helperText={editUserPasswordError}
+                        onChange={(e) => setEditUserPassword(e.target.value)}
+                    />
                 </DialogContent>
                 <DialogActions>
                     <Button
                         variant="outlined"
-                        onClick={handleEditUserSaveButtonClick}
+                        onClick={handleEditUserPasswordButtonClick}
                     >
                         {localString.confirm}
                     </Button>
                     <Button
                         variant="text"
-                        onClick={() => setEditUserFormOpen(false)}
+                        onClick={() => {
+                            setEditUserFormOpen(false)
+                            setEditUserPassword('')
+                        }}
                     >
                         {localString.cancel}
                     </Button>

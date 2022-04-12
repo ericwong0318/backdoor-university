@@ -122,17 +122,16 @@ export enum ModifyPasswordErrorType {
     Unknown
 }
 
-export const modifyPassword = (email: string, oldPassword: string, newPassword: string, role: UserRoleEnum,
+export const updatePasswordAsUser = (email: string, oldPassword: string, newPassword: string,
     successCallback: VoidFunction,
     failedCallback: (err: ModifyPasswordErrorType) => void) => {
-    const path = (role == UserRoleEnum.admin) ? api.adminChangePW : api.userChangePW;
 
     const headers = new Headers();
     headers.append('Content-Type', 'application/json');
 
     const body = { email: email, oldPassword: oldPassword, newPassword: newPassword, password: newPassword }
 
-    fetch(`${api.url}${path}`,
+    fetch(`${api.url}${api.userChangePW}`,
         {
             method: 'POST',
             headers: headers,
@@ -152,6 +151,43 @@ export const modifyPassword = (email: string, oldPassword: string, newPassword: 
                             failedCallback(ModifyPasswordErrorType.IncorrectEmail)
                         return;
 
+                    default:
+                        if (failedCallback)
+                            failedCallback(ModifyPasswordErrorType.Unknown)
+                        return;
+                }
+            }
+
+            if (val.msg) {
+                if (successCallback)
+                    successCallback();
+            }
+        })
+    }).catch(err => {
+        if (failedCallback)
+            failedCallback(ModifyPasswordErrorType.ServerUnavailable);
+    })
+}
+
+export const updatePasswordAsAdmin = (email: string, password:string,
+    successCallback: VoidFunction,
+    failedCallback: (err: ModifyPasswordErrorType) => void) => {
+
+    const headers = new Headers();
+    headers.append('Content-Type', 'application/json');
+
+    const body = { email: email, password: password }
+
+    fetch(`${api.url}${api.adminChangePW}`,
+        {
+            method: 'POST',
+            headers: headers,
+            body: JSON.stringify(body),
+        }
+    ).then(res => {
+        res.json().then(val => {
+            if (val.err) {
+                switch (val.err) {
                     default:
                         if (failedCallback)
                             failedCallback(ModifyPasswordErrorType.Unknown)

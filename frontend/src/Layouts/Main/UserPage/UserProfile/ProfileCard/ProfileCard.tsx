@@ -1,10 +1,10 @@
-import { Alert, Avatar, Box, Button, Card, CardActions, CardContent, CardHeader, Divider, Grid, IconButton, OutlinedInput, List, ListItem, ListItemText, Paper, Popper, Snackbar, TextField, Typography, Select, MenuItem, CircularProgress } from '@mui/material'
+import { Alert, Avatar, Box, Button, Card, CardActions, CardContent, CardHeader, Divider, Grid, IconButton, OutlinedInput, Popper, Snackbar, TextField, Typography, Select, MenuItem, CircularProgress } from '@mui/material'
 import React, { useContext, useEffect, useState } from 'react'
 import { IUser, UserRoleEnum } from '../../../../../App/interfaces'
 import { useAuth } from '../../../../../Components/auth/AuthProvider'
 import EditIcon from '@mui/icons-material/Edit';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
-import { getUser, GetUserErrorType, modifyPassword, ModifyPasswordErrorType, updateUser } from '../../../../../features/services'
+import { getUser, updatePasswordAsUser, ModifyPasswordErrorType, updateUser } from '../../../../../features/services'
 import { LanguageContext } from '../../../../../Components/LanguageProvider/LanguageProvider';
 import { dataURLtoFile } from '../../../../../App/helper';
 import { v4 as uuidv4 } from 'uuid';
@@ -100,7 +100,7 @@ const ProfileCard = (props: IProfileCard) => {
 
         setSaving(true);
         // Request to change password
-        modifyPassword(props.user!.email, oldPW.trim(), newPW.trim(), UserRoleEnum.user,
+        updatePasswordAsUser(props.user!.email, oldPW.trim(), newPW.trim(),
             () => {
                 setSuccessSnakbarText(localString.profile_changed);
                 setModifyPWAnchorEl(null);
