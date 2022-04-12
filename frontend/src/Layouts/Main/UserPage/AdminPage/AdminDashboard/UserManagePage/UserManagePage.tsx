@@ -1,8 +1,8 @@
 import React, { useContext, useEffect, useState } from 'react'
-import { DataGrid, GridColDef, GridValueGetterParams } from '@mui/x-data-grid'
-import { getAllProgramme, getAllUser } from '../../../../../../features/services'
+import { DataGrid, GridColDef, GridRowParams } from '@mui/x-data-grid'
+import { getAllUser, getUser } from '../../../../../../features/services'
 import { LanguageContext } from '../../../../../../Components/LanguageProvider/LanguageProvider'
-import { Button, Card, CardActions, CardContent, Dialog, DialogActions, DialogContent, DialogTitle, Paper, TextField, Typography } from '@mui/material'
+import { Alert, Button, Card, CardActions, CardContent, CircularProgress, Dialog, DialogActions, DialogContent, DialogTitle, Snackbar, TextField, Typography } from '@mui/material'
 
 interface IUserManagePageProps {
 
@@ -11,19 +11,20 @@ interface IUserManagePageProps {
 const UserManagePage = (props: IUserManagePageProps) => {
     const { localString } = useContext(LanguageContext)
 
+    const [loading, setLoading] = useState(true)
     const [triedGetData, setTriedGetData] = useState(false)
     const [users, setUsers] = useState<any[]>([])
     const [loadingError, setLoadingError] = useState("");
     const [editUserFormOpen, setEditUserFormOpen] = useState(false)
+    const [selectedUserEmail, setSelectedUserEmail] = useState('')
+    const [successSnakbarText, setSuccessSnakbarText] = useState('')
+    const [failSnakbarText, setFailSnakbarText] = useState('')
 
     const columns: GridColDef[] = [
         { field: 'email', headerName: localString.email, width: 240 },
         { field: 'name', headerName: localString.name, width: 140 },
         { field: 'school', headerName: localString.school, width: 90 },
         { field: 'programme', headerName: localString.programme, width: 240 },
-        // { field: 'type', headerName: localString.prog_type, width: 120 },
-        // { field: 'admissionYear', headerName: localString.admission_year, width: 120 },
-        // { field: 'cgpa', headerName: localString.cgpa, width: 120 },
         { field: 'status', headerName: localString.status, width: 90 },
     ]
 
@@ -37,8 +38,10 @@ const UserManagePage = (props: IUserManagePageProps) => {
             getAllUser((u) => {
                 setUsers(u)
                 setLoadingError('')
+                setLoading(false);
             }, () => {
                 setLoadingError(localString.get_user_error)
+                setLoading(false);
             }
             );
             setTriedGetData(true);
@@ -50,21 +53,53 @@ const UserManagePage = (props: IUserManagePageProps) => {
         setEditUserFormOpen(true);
     }
 
+    const handleGridRowClick = (params: GridRowParams<any>) => {
+        setSelectedUserEmail(params.row.email)
+    }
+
+    const handleGridRowDoubleClick = (params: GridRowParams<any>) => {
+        setSelectedUserEmail(params.row.email)
+        getUser({ email: selectedUserEmail }, user => {
+
+        })
+    }
+
+    const handleSuccessSnackbarClose = (event?: React.SyntheticEvent | Event, reason?: string) => {
+        if (reason === 'clickaway') {
+            return;
+        }
+
+        setSuccessSnakbarText('');
+    }
+
+    const handleErrorSnackbarClose = (event?: React.SyntheticEvent | Event, reason?: string) => {
+        if (reason === 'clickaway') {
+            return;
+        }
+
+        setFailSnakbarText('')
+    }
     return (
         <React.Fragment>
             <Card>
                 <CardContent>
                     {
-                        (loadingError) ? (
-                            <Typography>
-                                {loadingError}
-                            </Typography>
+                        loading ? (
+                            <CircularProgress sx={{ margin: '10%' }} />
                         ) : (
-                            <DataGrid
-                                autoHeight
-                                columns={columns}
-                                rows={users}
-                                getRowId={(r) => r.email} />
+                            loadingError ? (
+                                <Typography>
+                                    {loadingError}
+                                </Typography>
+                            ) : (
+                                <DataGrid
+                                    onRowClick={handleGridRowClick}
+                                    onRowDoubleClick={handleGridRowDoubleClick}
+                                    autoHeight
+                                    columns={columns}
+                                    rows={users}
+                                    getRowId={(r) => r.email} />
+                            )
                         )
                     }
                 </CardContent>
@@ -74,6 +109,8 @@ const UserManagePage = (props: IUserManagePageProps) => {
                     </Button>
                 </CardActions>
             </Card>
+
+            {/* The dialog that pops up when clicked on the edit button */}
             <Dialog
                 open={editUserFormOpen}
                 onClose={() => setEditUserFormOpen(false)}
@@ -120,6 +157,18 @@ const UserManagePage = (props: IUserManagePageProps) => {
                     </Button>
                 </DialogActions>
             </Dialog>
+
+            {/* Snackbar will be the indicator of server responses */}
+            <Snackbar open={Boolean(successSnakbarText)} autoHideDuration={6000} onClose={handleSuccessSnackbarClose}>
+                <Alert onClose={handleSuccessSnackbarClose} severity="success" sx={{ width: '100%' }}>
+                    {localString.change_pw_success}
+                </Alert>
+            </Snackbar>
+            <Snackbar open={Boolean(failSnakbarText)} autoHideDuration={6000} onClose={handleErrorSnackbarClose}>
+                <Alert onClose={handleErrorSnackbarClose} severity="error" sx={{ width: '100%' }}>
+                    {localString.server_unavailable_error}
+                </Alert>
+            </Snackbar>
         </React.Fragment>
     )
 }
