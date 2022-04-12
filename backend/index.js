@@ -1,5 +1,5 @@
 // .env
-require('dotenv').config();
+// require('dotenv').config();
 
 /* express */
 const express = require('express');
@@ -37,4 +37,4 @@ db.once('open', function () {
 const router = require('./routes/routes');
 app.use(router);
 
-const server = app.listen(3001);
+app.listen(process.env.PORT || 3001);
