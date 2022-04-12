@@ -1,6 +1,6 @@
 import { ReadMoreRounded } from "@mui/icons-material";
 import { api } from "../App/constants"
-import { IUser, UserRoleEnum } from "../App/interfaces"
+import { IProgramme, IUser, UserRoleEnum } from "../App/interfaces"
 
 export enum GetUserErrorType {
     ServerUnavailable,
@@ -8,7 +8,7 @@ export enum GetUserErrorType {
     Unknown
 }
 
-export const getUser = (data: any, successCallback?: (user: IUser) => void, failedCallback?: (err: GetUserErrorType) => void) => {
+export const getUser = (data: any, successCallback?: (user: IUser) => void, failedCallback?: (err: GetUserErrorType) => void, waitForPhoto = false) => {
     let headers = new Headers();
     headers.append('Content-Type', 'application/json');
 
@@ -64,7 +64,7 @@ export const getUser = (data: any, successCallback?: (user: IUser) => void, fail
                     })
 
                     // callback once before finish loading the photo
-                    if (successCallback)
+                    if (successCallback && !waitForPhoto)
                         successCallback(user);
                 }
             })
@@ -130,4 +130,136 @@ export const modifyPassword = (email: string, oldPassword: string, newPassword: 
     })
 }
 
-// export const modifyUserInfo= ()
+export enum ModifyUserInfoErrorType {
+    ServerUnavailable,
+    Failed,
+}
+
+export const modifyUserInfo = (data: FormData,
+    successCallback?: VoidFunction,
+    failedCallback?: (err: ModifyUserInfoErrorType) => void) => {
+    fetch(`${api.url}${api.modifyInfo}`, {
+        method: "POST",
+        body: data,
+    }).then(res => {
+        res.json().then(val => {
+            if (val.err) {
+                if (failedCallback)
+                    failedCallback(ModifyUserInfoErrorType.Failed)
+                return
+            }
+
+            if (val.msg) {
+                if (successCallback)
+                    successCallback();
+            }
+        })
+    }).catch(err => {
+        if (failedCallback)
+            failedCallback(ModifyUserInfoErrorType.ServerUnavailable);
+    })
+}
+
+export enum GetAllRequestErrorType {
+    ServerUnavailable,
+    NoRecordFound,
+}
+
+export const getAllUser = (successCallback?: (params: any[]) => void,
+    failedCallback?: (err: GetAllRequestErrorType) => void) => {
+    fetch(`${api.url}${api.getAllUser}`, {
+        method: "POST",
+    }).then(res => {
+        if (res.status && res.status === 401) {
+            if (failedCallback)
+                failedCallback(GetAllRequestErrorType.NoRecordFound);
+            return;
+        }
+
+        res.json().then((val) => {
+            const res: any = []
+            val.forEach((v: any) => {
+                res.push({
+                    email: v.email,
+                    name: v.name,
+                    photo: null,
+                    school: v.currProgramme.school,
+                    programme: v.currProgramme.programme,
+                    type: v.type,
+                    admissionYear: v.addmissionYear,
+                    cgpa: v.cgpa,
+                    exam: v.exam,
+                    status: v.status,
+                    offer: v.offer,
+                })
+            })
+
+            if (successCallback)
+                successCallback(res)
+        }).catch(reason => {
+            if (failedCallback)
+                failedCallback(GetAllRequestErrorType.NoRecordFound);
+            return;
+        })
+    }).catch(err => {
+        if (failedCallback)
+            failedCallback(GetAllRequestErrorType.ServerUnavailable)
+    })
+}
+
+// export const toIUser= (data:any):IUser=>{
+
+// }
+
+export const getAllProgramme = (
+    successCallback?: (data: any) => void,
+    failedCallback?: (err: GetAllRequestErrorType) => void
+) => {
+    fetch(`${api.url}${api.getAllProgramme}`, {
+        method: "POST",
+    }).then(res => {
+        if (res.status && res.status === 401) {
+            if (failedCallback)
+                failedCallback(GetAllRequestErrorType.NoRecordFound);
+            return;
+        }
+
+        res.json().then((val) => {
+            console.log(val)
+            const res: (any)[] = []
+            val.forEach((v: any) => {
+                res.push({
+                    id: v._id,
+                    school: v.school,
+                    programme: v.programme,
+                    type: v.type,
+                    info: v.info,
+                    comments: v.comments,
+                })
+            })
+
+            if (successCallback)
+                successCallback(res);
+        }).catch(reason => {
+            if (failedCallback)
+                failedCallback(GetAllRequestErrorType.NoRecordFound);
+            return;
+        })
+    }).catch(err => {
+        if (failedCallback)
+            failedCallback(GetAllRequestErrorType.ServerUnavailable)
+    })
+
+}
+
+export const addNewProgramme = () => {
+
+}
+
+export const updateProgramme = () => {
+
+}
+
+export const submitComment = () => {
+
+}

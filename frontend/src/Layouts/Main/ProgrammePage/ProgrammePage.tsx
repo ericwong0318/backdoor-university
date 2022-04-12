@@ -3,7 +3,6 @@ import './ProgrammePage.css'
 
 import ProgramList from './listProgramme'
 import { StyledEngineProvider } from '@mui/material/styles';
-import ReactDOM from 'react-dom/client';
 import { useContext } from 'react';
 import { LanguageContext } from '../../../Components/LanguageProvider/LanguageProvider';
 

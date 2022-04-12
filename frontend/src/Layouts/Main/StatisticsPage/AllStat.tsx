@@ -13,6 +13,7 @@ import {
     PieChart, Pie, Sector, Cell, Legend,
 } from 'recharts';
 
+import './StatisticsPage.css'
 import { data1 } from './SpecDataSet'
 
 import Table from '@mui/material/Table';
@@ -137,8 +138,6 @@ const TemplateComponent = (props: ITemplateComponentProps) => {
 
                 </ScatterChart>
             </ResponsiveContainer>
-
-            <div> <b>{localString.totalOffer}: </b> {total}, ( <b>HKCC</b>: {hkccOffer}, <b>IVE</b>: {IVEOffer}, <b>SPACE</b>: {spaceOffer}, <b>{localString.otherCC}</b>: {otherOffer} ) </div>
 
             <TableContainer component={Paper}>
                 <Table aria-label="simple table">

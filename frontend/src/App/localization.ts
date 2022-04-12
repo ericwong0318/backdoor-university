@@ -101,7 +101,7 @@ export interface IAppLocalizedStrings extends LocalizedStringsMethods {
     subjects: string,
     interviews: string,
     programme: string,
-
+    status: string,
 
     // Fixed info
     undergrad: string,
@@ -109,6 +109,10 @@ export interface IAppLocalizedStrings extends LocalizedStringsMethods {
     hd: string,
     you_no_offer: string,
     user_has_no_offer: string,
+    unverified: string,
+    active: string,
+    banned: string,
+    profile_changed: string,
 
     // Features
     edit: string,
@@ -127,6 +131,8 @@ export interface IAppLocalizedStrings extends LocalizedStringsMethods {
     old_pw_incorrect_error: string,
     new_pw_too_weak_error: string,
     new_old_pw_same_error: string,
+    get_user_error: string,
+    get_programme_error: string,
 
 
     // ProgrammePage
@@ -164,66 +170,69 @@ export interface IAppLocalizedStrings extends LocalizedStringsMethods {
     otherCC: String,
 
     //HomePage
-    wel_1speech:String
-    wel_2speech:String
-    hm_title:String
-    hm_tips:String
-    hm_tips_content:String
-    click_here:String
-    hm_dl:String
-    hm_dl_content:String
+    wel_1speech: String
+    wel_2speech: String
+    hm_title: String
+    hm_tips: String
+    hm_tips_content: String
+    click_here: String
+    hm_dl: String
+    hm_dl_content: String
 
     //NewsPage
-    cuhk_early:String
-    cuhk_main:String
-    cuhk_extend:String
-    ust_early:String
-    ust_main:String
-    ust_extend:String
-    hku_early:String
-    hku_main:String
-    hku_extend:String
-    cityu_early:String
-    cityu_main:String
-    cityu_extend:String
-    polyu_early:String
-    polyu_main:String
-    polyu_extend:String
-    edu_early:String
-    edu_main:String
-    edu_extend:String
-    hsu_early:String
-    hsu_main:String
-    hsu_extend:String
-    lingu_early:String
-    lingu_main:String
-    lingu_extend:String
-    hkmu_early:String
-    hkmu_main:String
-    hkmu_extend:String
-    hkbu_early:String
-    hkbu_main:String
-    hkbu_extend:String
+    cuhk_early: String
+    cuhk_main: String
+    cuhk_extend: String
+    ust_early: String
+    ust_main: String
+    ust_extend: String
+    hku_early: String
+    hku_main: String
+    hku_extend: String
+    cityu_early: String
+    cityu_main: String
+    cityu_extend: String
+    polyu_early: String
+    polyu_main: String
+    polyu_extend: String
+    edu_early: String
+    edu_main: String
+    edu_extend: String
+    hsu_early: String
+    hsu_main: String
+    hsu_extend: String
+    lingu_early: String
+    lingu_main: String
+    lingu_extend: String
+    hkmu_early: String
+    hkmu_main: String
+    hkmu_extend: String
+    hkbu_early: String
+    hkbu_main: String
+    hkbu_extend: String
 
     //TipsPage
-    go_to:String
-    title1:String
-    title2:String
-    title3:String
-    title4:String
-    title5:String
-    title6:String
-    title7:String
-    title8:String
-    uni_int:String
-    content1:String
-    content2:String
-    content3:String
-    content4:String
-    content5:String
-    content6:String
-    content7:String
-    content8:String,
+    go_to: String
+    title1: String
+    title2: String
+    title3: String
+    title4: String
+    title5: String
+    title6: String
+    title7: String
+    title8: String
+    uni_int: String
+    content1: String
+    content2: String
+    content3: String
+    content4: String
+    content5: String
+    content6: String
+    content7: String
+    content8: String,
+
+    // Admin
+    edit_user: string,
 }
 
 export const AppLocalizedStrings: IAppLocalizedStrings = new LocalizedStrings(
@@ -250,6 +259,11 @@ export const AppLocalizedStrings: IAppLocalizedStrings = new LocalizedStrings(
             name: "Name",
             school: "School",
             user_not_found: "No user found",
+            status: "Status",
+            unverified: "Unverified",
+            active: "Active",
+            banned: "Banned",
+
 
             /* Forgot Password */
             forgot_password: "Forgot Password",
@@ -338,6 +352,7 @@ export const AppLocalizedStrings: IAppLocalizedStrings = new LocalizedStrings(
             hd: 'Higher Diploma',
             you_no_offer: 'You have no offer yet',
             user_has_no_offer: "This user don't have any offer yet.",
+            profile_changed: "Profile changes saved!",
 
             // Features
             edit: 'Edit',
@@ -356,6 +371,8 @@ export const AppLocalizedStrings: IAppLocalizedStrings = new LocalizedStrings(
             old_pw_incorrect_error: "Incorrect old password!",
             new_pw_too_weak_error: "The password is too weak!",
             new_old_pw_same_error: "The new password and the old password cannot be the same!",
+            get_user_error: "Error loading users",
+            get_programme_error: "Error loading programmes",
 
             // ProgrammePage
             ProgrammePage_Title: "Non-JUPAS Programmes",
@@ -395,66 +412,69 @@ export const AppLocalizedStrings: IAppLocalizedStrings = new LocalizedStrings(
             otherCC: "other",
 
             //HomePage
-            wel_1speech:"Welcome! All the Non-Jupas student",
-            wel_2speech:"Here, we provide all the information you need!",
-            hm_title:"Things You Have to Know",
-            hm_tips:"Interview Tips",
-            hm_tips_content:"Have you got a oppotunity of interview, and are now feeling nervous and wondering how to prepare?",
-            click_here:"Click here for more information",
-            hm_dl:"Application Deadline",
-            hm_dl_content:"Remember to apply the non jupas application before the deadline",
+            wel_1speech: "Welcome! All the Non-Jupas student",
+            wel_2speech: "Here, we provide all the information you need!",
+            hm_title: "Things You Have to Know",
+            hm_tips: "Interview Tips",
+            hm_tips_content: "Have you got a oppotunity of interview, and are now feeling nervous and wondering how to prepare?",
+            click_here: "Click here for more information",
+            hm_dl: "Application Deadline",
+            hm_dl_content: "Remember to apply the non jupas application before the deadline",
 
             //NewsPage
-            cuhk_early:"Early Round Deadline: 17-11-2022",
-            cuhk_main:"Regular Round Deadline: 06-01-2022",
-            cuhk_extend:"Extended Application Deadline: 31-05-2022",
-            ust_early:"Early Round Deadline: 19-11-2021",
-            ust_main:"Regular Round Deadline: 14-01-2022",
-            ust_extend:"Extended Application Deadline: N/A",
-            hku_early:"Early Round Deadline: 17-11-2022",
-            hku_main:"Regular Round Deadline: 24-08-2022",
-            hku_extend:"Extended Application Deadline: N/A",
-            cityu_early:"Early Round Deadline: 15-11-2021",
-            cityu_main:"Regular Round Deadline: 13-01-2022",
-            cityu_extend:"Extended Application Deadline: N/A",
-            polyu_early:"Early Round Deadline: 17-11-2022",
-            polyu_main:"Regular Round Deadline: 06-01-2022",
-            polyu_extend:"Extended Application Deadline: 31-05-2022",
-            edu_early:"Early Round Deadline: 12-01-2022",
-            edu_main:"Regular Round Deadline: 12-05-2022",
-            edu_extend:"Extended Application Deadline: N/A",
-            hsu_early:"Early Round Deadline: N/A",
-            hsu_main:"Regular Round Deadline: 08-08-2022",
-            hsu_extend:"Extended Application Deadline: N/A",
-            lingu_early:"Early Round Deadline: 07-12-2021",
-            lingu_main:"Regular Round Deadline: 17-05-2022",
-            lingu_extend:"Extended Application Deadline: 28-07-2022",
-            hkmu_early:"Early Round Deadline: 31-05-2022",
-            hkmu_main:"Regular Round Deadline: 05-05-2022",
-            hkmu_extend:"Extended Application Deadline: N/A",
-            hkbu_early:"Early Round Deadline: N/A",
-            hkbu_main:"Regular Round Deadline: 04-01-2022",
-            hkbu_extend:"Extended Application Deadline: 31-05-2022",
+            cuhk_early: "Early Round Deadline: 17-11-2022",
+            cuhk_main: "Regular Round Deadline: 06-01-2022",
+            cuhk_extend: "Extended Application Deadline: 31-05-2022",
+            ust_early: "Early Round Deadline: 19-11-2021",
+            ust_main: "Regular Round Deadline: 14-01-2022",
+            ust_extend: "Extended Application Deadline: N/A",
+            hku_early: "Early Round Deadline: 17-11-2022",
+            hku_main: "Regular Round Deadline: 24-08-2022",
+            hku_extend: "Extended Application Deadline: N/A",
+            cityu_early: "Early Round Deadline: 15-11-2021",
+            cityu_main: "Regular Round Deadline: 13-01-2022",
+            cityu_extend: "Extended Application Deadline: N/A",
+            polyu_early: "Early Round Deadline: 17-11-2022",
+            polyu_main: "Regular Round Deadline: 06-01-2022",
+            polyu_extend: "Extended Application Deadline: 31-05-2022",
+            edu_early: "Early Round Deadline: 12-01-2022",
+            edu_main: "Regular Round Deadline: 12-05-2022",
+            edu_extend: "Extended Application Deadline: N/A",
+            hsu_early: "Early Round Deadline: N/A",
+            hsu_main: "Regular Round Deadline: 08-08-2022",
+            hsu_extend: "Extended Application Deadline: N/A",
+            lingu_early: "Early Round Deadline: 07-12-2021",
+            lingu_main: "Regular Round Deadline: 17-05-2022",
+            lingu_extend: "Extended Application Deadline: 28-07-2022",
+            hkmu_early: "Early Round Deadline: 31-05-2022",
+            hkmu_main: "Regular Round Deadline: 05-05-2022",
+            hkmu_extend: "Extended Application Deadline: N/A",
+            hkbu_early: "Early Round Deadline: N/A",
+            hkbu_main: "Regular Round Deadline: 04-01-2022",
+            hkbu_extend: "Extended Application Deadline: 31-05-2022",
 
             //TipsPage
-            go_to:"Go to",
-            title1:"-How to prepare for a university interview",
-            title2:"-Practice answers to common questions",
-            title3:"-Re-read your personal statement",
-            title4:"-Make sure you can attend",
-            title5:"-Remember to bring any additional documents",
-            title6:"-Arrive early",
-            title7:"-Dress smartly",
-            uni_int:"University Interview",
-            title8:"-Prepare your own questions in advance",
-            content1:"Being asked to attend an interview is the mark of an excellent application but remember that you'll be competing against other strong candidates. So, it's important to prepare well. These university interview tips listed below will help increase your chances of success.",
-            content2:"Most interview will ask 'Why do you want to study the subject?' and 'Why do you want to go to this university?'. Prepare the response to these question well , better memorize and polish it before the interview, but need to speak naturally and not like scripted.",
-            content3:"You might be asked about some of the things you included, so make sure you familiarise yourself with what you wrote. Double check the personal statement to ensure that there is no any mistakes.",
-            content4:"If you're not able to attend the interview, contact the interview for rearrangement. Don't cancel it at the last minutes which give give the interviewee a bad images.",
-            content5:"You might be asked to bring a portfolio of your work if you’re applying for a creative arts course. Check this well in advance, as much of your interview may be focused on this work.",
-            content6:"If your interview is in face-to-face, arrive the campus half hour before the interview as you may get lost. Also, it allows you to have some time to get ready and familiarise yourself with the location and avoid adding any unnecessary stress. If you’re doing a virtual interview, ensure that the wifi connection is strong and all the communication devices are well functioned.",
-            content7:"Looking clean and tidy will ensure that you leave a good impression. For business programme, you may need to dress formal. For others, you may be ask to dress smart causal.",
-            content8:"When the interview is finished, you may have the chance to ask some question. Make sure that you have prepared the questions to show your interest to the programme.",
+            go_to: "Go to",
+            title1: "-How to prepare for a university interview",
+            title2: "-Practice answers to common questions",
+            title3: "-Re-read your personal statement",
+            title4: "-Make sure you can attend",
+            title5: "-Remember to bring any additional documents",
+            title6: "-Arrive early",
+            title7: "-Dress smartly",
+            uni_int: "University Interview",
+            title8: "-Prepare your own questions in advance",
+            content1: "Being asked to attend an interview is the mark of an excellent application but remember that you'll be competing against other strong candidates. So, it's important to prepare well. These university interview tips listed below will help increase your chances of success.",
+            content2: "Most interview will ask 'Why do you want to study the subject?' and 'Why do you want to go to this university?'. Prepare the response to these question well , better memorize and polish it before the interview, but need to speak naturally and not like scripted.",
+            content3: "You might be asked about some of the things you included, so make sure you familiarise yourself with what you wrote. Double check the personal statement to ensure that there is no any mistakes.",
+            content4: "If you're not able to attend the interview, contact the interview for rearrangement. Don't cancel it at the last minutes which give give the interviewee a bad images.",
+            content5: "You might be asked to bring a portfolio of your work if you’re applying for a creative arts course. Check this well in advance, as much of your interview may be focused on this work.",
+            content6: "If your interview is in face-to-face, arrive the campus half hour before the interview as you may get lost. Also, it allows you to have some time to get ready and familiarise yourself with the location and avoid adding any unnecessary stress. If you’re doing a virtual interview, ensure that the wifi connection is strong and all the communication devices are well functioned.",
+            content7: "Looking clean and tidy will ensure that you leave a good impression. For business programme, you may need to dress formal. For others, you may be ask to dress smart causal.",
+            content8: "When the interview is finished, you may have the chance to ask some question. Make sure that you have prepared the questions to show your interest to the programme.",
+
+            // Admin
+            edit_user: "Edit User",
         },
         zh: {
             //404 done
@@ -477,6 +497,11 @@ export const AppLocalizedStrings: IAppLocalizedStrings = new LocalizedStrings(
             name: "姓名",
             school: "學校",
             user_not_found: "用戶不存在",
+            status: "帳戶狀態",
+            unverified: "未驗證",
+            active: "啟用中",
+            banned: "停權",
+
 
             //Forget Password
             forgot_password: "忘記密碼",
@@ -565,6 +590,7 @@ export const AppLocalizedStrings: IAppLocalizedStrings = new LocalizedStrings(
             hd: '高級文憑',
             you_no_offer: '你尚未有任何錄取記錄',
             user_has_no_offer: "此用戶未有任何錄取記錄",
+            profile_changed: "變更已被儲存！",
 
 
             // Features
@@ -584,6 +610,8 @@ export const AppLocalizedStrings: IAppLocalizedStrings = new LocalizedStrings(
             old_pw_incorrect_error: "舊密碼錯誤！",
             new_pw_too_weak_error: "密碼強度不足！",
             new_old_pw_same_error: "新密碼與薺密碼不能相同！",
+            get_user_error: "未能取得用戶資料",
+            get_programme_error: "未能取得課程資料",
 
             // ProgrammePage
             ProgrammePage_Title: "非大學聯合招生課程",
@@ -623,65 +651,68 @@ export const AppLocalizedStrings: IAppLocalizedStrings = new LocalizedStrings(
             otherCC: "其他",
 
             //HomePage
-            wel_1speech:"歡迎各位non-Jupas的同學",
-            wel_2speech:"這裹，提供了你所需的一切資訊",
-            hm_title:"需知",
-            hm_tips:"面試技巧",
-            hm_tips_content:"收到面試通知後是否感到有些手足無措？",
-            click_here:"點擊這裡以獲取更多資訊",
-            hm_dl:"報名期限",
-            hm_dl_content:"記得在限期前提交申請！",
+            wel_1speech: "歡迎各位non-Jupas的同學",
+            wel_2speech: "這裹，提供了你所需的一切資訊",
+            hm_title: "需知",
+            hm_tips: "面試技巧",
+            hm_tips_content: "收到面試通知後是否感到有些手足無措？",
+            click_here: "點擊這裡以獲取更多資訊",
+            hm_dl: "報名期限",
+            hm_dl_content: "記得在限期前提交申請！",
 
             //NewsPage
-            cuhk_early:"第一輪申請期限: 17-11-2021",
-            cuhk_main:"正常申請期限: 06-01-2022",
-            cuhk_extend:"延長申請期限: 31-05-2022",
-            ust_early:"第一輪申請期限: 19-11-2021",
-            ust_main:"正常申請期限: 14-01-2022",
-            ust_extend:"延長申請期限: N/A",
-            hku_early:"第一輪申請期限: 17-11-2022",
-            hku_main:"正常申請期限: 24-08-2022",
-            hku_extend:"延長申請期限: N/A",
-            cityu_early:"第一輪申請期限: 15-11-2021",
-            cityu_main:"正常申請期限: 13-01-2022",
-            cityu_extend:"延長申請期限: N/A",
-            polyu_early:"第一輪申請期限: 17-11-2022",
-            polyu_main:"正常申請期限: 06-01-2022",
-            polyu_extend:"延長申請期限: 31-05-2022",
-            edu_early:"第一輪申請期限: 12-01-2022",
-            edu_main:"正常申請期限: 12-05-2022",
-            edu_extend:"延長申請期限: N/A",
-            hsu_early:"第一輪申請期限: N/A",
-            hsu_main:"正常申請期限: 08-08-2022",
-            hsu_extend:"延長申請期限: N/A",
-            lingu_early:"第一輪申請期限: 07-12-2021",
-            lingu_main:"正常申請期限: 17-05-2022",
-            lingu_extend:"延長申請期限: 28-07-2022",
-            hkmu_early:"第一輪申請期限: 31-05-2022",
-            hkmu_main:"正常申請期限: 05-05-2022",
-            hkmu_extend:"延長申請期限: N/A",
-            hkbu_early:"第一輪申請期限: N/A",
-            hkbu_main:"正常申請期限: 04-01-2022",
-            hkbu_extend:"延長申請期限: 31-05-2022",
+            cuhk_early: "第一輪申請期限: 17-11-2021",
+            cuhk_main: "正常申請期限: 06-01-2022",
+            cuhk_extend: "延長申請期限: 31-05-2022",
+            ust_early: "第一輪申請期限: 19-11-2021",
+            ust_main: "正常申請期限: 14-01-2022",
+            ust_extend: "延長申請期限: N/A",
+            hku_early: "第一輪申請期限: 17-11-2022",
+            hku_main: "正常申請期限: 24-08-2022",
+            hku_extend: "延長申請期限: N/A",
+            cityu_early: "第一輪申請期限: 15-11-2021",
+            cityu_main: "正常申請期限: 13-01-2022",
+            cityu_extend: "延長申請期限: N/A",
+            polyu_early: "第一輪申請期限: 17-11-2022",
+            polyu_main: "正常申請期限: 06-01-2022",
+            polyu_extend: "延長申請期限: 31-05-2022",
+            edu_early: "第一輪申請期限: 12-01-2022",
+            edu_main: "正常申請期限: 12-05-2022",
+            edu_extend: "延長申請期限: N/A",
+            hsu_early: "第一輪申請期限: N/A",
+            hsu_main: "正常申請期限: 08-08-2022",
+            hsu_extend: "延長申請期限: N/A",
+            lingu_early: "第一輪申請期限: 07-12-2021",
+            lingu_main: "正常申請期限: 17-05-2022",
+            lingu_extend: "延長申請期限: 28-07-2022",
+            hkmu_early: "第一輪申請期限: 31-05-2022",
+            hkmu_main: "正常申請期限: 05-05-2022",
+            hkmu_extend: "延長申請期限: N/A",
+            hkbu_early: "第一輪申請期限: N/A",
+            hkbu_main: "正常申請期限: 04-01-2022",
+            hkbu_extend: "延長申請期限: 31-05-2022",
 
             //TipsPage
-            go_to:"去",
-            title1:"-怎樣準備大學面試？",
-            title2:"-預先準備常見的面試提目",
-            title3:"-重新讀一次個人陳述(personal statement)",
-            title4:"-確保你能夠準時出席",
-            title5:"-記得帶齊文件",
-            title6:"-提早到達面試地點",
-            title7:"-衣著要整齊",
-            title8:"-準備好要問的問題",
-            uni_int:"大學面試",
-            content1:"收到面試通知只是第一步，接下來你將會面對的都是強勁的對手，所以一定要預先準備好。以下的面試需知將會提升你成功的機會。",
-            content2:"面試通常都會遇到一些常見問題，例如:「為什麼你會選譯讀這個科目？」、「為什麼你想入這間大學？」。預先準備這些問題的回應，並且要練到十分流暢，聽落去要很自然，不像背誦。",
-            content3:"面試官有可能會問一些問題關於你的個人陳述，所以要熟識入面的內容，並確保沒有任何的錯誤。",
-            content4:"如果你未能夠出席面試，請提早通知以更改面試日期。千萬不要去到最後一刻才通知，會給面試官一個不良印象。.",
-            content5:"如果你是面試的是藝術科目，請帶同你的作品集出席。",
-            content6:"如果你的面試是實體型式，請提早抵達面試地點，熟悉一下環境，放鬆心情，並提防迷路。如果是線上型式的面試，檢查一下網絡及語音設備，確保不會突然斷線。",
-            content7:"穿著整齊的服裝，並跟據面試要求穿著相應的服飾。如面試商科，就要穿著整套西裝。",
-            content8:"當面試完成後，面試官會給予你問問題的機會。請提早準備好要問的問題，顯出你對該科目的濃厚興趣。.",
+            go_to: "去",
+            title1: "-怎樣準備大學面試？",
+            title2: "-預先準備常見的面試提目",
+            title3: "-重新讀一次個人陳述(personal statement)",
+            title4: "-確保你能夠準時出席",
+            title5: "-記得帶齊文件",
+            title6: "-提早到達面試地點",
+            title7: "-衣著要整齊",
+            title8: "-準備好要問的問題",
+            uni_int: "大學面試",
+            content1: "收到面試通知只是第一步，接下來你將會面對的都是強勁的對手，所以一定要預先準備好。以下的面試需知將會提升你成功的機會。",
+            content2: "面試通常都會遇到一些常見問題，例如:「為什麼你會選譯讀這個科目？」、「為什麼你想入這間大學？」。預先準備這些問題的回應，並且要練到十分流暢，聽落去要很自然，不像背誦。",
+            content3: "面試官有可能會問一些問題關於你的個人陳述，所以要熟識入面的內容，並確保沒有任何的錯誤。",
+            content4: "如果你未能夠出席面試，請提早通知以更改面試日期。千萬不要去到最後一刻才通知，會給面試官一個不良印象。.",
+            content5: "如果你是面試的是藝術科目，請帶同你的作品集出席。",
+            content6: "如果你的面試是實體型式，請提早抵達面試地點，熟悉一下環境，放鬆心情，並提防迷路。如果是線上型式的面試，檢查一下網絡及語音設備，確保不會突然斷線。",
+            content7: "穿著整齊的服裝，並跟據面試要求穿著相應的服飾。如面試商科，就要穿著整套西裝。",
+            content8: "當面試完成後，面試官會給予你問問題的機會。請提早準備好要問的問題，顯出你對該科目的濃厚興趣。.",
+
+            // Admin
+            edit_user: "修改用戶資料",
         }
     })

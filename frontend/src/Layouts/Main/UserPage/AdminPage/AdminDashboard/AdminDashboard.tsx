@@ -25,7 +25,15 @@ import CommentIcon from '@mui/icons-material/Comment';
 import AssignmentIndIcon from '@mui/icons-material/AssignmentInd';
 import GroupIcon from '@mui/icons-material/Group';
 import ListAltIcon from '@mui/icons-material/ListAlt';
-import { AdminDashboardPath } from '../../../../../App/constants';
+import { AdminDashboardPath, LayoutPath } from '../../../../../App/constants';
+import { useState } from 'react';
+import { Button, Tab, Tabs } from '@mui/material';
+import TabPanel from './TabPanel/TabPanel';
+import UserManagePage from './UserManagePage/UserManagePage';
+import ProfileCard from '../../UserProfile/ProfileCard/ProfileCard';
+import AdminProfile from './AdminProfile/AdminProfile';
+import ProgrammeManagePage from './ProgrammeManagePage/ProgrammeManagePage';
+import { useNavigate } from 'react-router-dom';
 
 const drawerWidth: number = 240;
 
@@ -79,16 +87,18 @@ const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' 
 
 function DashboardContent() {
   const { localString } = React.useContext(LanguageContext)
+  const navigate = useNavigate();
   const [open, setOpen] = React.useState(true);
   const toggleDrawer = () => {
     setOpen(!open);
   };
+  const [tabValue, setTabValue] = useState(0);
 
   const mainListItemsData = [
-    { text: localString.my_profile, icon: <AssignmentIndIcon />, path: AdminDashboardPath.myProfile },
-    { text: localString.users, icon: <GroupIcon />, path: AdminDashboardPath.users },
-    { text: localString.programmes, icon: <ListAltIcon />, path: AdminDashboardPath.programmes },
-    { text: localString.comments, icon: <CommentIcon />, path: AdminDashboardPath.comments },
+    { text: localString.my_profile, icon: <AssignmentIndIcon />, path: 0 },
+    { text: localString.users, icon: <GroupIcon />, path: 1 },
+    { text: localString.programmes, icon: <ListAltIcon />, path: 2 },
+    // { text: localString.comments, icon: <CommentIcon />, path: 3 },
   ]
 
   return (
@@ -121,6 +131,12 @@ function DashboardContent() {
           >
             { }
           </Typography>
+
+          <Typography sx={{ marginLeft: "auto" }}>
+            <Button color="secondary" onClick={() => navigate(LayoutPath.home)}>
+              {localString.back_to_home}
+            </Button>
+          </Typography>
         </Toolbar>
       </AppBar>
       <Drawer variant="permanent" open={open}>
@@ -137,19 +153,15 @@ function DashboardContent() {
           </IconButton>
         </Toolbar>
         <Divider />
-        <List component="nav"><React.Fragment>
+        <Tabs
+          orientation='vertical'
+          value={tabValue}
+          onChange={(e, val) => setTabValue(val)}
+        >
           {mainListItemsData.map((d) => {
-            return <ListItemButton>
-              <ListItemIcon>
-                {d.icon}
-              </ListItemIcon>
-              <ListItemText primary={d.text} />
-            </ListItemButton>
+            return <Tab label={open ? d.text : ""} icon={d.icon} iconPosition="start" />
           })}
-        </React.Fragment>
-          <Divider sx={{ my: 1 }} />
-
-        </List>
+        </Tabs>
       </Drawer>
       <Box
         component="main"
@@ -165,40 +177,19 @@ function DashboardContent() {
       >
         <Toolbar />
         <Container maxWidth="lg" sx={{ mt: 4, mb: 4 }}>
-          <Grid container spacing={3}>
-            {/* Chart */}
-            <Grid item xs={12} md={8} lg={9}>
-              <Paper
-                sx={{
-                  p: 2,
-                  display: 'flex',
-                  flexDirection: 'column',
-                  height: 240,
-                }}
-              >
-                <Chart />
-              </Paper>
-            </Grid>
-            {/* Recent Deposits */}
-            <Grid item xs={12} md={4} lg={3}>
-              <Paper
-                sx={{
-                  p: 2,
-                  display: 'flex',
-                  flexDirection: 'column',
-                  height: 240,
-                }}
-              >
-                <Deposits />
-              </Paper>
-            </Grid>
-            {/* Recent Orders */}
-            <Grid item xs={12}>
-              <Paper sx={{ p: 2, display: 'flex', flexDirection: 'column' }}>
-                <Orders />
-              </Paper>
-            </Grid>
-          </Grid>
+
+          <TabPanel index={0} value={tabValue}>
+            <AdminProfile email="admin@admin.com" />
+          </TabPanel>
+          <TabPanel index={1} value={tabValue}>
+            <UserManagePage />
+          </TabPanel>
+          <TabPanel index={2} value={tabValue}>
+            <ProgrammeManagePage />
+          </TabPanel>
+          <TabPanel index={3} value={tabValue}>
+            <UserManagePage />
+          </TabPanel>
         </Container>
       </Box>
     </Box>

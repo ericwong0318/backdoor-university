@@ -4,12 +4,12 @@ export interface IUser {
     photo: string | null,
     school: string,
     programme: string,
-    type: 'undergrad' | 'asso' | 'hd',
+    type: string,
     admissionYear: number,
     cgpa: number,
     exam: { name: string, result: string }
-    status: 'unverified' | 'active' | 'banned',
-    offer: { programme: IProgramme }[] | null
+    status: string,
+    offer: { school: string, programme: string } | null
 }
 
 export interface IAdmin {
@@ -31,8 +31,13 @@ export interface IProgramme {
     programme: string,
     type: 'undergrad' | 'asso' | 'hd',
     info: string,
-    comments: string[],
-    subjects: string[],
-    interviews: { user: IUser, data: string, content: string }[]
-    | null | undefined,
+    comments: IComment[],
+    // interviews: { user: IUser, data: string, content: string }[]
+    // | null | undefined,
+}
+
+export interface IComment {
+    content: string;
+    email: string;
+    _id: string;
 }

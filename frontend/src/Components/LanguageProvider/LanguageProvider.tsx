@@ -2,13 +2,13 @@ import React, { useState } from 'react'
 import { AppLocalizedStrings } from '../../App/localization'
 
 export const LanguageContext = React.createContext({
-    language: AppLocalizedStrings.getInterfaceLanguage(),
+    language: AppLocalizedStrings.getLanguage(),
     setLanguage: (code: string) => { },
     localString: AppLocalizedStrings
 })
 
 const LanguageProvider = ({ children }: { children: React.ReactNode }) => {
-    const [language, setLan] = useState(AppLocalizedStrings.getInterfaceLanguage())
+    const [language, setLan] = useState(AppLocalizedStrings.getLanguage())
 
     const localString = AppLocalizedStrings;
 

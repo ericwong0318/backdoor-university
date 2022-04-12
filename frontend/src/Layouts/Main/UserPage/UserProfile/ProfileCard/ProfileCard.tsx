@@ -4,8 +4,10 @@ import { IUser, UserRoleEnum } from '../../../../../App/interfaces'
 import { useAuth } from '../../../../../Components/auth/AuthProvider'
 import EditIcon from '@mui/icons-material/Edit';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
-import { modifyPassword, ModifyPasswordErrorType } from '../../../../../features/services'
+import { getUser, GetUserErrorType, modifyPassword, ModifyPasswordErrorType, modifyUserInfo } from '../../../../../features/services'
 import { LanguageContext } from '../../../../../Components/LanguageProvider/LanguageProvider';
+import { dataURLtoFile } from '../../../../../App/helper';
+import { v4 as uuidv4 } from 'uuid';
 
 interface IProfileCard {
     user: IUser
@@ -18,11 +20,10 @@ const ProfileCard = (props: IProfileCard) => {
     const auth = useAuth();
     const [modifyPWAnchorEl, setModifyPWAnchorEl] = React.useState<null | HTMLElement>(null);
     const [verifyPWAnchorEl, setVerifyPWAnchorEl] = React.useState<null | HTMLElement>(null);
-    const [avatar, setAvatar] = useState("")
 
     // Edit profile info
     const [editing, setEditing] = useState(false);
-    const [editEmail, setEditEmail] = useState(user.email)
+    // const [editEmail, setEditEmail] = useState(user.email)
     const [editUsername, setEditUsername] = useState(user.name)
     const [editSchool, setEditSchool] = useState(user.school)
     const [editProgramme, setEditProgramme] = useState(user.programme)
@@ -32,6 +33,7 @@ const ProfileCard = (props: IProfileCard) => {
     const [editAvatar, setEditAvatar] = useState<File | null>(null)
     const [verifyPW, setVerifyPW] = useState('')
     const [verifyPWError, setVerifyPWError] = useState('')
+    const [avatar, setAvatar] = useState('');
 
     const renderProgType = (type: string) => {
         switch (type) {
@@ -49,7 +51,7 @@ const ProfileCard = (props: IProfileCard) => {
 
     useEffect(() => {
         if (editing) {
-            setEditEmail(user.email)
+            // setEditEmail(user.email)
             setEditUsername(user.name)
             setEditSchool(user.school)
             setEditProgramme(user.programme)
@@ -59,13 +61,13 @@ const ProfileCard = (props: IProfileCard) => {
         }
     }, [editing])
 
-    // Forgot Password
+    // Change Password
     const [oldPW, setOldPW] = useState("");
     const [newPW, setNewPW] = useState("");
     const [oldPWError, setOldPWError] = useState("")
     const [newPWError, setNewPWError] = useState("")
-    const [successSnackbarOpen, setSuccessSnackbarOpen] = useState(false);
-    const [errorSnackbarOpen, setErrorSnackbarOpen] = useState(false);
+    const [successSnakbarText, setSuccessSnakbarText] = useState('')
+    const [failSnakbarText, setFailSnakbarText] = useState('')
 
     const handleCancelEditButtonClick = () => {
         setEditing(false)
@@ -98,7 +100,7 @@ const ProfileCard = (props: IProfileCard) => {
         // Request to change password
         modifyPassword(user.email, oldPW.trim(), newPW.trim(), UserRoleEnum.user,
             () => {
-                setSuccessSnackbarOpen(true);
+                setSuccessSnakbarText(localString.profile_changed);
                 setModifyPWAnchorEl(null);
             }, err => {
                 switch (err) {
@@ -118,7 +120,33 @@ const ProfileCard = (props: IProfileCard) => {
     }
 
     const handleConfirmVerifyPWClick = () => {
+        getUser({ email: user.email },
+            user => {
+                const formData = new FormData();
+                formData.append('email', user.email)
+                const photo = (editAvatar) ? editAvatar : dataURLtoFile(user.photo!, 'temp.jpg');
+                formData.append('photo', photo!, uuidv4())
+                formData.append('school', user.school)
+                formData.append('programme', editProgramme)
+                formData.append('addmissionYear', editAdmissionYear.toString())
+                formData.append('type', editType)
+                formData.append('cgpa', editCGPA.toString())
+                formData.append('examname', user.exam.name)
+                formData.append('result', user.exam.result)
+                if (user.offer) {
+                    formData.append('offerSchool', user.offer.school)
+                    formData.append('offerProgramme', user.offer.programme)
+                }
 
+                modifyUserInfo(formData,
+                    () => {
+                        setSuccessSnakbarText(localString.profile_changed)
+                    }, err => {
+                        setFailSnakbarText(localString.opps)
+                    })
+            }, err => {
+                setFailSnakbarText(localString.opps)
+            }, true)
     }
 
     const handleCancelVerifyPWClick = () => {
@@ -132,7 +160,7 @@ const ProfileCard = (props: IProfileCard) => {
             return;
         }
 
-        setSuccessSnackbarOpen(false);
+        setSuccessSnakbarText('');
     }
 
     const handleErrorSnackbarClose = (event?: React.SyntheticEvent | Event, reason?: string) => {
@@ -140,14 +168,12 @@ const ProfileCard = (props: IProfileCard) => {
             return;
         }
 
-        setErrorSnackbarOpen(false);
+        setFailSnakbarText('')
     }
 
     useEffect(() => {
-        if (!avatar && props.user.photo) {
-            setAvatar(props.user.photo)
-        }
-    })
+
+    }, [props])
 
     return (
         <React.Fragment>
@@ -168,10 +194,10 @@ const ProfileCard = (props: IProfileCard) => {
                             <Grid container item >
                                 <Grid item xs={4} md={4} lg={4}>
                                     <Typography>
-                                        {avatar ? (
+                                        {props.user.photo ? (
                                             <Avatar sx={{ width: "120px", height: "120px" }}
                                                 alt={user.name}
-                                                src={avatar} />
+                                                src={props.user.photo} />
                                         )
                                             : (
                                                 <AccountCircleIcon sx={{ width: "120px", height: "120px" }} />
@@ -213,13 +239,14 @@ const ProfileCard = (props: IProfileCard) => {
                                 </Grid>
                                 <Grid item xs={9} md={9} lg={9}>
                                     {
-                                        editing ? (
-                                            <TextField fullWidth size="small" value={editEmail} onChange={e => setEditEmail(e.target.value)} />
-                                        ) : (
-                                            <Typography >
-                                                {user.email}
-                                            </Typography>
-                                        )
+                                        // Not allow to edit email
+                                        // editing ? (
+                                        //     <TextField fullWidth size="small" value={editEmail} onChange={e => setEditEmail(e.target.value)} />
+                                        // ) : (
+                                        // )
+                                        <Typography >
+                                            {user.email}
+                                        </Typography>
                                     }
                                 </Grid>
 
@@ -487,12 +514,12 @@ const ProfileCard = (props: IProfileCard) => {
                     </Grid>
                 </Box>
             </Popper>
-            <Snackbar open={successSnackbarOpen} autoHideDuration={6000} onClose={handleSuccessSnackbarClose}>
+            <Snackbar open={Boolean(successSnakbarText)} autoHideDuration={6000} onClose={handleSuccessSnackbarClose}>
                 <Alert onClose={handleSuccessSnackbarClose} severity="success" sx={{ width: '100%' }}>
                     {localString.change_pw_success}
                 </Alert>
             </Snackbar>
-            <Snackbar open={errorSnackbarOpen} autoHideDuration={6000} onClose={handleErrorSnackbarClose}>
+            <Snackbar open={Boolean(failSnakbarText)} autoHideDuration={6000} onClose={handleErrorSnackbarClose}>
                 <Alert onClose={handleErrorSnackbarClose} severity="error" sx={{ width: '100%' }}>
                     {localString.server_unavailable_error}
                 </Alert>

@@ -41,7 +41,7 @@ export const resetPasswordWithEmail = (
             if (val.err) {
                 // Incorrect email
                 failedCallback({
-                    type: ErrorType.server_unavailable,
+                    type: ErrorType.email_error,
                     msg: val.err
                 });
             } else if (val.msg) {
