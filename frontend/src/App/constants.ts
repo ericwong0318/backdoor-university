@@ -37,7 +37,7 @@ export const api = {
     adminLogin: '/admin-login',
     pathResetPW: '/user-forget-password',
     userChangePW: '/user-update-password',
-    adminChangePW: 'admin-update-password',
+    adminChangePW: '/admin-update-password',
     updateUserInfo: '/user-update',
     getUser: '/user-list-one',
     getPhoto: '/photo',
