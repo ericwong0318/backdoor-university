@@ -1,4 +1,4 @@
-import { Alert, Avatar, Box, Button, Card, CardActions, CardContent, CardHeader, Divider, Grid, IconButton, OutlinedInput, List, ListItem, ListItemText, Paper, Popper, Snackbar, TextField, Typography, Select, MenuItem } from '@mui/material'
+import { Alert, Avatar, Box, Button, Card, CardActions, CardContent, CardHeader, Divider, Grid, IconButton, OutlinedInput, List, ListItem, ListItemText, Paper, Popper, Snackbar, TextField, Typography, Select, MenuItem, CircularProgress } from '@mui/material'
 import React, { useContext, useEffect, useState } from 'react'
 import { IUser, UserRoleEnum } from '../../../../../App/interfaces'
 import { useAuth } from '../../../../../Components/auth/AuthProvider'
@@ -10,13 +10,11 @@ import { dataURLtoFile } from '../../../../../App/helper';
 import { v4 as uuidv4 } from 'uuid';
 
 interface IProfileCard {
-    user: IUser
+    user?: IUser | null
 }
 
 const ProfileCard = (props: IProfileCard) => {
     const { localString } = useContext(LanguageContext)
-
-    const user = props.user;
     const auth = useAuth();
     const [modifyPWAnchorEl, setModifyPWAnchorEl] = React.useState<null | HTMLElement>(null);
     const [verifyPWAnchorEl, setVerifyPWAnchorEl] = React.useState<null | HTMLElement>(null);
@@ -24,12 +22,12 @@ const ProfileCard = (props: IProfileCard) => {
     // Edit profile info
     const [editing, setEditing] = useState(false);
     // const [editEmail, setEditEmail] = useState(user.email)
-    const [editUsername, setEditUsername] = useState(user.name)
-    const [editSchool, setEditSchool] = useState(user.school)
-    const [editProgramme, setEditProgramme] = useState(user.programme)
-    const [editType, setEditType] = useState(user.type)
-    const [editAdmissionYear, setEditAdmissionYear] = useState(user.admissionYear)
-    const [editCGPA, setEditCGPA] = useState(user.cgpa)
+    const [editUsername, setEditUsername] = useState('')
+    const [editSchool, setEditSchool] = useState('')
+    const [editProgramme, setEditProgramme] = useState('')
+    const [editType, setEditType] = useState('')
+    const [editAdmissionYear, setEditAdmissionYear] = useState(0)
+    const [editCGPA, setEditCGPA] = useState(0)
     const [editAvatar, setEditAvatar] = useState<File | null>(null)
     const [verifyPW, setVerifyPW] = useState('')
     const [verifyPWError, setVerifyPWError] = useState('')
@@ -50,14 +48,14 @@ const ProfileCard = (props: IProfileCard) => {
     }
 
     useEffect(() => {
-        if (editing) {
+        if (editing && props.user) {
             // setEditEmail(user.email)
-            setEditUsername(user.name)
-            setEditSchool(user.school)
-            setEditProgramme(user.programme)
-            setEditType(user.type)
-            setEditAdmissionYear(user.admissionYear)
-            setEditCGPA(user.cgpa)
+            setEditUsername(props.user.name)
+            setEditSchool(props.user.school)
+            setEditProgramme(props.user.programme)
+            setEditType(props.user.type)
+            setEditAdmissionYear(props.user.admissionYear)
+            setEditCGPA(props.user.cgpa)
         }
     }, [editing])
 
@@ -98,7 +96,7 @@ const ProfileCard = (props: IProfileCard) => {
         }
 
         // Request to change password
-        modifyPassword(user.email, oldPW.trim(), newPW.trim(), UserRoleEnum.user,
+        modifyPassword(props.user!.email, oldPW.trim(), newPW.trim(), UserRoleEnum.user,
             () => {
                 setSuccessSnakbarText(localString.profile_changed);
                 setModifyPWAnchorEl(null);
@@ -120,33 +118,34 @@ const ProfileCard = (props: IProfileCard) => {
     }
 
     const handleConfirmVerifyPWClick = () => {
-        getUser({ email: user.email },
-            user => {
-                const formData = new FormData();
-                formData.append('email', user.email)
-                const photo = (editAvatar) ? editAvatar : dataURLtoFile(user.photo!, 'temp.jpg');
-                formData.append('photo', photo!, uuidv4())
-                formData.append('school', user.school)
-                formData.append('programme', editProgramme)
-                formData.append('addmissionYear', editAdmissionYear.toString())
-                formData.append('type', editType)
-                formData.append('cgpa', editCGPA.toString())
-                formData.append('examname', user.exam.name)
-                formData.append('result', user.exam.result)
-                if (user.offer) {
-                    formData.append('offerSchool', user.offer.school)
-                    formData.append('offerProgramme', user.offer.programme)
-                }
+        if (props.user)
+            getUser({ email: props.user.email },
+                user => {
+                    const formData = new FormData();
+                    formData.append('email', user.email)
+                    const photo = (editAvatar) ? editAvatar : dataURLtoFile(user.photo!, 'temp.jpg');
+                    formData.append('photo', photo!, uuidv4())
+                    formData.append('school', user.school)
+                    formData.append('programme', editProgramme)
+                    formData.append('addmissionYear', editAdmissionYear.toString())
+                    formData.append('type', editType)
+                    formData.append('cgpa', editCGPA.toString())
+                    formData.append('examname', user.exam.name)
+                    formData.append('result', user.exam.result)
+                    if (user.offer) {
+                        formData.append('offerSchool', user.offer.school)
+                        formData.append('offerProgramme', user.offer.programme)
+                    }
 
-                modifyUserInfo(formData,
-                    () => {
-                        setSuccessSnakbarText(localString.profile_changed)
-                    }, err => {
-                        setFailSnakbarText(localString.opps)
-                    })
-            }, err => {
-                setFailSnakbarText(localString.opps)
-            }, true)
+                    modifyUserInfo(formData,
+                        () => {
+                            setSuccessSnakbarText(localString.profile_changed)
+                        }, err => {
+                            setFailSnakbarText(localString.opps)
+                        })
+                }, err => {
+                    setFailSnakbarText(localString.opps)
+                }, true)
     }
 
     const handleCancelVerifyPWClick = () => {
@@ -177,353 +176,359 @@ const ProfileCard = (props: IProfileCard) => {
 
     return (
         <React.Fragment>
-            <Card>
-                <CardHeader
-                    title={localString.profile}
-                    action={
-                        (auth.user && auth.user.email === user.email) &&
-                        <IconButton onClick={() => setEditing(true)}>
-                            <EditIcon />
-                        </IconButton>
-                    }
-                />
-                <CardContent>
-                    <Grid container spacing={5}>
-                        {/* Avatar */}
-                        <Grid item xs={12} md={12} lg={12}>
-                            <Grid container item >
-                                <Grid item xs={4} md={4} lg={4}>
-                                    <Typography>
-                                        {props.user.photo ? (
-                                            <Avatar sx={{ width: "120px", height: "120px" }}
-                                                alt={user.name}
-                                                src={props.user.photo} />
-                                        )
-                                            : (
-                                                <AccountCircleIcon sx={{ width: "120px", height: "120px" }} />
-                                            )}
-                                    </Typography>
+            {props.user ? (
+                <React.Fragment>
+                    <Card>
+                        <CardHeader
+                            title={localString.profile}
+                            action={
+                                (auth.user && auth.user.email === props.user.email) &&
+                                <IconButton onClick={() => setEditing(true)}>
+                                    <EditIcon />
+                                </IconButton>
+                            }
+                        />
+                        <CardContent>
+                            <Grid container spacing={5}>
+                                {/* Avatar */}
+                                <Grid item xs={12} md={12} lg={12}>
+                                    <Grid container item >
+                                        <Grid item xs={4} md={4} lg={4}>
+                                            <Typography>
+                                                {props.user.photo ? (
+                                                    <Avatar sx={{ width: "120px", height: "120px" }}
+                                                        alt={props.user.name}
+                                                        src={props.user.photo} />
+                                                )
+                                                    : (
+                                                        <AccountCircleIcon sx={{ width: "120px", height: "120px" }} />
+                                                    )}
+                                            </Typography>
+                                        </Grid>
+                                        <Grid item xs={8} md={8} lg={8}>
+                                            {editing && <>
+                                                <Button
+                                                    variant="contained"
+                                                    component="label"
+                                                >
+                                                    {localString.choose_photo}
+                                                    <input
+                                                        type="file"
+                                                        accept="image/png, image/gif, image/jpeg"
+                                                        hidden
+                                                        onChange={(e) => {
+                                                            if (e.target.files)
+                                                                setEditAvatar(e.target.files[0])
+                                                        }}
+                                                    />
+                                                </Button>
+                                                {/* Display file name */}
+                                                {editAvatar && <Typography>{editAvatar.name}</Typography>}
+                                            </>}
+                                        </Grid>
+                                    </Grid>
                                 </Grid>
-                                <Grid item xs={8} md={8} lg={8}>
-                                    {editing && <>
-                                        <Button
-                                            variant="contained"
-                                            component="label"
-                                        >
-                                            {localString.choose_photo}
-                                            <input
-                                                type="file"
-                                                accept="image/png, image/gif, image/jpeg"
-                                                hidden
-                                                onChange={(e) => {
-                                                    if (e.target.files)
-                                                        setEditAvatar(e.target.files[0])
-                                                }}
-                                            />
-                                        </Button>
-                                        {/* Display file name */}
-                                        {editAvatar && <Typography>{editAvatar.name}</Typography>}
-                                    </>}
+
+                                {/* Info table */}
+                                <Grid item xs={12} md={12} lg={12}>
+                                    <Grid container spacing={1}>
+                                        {/* Email */}
+                                        <Grid item xs={3} md={3} lg={3}>
+                                            <Typography>
+                                                {localString.email}:
+                                            </Typography>
+                                        </Grid>
+                                        <Grid item xs={9} md={9} lg={9}>
+                                            {
+                                                // Not allow to edit email
+                                                // editing ? (
+                                                //     <TextField fullWidth size="small" value={editEmail} onChange={e => setEditEmail(e.target.value)} />
+                                                // ) : (
+                                                // )
+                                                <Typography >
+                                                    {props.user.email}
+                                                </Typography>
+                                            }
+                                        </Grid>
+
+                                        {/* Name */}
+                                        <Grid item xs={3} md={3} lg={3}>
+                                            <Typography>
+                                                {localString.username}:
+                                            </Typography>
+                                        </Grid>
+                                        <Grid item xs={9} md={9} lg={9}>
+                                            {
+                                                editing ? (
+                                                    <TextField fullWidth size="small" value={editUsername} onChange={e => setEditUsername(e.target.value)} />
+                                                ) : (
+                                                    <Typography >
+                                                        {props.user.name}
+                                                    </Typography>
+                                                )
+                                            }
+                                        </Grid>
+
+                                        {/* School */}
+                                        <Grid item xs={3} md={3} lg={3}>
+                                            <Typography>
+                                                {localString.school}:
+                                            </Typography>
+                                        </Grid>
+                                        <Grid item xs={9} md={9} lg={9}>
+                                            {
+                                                editing ? (
+                                                    <TextField fullWidth size="small" value={editSchool} onChange={e => setEditSchool(e.target.value)} />
+                                                ) : (
+                                                    <Typography >
+                                                        {props.user.school}
+                                                    </Typography>
+                                                )
+                                            }
+                                        </Grid>
+                                    </Grid>
                                 </Grid>
                             </Grid>
-                        </Grid>
-
-                        {/* Info table */}
-                        <Grid item xs={12} md={12} lg={12}>
+                            <Divider sx={{ my: '3%' }} />
                             <Grid container spacing={1}>
-                                {/* Email */}
+                                {/* Programme */}
+                                <Grid item xs={12} md={12} lg={12} sx={{ marginBottom: "10px" }}>
+                                    <Typography variant="h5">
+                                        {localString.programme}
+                                    </Typography>
+                                </Grid>
                                 <Grid item xs={3} md={3} lg={3}>
                                     <Typography>
-                                        {localString.email}:
+                                        {localString.name}:
                                     </Typography>
                                 </Grid>
                                 <Grid item xs={9} md={9} lg={9}>
-                                    {
-                                        // Not allow to edit email
-                                        // editing ? (
-                                        //     <TextField fullWidth size="small" value={editEmail} onChange={e => setEditEmail(e.target.value)} />
-                                        // ) : (
-                                        // )
-                                        <Typography >
-                                            {user.email}
-                                        </Typography>
-                                    }
+                                    <Typography >
+                                        {
+                                            editing ? (
+                                                <TextField fullWidth size="small" value={editProgramme} onChange={e => setEditProgramme(e.target.value)} />
+                                            ) : (
+                                                <Typography >
+                                                    {props.user.programme}
+                                                </Typography>
+                                            )
+                                        }
+                                    </Typography>
                                 </Grid>
 
-                                {/* Name */}
+                                {/* Type */}
                                 <Grid item xs={3} md={3} lg={3}>
                                     <Typography>
-                                        {localString.username}:
+                                        {localString.prog_type}:
                                     </Typography>
                                 </Grid>
                                 <Grid item xs={9} md={9} lg={9}>
+
                                     {
                                         editing ? (
-                                            <TextField fullWidth size="small" value={editUsername} onChange={e => setEditUsername(e.target.value)} />
+                                            <Select value={editType} onChange={e => {
+                                                if (e.target.value === "undergrad" || e.target.value === "asso" || e.target.value === "hd")
+                                                    setEditType(e.target.value)
+                                            }}>
+                                                <MenuItem value={"undergrad"}>{renderProgType("undergrad")}</MenuItem>
+                                                <MenuItem value={"asso"}>{renderProgType("asso")}</MenuItem>
+                                                <MenuItem value={"hd"}>{renderProgType("hd")}</MenuItem>
+                                            </Select>
                                         ) : (
                                             <Typography >
-                                                {user.name}
+                                                {renderProgType(props.user.type)}
                                             </Typography>
                                         )
                                     }
                                 </Grid>
 
-                                {/* School */}
+                                {/* Admission Year */}
                                 <Grid item xs={3} md={3} lg={3}>
                                     <Typography>
-                                        {localString.school}:
+                                        {localString.admission_year}:
                                     </Typography>
                                 </Grid>
                                 <Grid item xs={9} md={9} lg={9}>
                                     {
                                         editing ? (
-                                            <TextField fullWidth size="small" value={editSchool} onChange={e => setEditSchool(e.target.value)} />
+                                            <OutlinedInput type="number" fullWidth size="small" value={editAdmissionYear} onChange={e => setEditAdmissionYear(Number(e.target.value))} />
                                         ) : (
                                             <Typography >
-                                                {user.school}
+                                                {props.user.admissionYear}
+                                            </Typography>
+                                        )
+                                    }
+                                </Grid>
+
+                                {/* CGPA */}
+                                <Grid item xs={3} md={3} lg={3}>
+                                    <Typography>
+                                        {localString.cgpa}:
+                                    </Typography>
+                                </Grid>
+                                <Grid item xs={9} md={9} lg={9}>
+                                    {
+                                        editing ? (
+                                            <OutlinedInput type='number' fullWidth size="small" value={editCGPA} onChange={e => setEditCGPA(Number(e.target.value))} />
+                                        ) : (
+                                            <Typography >
+                                                {props.user.cgpa}
                                             </Typography>
                                         )
                                     }
                                 </Grid>
                             </Grid>
-                        </Grid>
-                    </Grid>
-                    <Divider sx={{ my: '3%' }} />
-                    <Grid container spacing={1}>
-                        {/* Programme */}
-                        <Grid item xs={12} md={12} lg={12} sx={{ marginBottom: "10px" }}>
-                            <Typography variant="h5">
-                                {localString.programme}
-                            </Typography>
-                        </Grid>
-                        <Grid item xs={3} md={3} lg={3}>
-                            <Typography>
-                                {localString.name}:
-                            </Typography>
-                        </Grid>
-                        <Grid item xs={9} md={9} lg={9}>
-                            <Typography >
-                                {
-                                    editing ? (
-                                        <TextField fullWidth size="small" value={editProgramme} onChange={e => setEditProgramme(e.target.value)} />
-                                    ) : (
-                                        <Typography >
-                                            {user.programme}
-                                        </Typography>
-                                    )
+
+                            {/* Editing related buttons */}
+                            <Divider sx={{ my: '3%' }} />
+                            <CardActions>
+                                <Grid item xs={12} md={12} lg={12}>
+                                    {
+                                        (auth.user && auth.user.email === props.user.email) &&
+                                        <Button onClick={e => setModifyPWAnchorEl(modifyPWAnchorEl ? null : e.currentTarget)}>
+                                            {localString.change_password}
+                                        </Button>
+                                    }
+                                </Grid>
+                                {editing && <>
+                                    <Button sx={{ marginLeft: "auto" }}
+                                        variant="text"
+                                        onClick={handleCancelEditButtonClick}
+                                    >
+                                        {localString.cancel}
+                                    </Button>
+                                    <Button
+                                        variant="outlined"
+                                        onClick={e => setVerifyPWAnchorEl(e.currentTarget)}
+                                    >
+                                        {localString.save}
+                                    </Button>
+                                </>
                                 }
-                            </Typography>
-                        </Grid>
+                            </CardActions>
+                        </CardContent>
+                    </Card>
 
-                        {/* Type */}
-                        <Grid item xs={3} md={3} lg={3}>
-                            <Typography>
-                                {localString.prog_type}:
-                            </Typography>
-                        </Grid>
-                        <Grid item xs={9} md={9} lg={9}>
-
-                            {
-                                editing ? (
-                                    <Select value={editType} onChange={e => {
-                                        if (e.target.value === "undergrad" || e.target.value === "asso" || e.target.value === "hd")
-                                            setEditType(e.target.value)
-                                    }}>
-                                        <MenuItem value={"undergrad"}>{renderProgType("undergrad")}</MenuItem>
-                                        <MenuItem value={"asso"}>{renderProgType("asso")}</MenuItem>
-                                        <MenuItem value={"hd"}>{renderProgType("hd")}</MenuItem>
-                                    </Select>
-                                ) : (
-                                    <Typography >
-                                        {renderProgType(user.type)}
+                    {/* Modify password */}
+                    <Popper open={Boolean(modifyPWAnchorEl)} anchorEl={modifyPWAnchorEl}>
+                        <Box sx={{ width: "240px", border: 1, p: 1, bgcolor: 'background.paper' }}>
+                            <Grid container spacing={3}>
+                                {/* Old Password */}
+                                <Grid item xs={12} md={12} lg={12}>
+                                    <Typography>
+                                        <TextField
+                                            type="password"
+                                            error={Boolean(oldPWError)}
+                                            label={localString.old_password}
+                                            value={oldPW}
+                                            onChange={e => {
+                                                setOldPWError("")
+                                                setOldPW(e.target.value)
+                                            }}
+                                        />
                                     </Typography>
-                                )
-                            }
-                        </Grid>
-
-                        {/* Admission Year */}
-                        <Grid item xs={3} md={3} lg={3}>
-                            <Typography>
-                                {localString.admission_year}:
-                            </Typography>
-                        </Grid>
-                        <Grid item xs={9} md={9} lg={9}>
-                            {
-                                editing ? (
-                                    <OutlinedInput type="number" fullWidth size="small" value={editAdmissionYear} onChange={e => setEditAdmissionYear(Number(e.target.value))} />
-                                ) : (
-                                    <Typography >
-                                        {user.admissionYear}
-                                    </Typography>
-                                )
-                            }
-                        </Grid>
-
-                        {/* CGPA */}
-                        <Grid item xs={3} md={3} lg={3}>
-                            <Typography>
-                                {localString.cgpa}:
-                            </Typography>
-                        </Grid>
-                        <Grid item xs={9} md={9} lg={9}>
-                            {
-                                editing ? (
-                                    <OutlinedInput type='number' fullWidth size="small" value={editCGPA} onChange={e => setEditCGPA(Number(e.target.value))} />
-                                ) : (
-                                    <Typography >
-                                        {user.cgpa}
-                                    </Typography>
-                                )
-                            }
-                        </Grid>
-                    </Grid>
-
-                    {/* Editing related buttons */}
-                    <Divider sx={{ my: '3%' }} />
-                    <CardActions>
-                        <Grid item xs={12} md={12} lg={12}>
-                            {
-                                (auth.user && auth.user.email === user.email) &&
-                                <Button onClick={e => setModifyPWAnchorEl(modifyPWAnchorEl ? null : e.currentTarget)}>
-                                    {localString.change_password}
-                                </Button>
-                            }
-                        </Grid>
-                        {editing && <>
-                            <Button sx={{ marginLeft: "auto" }}
-                                variant="text"
-                                onClick={handleCancelEditButtonClick}
-                            >
-                                {localString.cancel}
-                            </Button>
-                            <Button
-                                variant="outlined"
-                                onClick={e => setVerifyPWAnchorEl(e.currentTarget)}
-                            >
-                                {localString.save}
-                            </Button>
-                        </>
-                        }
-                    </CardActions>
-                </CardContent>
-            </Card>
-
-            {/* Modify Password */}
-            <Popper open={Boolean(modifyPWAnchorEl)} anchorEl={modifyPWAnchorEl}>
-                <Box sx={{ width: "240px", border: 1, p: 1, bgcolor: 'background.paper' }}>
-                    <Grid container spacing={3}>
-                        {/* Old Password */}
-                        <Grid item xs={12} md={12} lg={12}>
-                            <Typography>
-                                <TextField
-                                    type="password"
-                                    error={Boolean(oldPWError)}
-                                    label={localString.old_password}
-                                    value={oldPW}
-                                    onChange={e => {
-                                        setOldPWError("")
-                                        setOldPW(e.target.value)
-                                    }}
-                                />
-                            </Typography>
-                            {oldPWError &&
-                                <Grid item>
-                                    <Typography color={"red"}>{oldPWError}</Typography>
+                                    {oldPWError &&
+                                        <Grid item>
+                                            <Typography color={"red"}>{oldPWError}</Typography>
+                                        </Grid>
+                                    }
                                 </Grid>
-                            }
-                        </Grid>
 
-                        {/* New Password */}
-                        <Grid item xs={12} md={12} lg={12}>
-                            <Typography>
-                                <TextField
-                                    error={Boolean(newPWError)}
-                                    label={localString.new_password}
-                                    type="password"
-                                    value={newPW}
-                                    onChange={e => {
-                                        setNewPWError("")
-                                        setNewPW(e.target.value)
-                                    }}
-                                />
-                            </Typography>
-                        </Grid>
+                                {/* New Password */}
+                                <Grid item xs={12} md={12} lg={12}>
+                                    <Typography>
+                                        <TextField
+                                            error={Boolean(newPWError)}
+                                            label={localString.new_password}
+                                            type="password"
+                                            value={newPW}
+                                            onChange={e => {
+                                                setNewPWError("")
+                                                setNewPW(e.target.value)
+                                            }}
+                                        />
+                                    </Typography>
+                                </Grid>
 
-                        {
-                            newPWError &&
-                            <Grid item>
-                                <Typography color={"red"}>
-                                    {newPWError}
-                                </Typography>
+                                {
+                                    newPWError &&
+                                    <Grid item>
+                                        <Typography color={"red"}>
+                                            {newPWError}
+                                        </Typography>
+                                    </Grid>
+                                }
+
+                                <Grid item xs={12} md={12} lg={12} >
+                                    <Button
+                                        variant="outlined"
+                                        onClick={handleConfirmNewPWClick}
+                                    >
+                                        {localString.confirm}
+                                    </Button>
+                                    <Button
+                                        variant="text"
+                                        onClick={handleCancelNewPWClick}
+                                    >
+                                        {localString.cancel}
+                                    </Button>
+                                </Grid>
                             </Grid>
-                        }
+                        </Box>
+                    </Popper>
 
-                        <Grid item xs={12} md={12} lg={12} >
-                            <Button
-                                variant="outlined"
-                                onClick={handleConfirmNewPWClick}
-                            >
-                                {localString.confirm}
-                            </Button>
-                            <Button
-                                variant="text"
-                                onClick={handleCancelNewPWClick}
-                            >
-                                {localString.cancel}
-                            </Button>
-                        </Grid>
-                    </Grid>
-                </Box>
-            </Popper>
+                    {/* Verify password */}
+                    <Popper open={Boolean(verifyPWAnchorEl)} anchorEl={verifyPWAnchorEl}>
+                        <Box sx={{ width: "240px", border: 1, p: 1, bgcolor: 'background.paper' }}>
+                            <Grid container spacing={3}>
+                                {/* Password */}
+                                <Grid item xs={12} md={12} lg={12}>
+                                    <Typography>
+                                        <TextField
+                                            type="password"
+                                            error={Boolean(verifyPWError)}
+                                            label={localString.password}
+                                            value={verifyPW}
+                                            onChange={e => {
+                                                setVerifyPWError('')
+                                                setVerifyPW(e.target.value)
+                                            }}
+                                            helperText={verifyPWError}
+                                        />
+                                    </Typography>
+                                </Grid>
 
-            {/* Verify password */}
-            <Popper open={Boolean(verifyPWAnchorEl)} anchorEl={verifyPWAnchorEl}>
-                <Box sx={{ width: "240px", border: 1, p: 1, bgcolor: 'background.paper' }}>
-                    <Grid container spacing={3}>
-                        {/* Password */}
-                        <Grid item xs={12} md={12} lg={12}>
-                            <Typography>
-                                <TextField
-                                    type="password"
-                                    error={Boolean(verifyPWError)}
-                                    label={localString.password}
-                                    value={verifyPW}
-                                    onChange={e => {
-                                        setVerifyPWError('')
-                                        setVerifyPW(e.target.value)
-                                    }}
-                                    helperText={verifyPWError}
-                                />
-                            </Typography>
-                        </Grid>
-
-                        <Grid item xs={12} md={12} lg={12} >
-                            <Button
-                                variant="outlined"
-                                onClick={handleConfirmVerifyPWClick}
-                            >
-                                {localString.confirm}
-                            </Button>
-                            <Button
-                                variant="text"
-                                onClick={handleCancelVerifyPWClick}
-                            >
-                                {localString.cancel}
-                            </Button>
-                        </Grid>
-                    </Grid>
-                </Box>
-            </Popper>
-            <Snackbar open={Boolean(successSnakbarText)} autoHideDuration={6000} onClose={handleSuccessSnackbarClose}>
-                <Alert onClose={handleSuccessSnackbarClose} severity="success" sx={{ width: '100%' }}>
-                    {localString.change_pw_success}
-                </Alert>
-            </Snackbar>
-            <Snackbar open={Boolean(failSnakbarText)} autoHideDuration={6000} onClose={handleErrorSnackbarClose}>
-                <Alert onClose={handleErrorSnackbarClose} severity="error" sx={{ width: '100%' }}>
-                    {localString.server_unavailable_error}
-                </Alert>
-            </Snackbar>
+                                <Grid item xs={12} md={12} lg={12} >
+                                    <Button
+                                        variant="outlined"
+                                        onClick={handleConfirmVerifyPWClick}
+                                    >
+                                        {localString.confirm}
+                                    </Button>
+                                    <Button
+                                        variant="text"
+                                        onClick={handleCancelVerifyPWClick}
+                                    >
+                                        {localString.cancel}
+                                    </Button>
+                                </Grid>
+                            </Grid>
+                        </Box>
+                    </Popper>
+                    <Snackbar open={Boolean(successSnakbarText)} autoHideDuration={6000} onClose={handleSuccessSnackbarClose}>
+                        <Alert onClose={handleSuccessSnackbarClose} severity="success" sx={{ width: '100%' }}>
+                            {localString.change_pw_success}
+                        </Alert>
+                    </Snackbar>
+                    <Snackbar open={Boolean(failSnakbarText)} autoHideDuration={6000} onClose={handleErrorSnackbarClose}>
+                        <Alert onClose={handleErrorSnackbarClose} severity="error" sx={{ width: '100%' }}>
+                            {localString.server_unavailable_error}
+                        </Alert>
+                    </Snackbar>
+                </React.Fragment>
+            ) : (
+                <CircularProgress />
+            )}
         </React.Fragment>
     )
 }

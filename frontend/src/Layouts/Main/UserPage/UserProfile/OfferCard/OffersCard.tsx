@@ -1,4 +1,4 @@
-import { Avatar, Card, CardContent, CardHeader, Divider, Grid, Typography } from '@mui/material'
+import { Avatar, Card, CardContent, CardHeader, CircularProgress, Divider, Grid, Typography } from '@mui/material'
 import React, { useContext } from 'react'
 import { IUser } from '../../../../../App/interfaces'
 import { useAuth } from '../../../../../Components/auth/AuthProvider'
@@ -6,12 +6,11 @@ import { LanguageContext } from '../../../../../Components/LanguageProvider/Lang
 
 
 interface IOffersCard {
-    user: IUser
+    user?: IUser | null
 }
 
 const OffersCard = (props: IOffersCard) => {
     const { localString } = useContext(LanguageContext)
-    const user = props.user;
     const auth = useAuth();
 
     return (
@@ -28,15 +27,15 @@ const OffersCard = (props: IOffersCard) => {
                         })} */}
 
                     {
-                        (user.offer) ? (
-                            <></>
-                        ) : (
+                        (props.user) ? (
                             <Typography>
                                 {
-                                    auth.user && auth.user.email === user.email ?
+                                    auth.user && auth.user.email === props.user.email ?
                                         localString.you_no_offer : localString.user_has_no_offer
                                 }
                             </Typography>
+                        ) : (
+                            <CircularProgress />
                         )
                     }
                 </Grid>
