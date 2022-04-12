@@ -1,6 +1,5 @@
-import { ReadMoreRounded } from "@mui/icons-material";
 import { api } from "../App/constants"
-import { IProgramme, IUser, UserRoleEnum } from "../App/interfaces"
+import { IUser } from "../App/interfaces"
 
 export enum ActivateAccountErrorType {
     ServerUnavailable,
@@ -169,7 +168,7 @@ export const updatePasswordAsUser = (email: string, oldPassword: string, newPass
     })
 }
 
-export const updatePasswordAsAdmin = (email: string, password:string,
+export const updatePasswordAsAdmin = (email: string, password: string,
     successCallback: VoidFunction,
     failedCallback: (err: ModifyPasswordErrorType) => void) => {
 
@@ -328,14 +327,93 @@ export const getAllProgramme = (
 
 }
 
-export const addNewProgramme = () => {
 
+export enum UpdateProgrammeErrorType {
+    Fail,
+    ServerUnavailable,
+    Unknown,
 }
 
-export const updateProgramme = () => {
+export const addNewProgramme = (name: string, school: string, type: string, info: string,
+    successCallback?: VoidFunction,
+    failedCallback?: (err: UpdateProgrammeErrorType) => void
+) => {
+    const headers = new Headers();
+    headers.append('Content-Type', 'application/json');
 
+    const body = new FormData();
+    body.append('programme', name.trim())
+    body.append('school', school.trim())
+    body.append('type', type.trim())
+    body.append('info', info.trim())
+
+    fetch(`${api.url}${api.addNewProgramme}`, {
+        method: 'POST',
+        body: body,
+    }).then(res => {
+        res.json().then(val => {
+            if (val.msg) {
+                // Success
+                if (successCallback)
+                    successCallback()
+                return
+            }
+
+            // Fail
+            if (val.err) {
+                if (failedCallback)
+                    failedCallback(UpdateProgrammeErrorType.Fail)
+            }
+        })
+    }).catch(reason => {
+        if (failedCallback)
+            failedCallback(UpdateProgrammeErrorType.ServerUnavailable)
+    })
+}
+
+export const updateProgramme = (oldSchool: string, oldProgramme: string, newSchool: string, newProgramme: string, type: string, info: string,
+    successCallback?: VoidFunction,
+    failedCallback?: (err: UpdateProgrammeErrorType) => void
+) => {
+    const headers = new Headers();
+    headers.append('Content-Type', 'application/json');
+
+    // const body = { oldSchool: oldSchool.trim().toString(), oldProgramme: oldProgramme.trim().toString(), newSchool: newSchool.trim().toString(), newProgramme: newProgramme.trim().toString(), type: type.trim().toString(), info: info.trim().toString() }
+
+    const body = new FormData();
+    body.append('oldSchool', oldSchool.trim())
+    body.append('oldProgramme', oldProgramme.trim())
+    body.append('newSchool', newSchool.trim())
+    body.append('newProgramme', newProgramme.trim())
+    body.append('type', type.trim())
+    body.append('info', info.trim())
+
+    fetch(`${api.url}${api.updateProgramme}`, {
+        method: "POST",
+        body: body
+    }).then(res => {
+        res.json().then(val => {
+            if (val.msg) {
+                // Success
+                if (successCallback)
+                    successCallback()
+                return
+            }
+
+            if (val.err) {
+                // Fail
+                if (failedCallback)
+                    failedCallback(UpdateProgrammeErrorType.Fail)
+            }
+        })
+    }).catch(reason => {
+        if (failedCallback)
+            failedCallback(UpdateProgrammeErrorType.ServerUnavailable)
+    })
 }
 
 export const submitComment = () => {
+    const headers = new Headers();
+    headers.append('Content-Type', 'application/json');
 
 }

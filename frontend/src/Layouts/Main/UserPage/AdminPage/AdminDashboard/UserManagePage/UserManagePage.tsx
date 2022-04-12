@@ -4,7 +4,6 @@ import { activateEmail, getAllUser, getUser, updatePasswordAsAdmin } from '../..
 import { LanguageContext } from '../../../../../../Components/LanguageProvider/LanguageProvider'
 import { Alert, Button, Card, CardActions, CardContent, CircularProgress, Dialog, DialogActions, DialogContent, DialogTitle, IconButton, Snackbar, TextField, Typography } from '@mui/material'
 import ProgTypeEditInputCell from './ProgTypeEditInputCell/ProgTypeEditInputCell'
-import { UserRoleEnum } from '../../../../../../App/interfaces'
 import { LayoutPath } from '../../../../../../App/constants'
 import { useNavigate } from 'react-router-dom'
 import AutorenewIcon from '@mui/icons-material/Autorenew';
@@ -13,11 +12,8 @@ interface IUserManagePageProps {
 
 }
 
-const renderProgTypeEditInputCell = (params: GridRenderEditCellParams<any, any, any>) => {
-    return <ProgTypeEditInputCell {...params} />
-}
 
-const UserManagePage = (props: IUserManagePageProps) => {
+const UserManagePage = () => {
     const { localString } = useContext(LanguageContext)
     const navigate = useNavigate()
 
@@ -90,21 +86,17 @@ const UserManagePage = (props: IUserManagePageProps) => {
             () => {
                 setEditUserFormOpen(false);
                 setSuccessSnakbarText(localString.change_pw_success)
-            }, (e) => {
+            }, () => {
                 setFailSnakbarText(localString.opps)
             })
     }
 
-    const handleEditUserSaveButtonClick = () => {
-        // Save the user data to db
-
-    }
 
     const handleGridRowDoubleClick = (params: GridRowParams<any>) => {
         setSelectedUserEmail(params.row.email)
         setSelectedUsername(params.row.name)
 
-        getUser({ email: selectedUserEmail }, user => {
+        getUser({ email: selectedUserEmail }, () => {
 
         })
     }
@@ -268,12 +260,12 @@ const UserManagePage = (props: IUserManagePageProps) => {
             {/* Snackbar will be the indicator of server responses */}
             <Snackbar open={Boolean(successSnakbarText)} autoHideDuration={6000} onClose={handleSuccessSnackbarClose}>
                 <Alert onClose={handleSuccessSnackbarClose} severity="success" sx={{ width: '100%' }}>
-                    {localString.change_pw_success}
+                    {successSnakbarText}
                 </Alert>
             </Snackbar>
             <Snackbar open={Boolean(failSnakbarText)} autoHideDuration={6000} onClose={handleErrorSnackbarClose}>
                 <Alert onClose={handleErrorSnackbarClose} severity="error" sx={{ width: '100%' }}>
-                    {localString.server_unavailable_error}
+                    {failSnakbarText}
                 </Alert>
             </Snackbar>
         </React.Fragment >
