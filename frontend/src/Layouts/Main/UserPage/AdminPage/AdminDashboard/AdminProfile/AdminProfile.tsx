@@ -16,68 +16,39 @@ const AdminProfile = (props: IAdminProfileProps) => {
     const [editing, setEditing] = useState(false);
     const [editEmail, setEditEmail] = useState(props.email)
     const [modifyPWAnchorEl, setModifyPWAnchorEl] = React.useState<null | HTMLElement>(null);
-    const [verifyPWAnchorEl, setVerifyPWAnchorEl] = React.useState<null | HTMLElement>(null);
 
     // Change password
-    const [oldPW, setOldPW] = useState("");
+    const [saving, setSaving] = useState(false)
     const [newPW, setNewPW] = useState("");
-    const [oldPWError, setOldPWError] = useState("")
     const [newPWError, setNewPWError] = useState("")
     const [successSnackbarOpen, setSuccessSnackbarOpen] = useState(false);
     const [errorSnackbarOpen, setErrorSnackbarOpen] = useState(false);
 
-    // Verify Password
-    const [verifyPW, setVerifyPW] = useState('')
-    const [verifyPWError, setVerifyPWError] = useState('')
-
     // handle clicks
     const handleConfirmNewPWClick = () => {
-        if (!oldPW.trim()) {
-            setOldPWError(localString.field_empty_error);
-            return;
-        }
-
         if (!newPW.trim()) {
             setNewPWError(localString.field_empty_error)
             return;
         }
 
-        // Compare new old password 
-        if (newPW.trim() === oldPW.trim()) {
-            setNewPWError(localString.new_old_pw_same_error);
-            return;
-        }
-
+        setSaving(true);
         // Request to change password
-        modifyPassword(props.email, oldPW.trim(), newPW.trim(), UserRoleEnum.admin,
+        modifyPassword(props.email, newPW.trim(), newPW.trim(), UserRoleEnum.admin,
             () => {
                 setSuccessSnackbarOpen(true);
                 setModifyPWAnchorEl(null);
+                setSaving(false);
             }, err => {
-                switch (err) {
-                    case ModifyPasswordErrorType.IncorrectOldPassword:
-                        setOldPWError(localString.old_pw_incorrect_error)
-                        break;
-                }
+                console.log(err)
+                setErrorSnackbarOpen(true)
+                setSaving(false);
             })
     }
 
     const handleCancelNewPWClick = () => {
         setNewPW("")
-        setOldPW("")
-        setOldPWError("")
         setNewPWError("")
         setModifyPWAnchorEl(null)
-    }
-
-    const handleConfirmVerifyPWClick = () => {
-
-    }
-
-    const handleCancelVerifyPWClick = () => {
-        setVerifyPW("")
-        setVerifyPWError('')
-        setVerifyPWAnchorEl(null)
     }
 
     const handleSuccessSnackbarClose = (event?: React.SyntheticEvent | Event, reason?: string) => {
@@ -101,16 +72,10 @@ const AdminProfile = (props: IAdminProfileProps) => {
             <Card>
                 <CardHeader
                     title={localString.profile}
-                // Cannot edit email
-                // action={
-                //     <IconButton onClick={() => setEditing(true)}>
-                //         <EditIcon />
-                //     </IconButton>
-                // }
                 />
                 <CardContent>
                     <Grid container spacing={5}>
-                        {/* Avatar */}
+                        {/* Fake Avatar */}
                         <Grid item xs={12} md={12} lg={12}>
                             <Grid container item >
                                 <Grid item xs={4} md={4} lg={4}>
@@ -151,25 +116,11 @@ const AdminProfile = (props: IAdminProfileProps) => {
                     <Divider sx={{ my: '3%' }} />
                     <CardActions>
                         <Grid item xs={12} md={12} lg={12}>
-                            <Button onClick={e => setModifyPWAnchorEl(modifyPWAnchorEl ? null : e.currentTarget)}>
+                            <Button onClick={e => setModifyPWAnchorEl(modifyPWAnchorEl ? null : e.currentTarget)}
+                                disabled={Boolean(saving)}>
                                 {localString.change_password}
                             </Button>
                         </Grid>
-                        {editing && <>
-                            <Button sx={{ marginLeft: "auto" }}
-                                variant="text"
-                                onClick={() => setEditing(false)}
-                            >
-                                {localString.cancel}
-                            </Button>
-                            <Button
-                                variant="outlined"
-                                onClick={e => setVerifyPWAnchorEl(e.currentTarget)}
-                            >
-                                {localString.save}
-                            </Button>
-                        </>
-                        }
                     </CardActions>
                 </CardContent>
             </Card>
@@ -177,27 +128,6 @@ const AdminProfile = (props: IAdminProfileProps) => {
             <Popper open={Boolean(modifyPWAnchorEl)} anchorEl={modifyPWAnchorEl}>
                 <Box sx={{ width: "240px", border: 1, p: 1, bgcolor: 'background.paper' }}>
                     <Grid container spacing={3}>
-                        {/* Old Password */}
-                        <Grid item xs={12} md={12} lg={12}>
-                            <Typography>
-                                <TextField
-                                    type="password"
-                                    error={Boolean(oldPWError)}
-                                    label={localString.old_password}
-                                    value={oldPW}
-                                    onChange={e => {
-                                        setOldPWError("")
-                                        setOldPW(e.target.value)
-                                    }}
-                                />
-                            </Typography>
-                            {oldPWError &&
-                                <Grid item>
-                                    <Typography color={"red"}>{oldPWError}</Typography>
-                                </Grid>
-                            }
-                        </Grid>
-
                         {/* New Password */}
                         <Grid item xs={12} md={12} lg={12}>
                             <Typography>
@@ -227,12 +157,14 @@ const AdminProfile = (props: IAdminProfileProps) => {
                             <Button
                                 variant="outlined"
                                 onClick={handleConfirmNewPWClick}
+                                disabled={Boolean(saving)}
                             >
                                 {localString.confirm}
                             </Button>
                             <Button
                                 variant="text"
                                 onClick={handleCancelNewPWClick}
+                                disabled={Boolean(saving)}
                             >
                                 {localString.cancel}
                             </Button>
@@ -241,44 +173,6 @@ const AdminProfile = (props: IAdminProfileProps) => {
                 </Box>
             </Popper>
 
-            {/* Verify password */}
-            <Popper open={Boolean(verifyPWAnchorEl)} anchorEl={verifyPWAnchorEl}>
-                <Box sx={{ width: "240px", border: 1, p: 1, bgcolor: 'background.paper' }}>
-                    <Grid container spacing={3}>
-                        {/* Password */}
-                        <Grid item xs={12} md={12} lg={12}>
-                            <Typography>
-                                <TextField
-                                    type="password"
-                                    error={Boolean(verifyPWError)}
-                                    label={localString.password}
-                                    value={verifyPW}
-                                    onChange={e => {
-                                        setVerifyPWError('')
-                                        setVerifyPW(e.target.value)
-                                    }}
-                                    helperText={verifyPWError}
-                                />
-                            </Typography>
-                        </Grid>
-
-                        <Grid item xs={12} md={12} lg={12} >
-                            <Button
-                                variant="outlined"
-                                onClick={handleConfirmVerifyPWClick}
-                            >
-                                {localString.confirm}
-                            </Button>
-                            <Button
-                                variant="text"
-                                onClick={handleCancelVerifyPWClick}
-                            >
-                                {localString.cancel}
-                            </Button>
-                        </Grid>
-                    </Grid>
-                </Box>
-            </Popper>
             <Snackbar open={successSnackbarOpen} autoHideDuration={6000} onClose={handleSuccessSnackbarClose}>
                 <Alert onClose={handleSuccessSnackbarClose} severity="success" sx={{ width: '100%' }}>
                     {localString.change_pw_success}
@@ -286,7 +180,7 @@ const AdminProfile = (props: IAdminProfileProps) => {
             </Snackbar>
             <Snackbar open={errorSnackbarOpen} autoHideDuration={6000} onClose={handleErrorSnackbarClose}>
                 <Alert onClose={handleErrorSnackbarClose} severity="error" sx={{ width: '100%' }}>
-                    {localString.server_unavailable_error}
+                    {localString.opps}
                 </Alert>
             </Snackbar>
         </React.Fragment>
