@@ -48,328 +48,119 @@ const NewsPage = (props: INewsPageProps) => {
       <h2 className="title">
         {localString.hm_dl}
       </h2>
-      <div className="container">
-        <div className="box">
-          <Card sx={{ maxWidth: 400 }}>
-            <CardActionArea href="http://admission.cuhk.edu.hk/non-jupas-yr-1/application-details.html">
-              <CardMedia
-                component="img"
-                image={uniList[0].image}
-                height="240"
-                alt={uniList[0].name.toString()}
-              />
-              <CardContent>
-                <Typography gutterBottom variant="h5" component="div" style={{ fontWeight: 'bold' }}>
-                  {uniList[0].name}
-                </Typography>
-                <Typography variant="body2" color="text.secondary">
-                  {uniList[0].early}
-                </Typography>
-                <Typography variant="body2" color="text.secondary">
-                  {uniList[0].main}
-                </Typography>
-                <Typography variant="body2" color="text.secondary">
-                  {uniList[0].extend}
-                </Typography>
-              </CardContent>
-            </CardActionArea>
-            <CardActions>
-              <Button size="small" color="primary" href="http://admission.cuhk.edu.hk/non-jupas-yr-1/application-details.html">
-                Apply Now
-              </Button>
-            </CardActions>
-          </Card>
-        </div>
+      <div className="uni_info">
+        <article className="notice">
+          <div className="photo-box">
+            <img src={uniList[0].image} width="1500" height="1368" alt=""></img>
+          </div>
+          <div className="notice-content">
+              <h1 className="notice-title">{uniList[0].name.toString()}</h1>
+              <p className="notice-desc">{uniList[0].early}<br/>{uniList[0].main}<br/>{uniList[0].extend}</p>
+              <a href="http://admission.cuhk.edu.hk/non-jupas-yr-1/application-details.html">{localString.apply_now}</a>
+          </div>
+        </article>
 
-        <div className="box">
-          <Card sx={{ maxWidth: 400 }}>
-            <CardActionArea href="https://join.hkust.edu.hk/apply">
-              <CardMedia
-                component='img'
-                height='240'
-                image={uniList[2].image}
-                alt={uniList[2].name.toString()}
-              />
-              <CardContent>
-                <Typography gutterBottom variant="h5" component="div" style={{ fontWeight: 'bold' }}>
-                  {uniList[1].name}
-                </Typography>
-                <Typography variant="body2" color="text.secondary">
-                  {uniList[1].early}
-                </Typography>
-                <Typography variant="body2" color="text.secondary">
-                  {uniList[1].main}
-                </Typography>
-                <Typography variant="body2" color="text.secondary">
-                  {uniList[1].extend}
-                </Typography>
-              </CardContent>
-            </CardActionArea>
-            <CardActions>
-              <Button size="small" color="primary" href="https://join.hkust.edu.hk/apply">
-                Apply Now
-              </Button>
-            </CardActions>
-          </Card>
-        </div>
+        <article className="notice">
+          <div className="photo-box">
+            <img src={uniList[1].image} width="1500" height="1368" alt=""></img>
+          </div>
+          <div className="notice-content">
+              <h1 className="notice-title">{uniList[1].name.toString()}</h1>
+              <p className="notice-desc">{uniList[1].early}<br/>{uniList[1].main}<br/>{uniList[1].extend}</p>
+              <a href="https://join.hkust.edu.hk/apply">{localString.apply_now}</a>
+          </div>
+        </article>
 
-        <div className="box">
-          <Card sx={{ maxWidth: 400 }}>
-            <CardActionArea href="https://ug.hku.hk/hku-applicant/hku/index/login.xhtml">
-              <CardMedia
-                component="img"
-                height="240"
-                image={uniList[2].image}
-                alt={uniList[2].name.toString()}
-              />
-              <CardContent>
-                <Typography gutterBottom variant="h5" component="div" style={{ fontWeight: 'bold' }}>
-                  {uniList[2].name}
-                </Typography>
-                <Typography variant="body2" color="text.secondary">
-                  {uniList[2].early}
-                </Typography>
-                <Typography variant="body2" color="text.secondary">
-                  {uniList[2].main}
-                </Typography>
-                <Typography variant="body2" color="text.secondary">
-                  {uniList[2].extend}
-                </Typography>
-              </CardContent>
-            </CardActionArea>
-            <CardActions>
-              <Button size="small" color="primary" href="https://ug.hku.hk/hku-applicant/hku/index/login.xhtml">
-                Apply Now
-              </Button>
-            </CardActions>
-          </Card>
-        </div>
+        <article className="notice">
+          <div className="photo-box">
+            <img src={uniList[2].image} width="1500" height="1368" alt=""></img>
+          </div>
+          <div className="notice-content">
+              <h1 className="notice-title">{uniList[2].name.toString()}</h1>
+              <p className="notice-desc">{uniList[2].early}<br/>{uniList[2].main}<br/>{uniList[2].extend}</p>
+              <a href="https://ug.hku.hk/hku-applicant/hku/index/login.xhtml">{localString.apply_now}</a>
+          </div>
+        </article>
 
-        <div className="box">
-          <Card sx={{ maxWidth: 400 }}>
-            <CardActionArea href="https://www.admo.cityu.edu.hk/apply">
-              <CardMedia
-                component="img"
-                height="240"
-                image={uniList[3].image}
-                alt={uniList[3].name.toString()}
-              />
-              <CardContent>
-                <Typography gutterBottom variant="h5" component="div" style={{ fontWeight: 'bold' }}>
-                  {uniList[3].name}
-                </Typography>
-                <Typography variant="body2" color="text.secondary">
-                  {uniList[3].early}
-                </Typography>
-                <Typography variant="body2" color="text.secondary">
-                  {uniList[3].main}
-                </Typography>
-                <Typography variant="body2" color="text.secondary">
-                  {uniList[3].extend}
-                </Typography>
-              </CardContent>
-            </CardActionArea>
-            <CardActions>
-              <Button size="small" color="primary" href="https://www.admo.cityu.edu.hk/apply">
-                Apply Now
-              </Button>
-            </CardActions>
-          </Card>
-        </div>
+        <article className="notice">
+          <div className="photo-box">
+            <img src={uniList[3].image} width="1500" height="1368" alt=""></img>
+          </div>
+          <div className="notice-content">
+              <h1 className="notice-title">{uniList[3].name.toString()}</h1>
+              <p className="notice-desc">{uniList[3].early}<br/>{uniList[3].main}<br/>{uniList[3].extend}</p>
+              <a href="https://www.admo.cityu.edu.hk/apply">{localString.apply_now}</a>
+          </div>
+        </article>
 
-        <div className="box">
-          <Card sx={{ maxWidth: 400 }}>
-            <CardActionArea href="https://www38.polyu.edu.hk/eAdmission/index.do">
-              <CardMedia
-                component="img"
-                height="240"
-                image={uniList[4].image}
-                alt={uniList[4].name.toString()}
-              />
-              <CardContent>
-                <Typography gutterBottom variant="h5" component="div" style={{ fontWeight: 'bold' }}>
-                  {uniList[4].name}
-                </Typography>
-                <Typography variant="body2" color="text.secondary">
-                  {uniList[4].early}
-                </Typography>
-                <Typography variant="body2" color="text.secondary">
-                  {uniList[4].main}
-                </Typography>
-                <Typography variant="body2" color="text.secondary">
-                  {uniList[4].extend}
-                </Typography>
-              </CardContent>
-            </CardActionArea>
-            <CardActions>
-              <Button size="small" color="primary" href="https://www38.polyu.edu.hk/eAdmission/index.do">
-                Apply Now
-              </Button>
-            </CardActions>
-          </Card>
-        </div>
+        <article className="notice">
+          <div className="photo-box">
+            <img src={uniList[4].image} width="1500" height="1368" alt=""></img>
+          </div>
+          <div className="notice-content">
+              <h1 className="notice-title">{uniList[4].name.toString()}</h1>
+              <p className="notice-desc">{uniList[4].early}<br/>{uniList[4].main}<br/>{uniList[4].extend}</p>
+              <a href="https://www38.polyu.edu.hk/eAdmission/index.do">{localString.apply_now}</a>
+          </div>
+        </article>
 
-        <div className="box">
-          <Card sx={{ maxWidth: 400 }}>
-            <CardActionArea href="https://www.apply.eduhk.hk/ug/nonjupas">
-              <CardMedia
-                component="img"
-                height="240"
-                image={uniList[5].image}
-                alt={uniList[5].name.toString()}
-              />
-              <CardContent>
-                <Typography gutterBottom variant="h5" component="div" style={{ fontWeight: 'bold' }}>
-                  {uniList[5].name}
-                </Typography>
-                <Typography variant="body2" color="text.secondary">
-                  {uniList[5].early}
-                </Typography>
-                <Typography variant="body2" color="text.secondary">
-                  {uniList[5].main}
-                </Typography>
-                <Typography variant="body2" color="text.secondary">
-                  {uniList[5].extend}
-                </Typography>
-              </CardContent>
-            </CardActionArea>
-            <CardActions>
-              <Button size="small" color="primary" href="https://www.apply.eduhk.hk/ug/nonjupas">
-                Apply Now
-              </Button>
-            </CardActions>
-          </Card>
-        </div>
+        <article className="notice">
+          <div className="photo-box">
+            <img src={uniList[5].image} width="1500" height="1368" alt=""></img>
+          </div>
+          <div className="notice-content">
+              <h1 className="notice-title">{uniList[5].name.toString()}</h1>
+              <p className="notice-desc">{uniList[5].early}<br/>{uniList[5].main}<br/>{uniList[5].extend}</p>
+              <a href="https://www.apply.eduhk.hk/ug/nonjupas">{localString.apply_now}</a>
+          </div>
+        </article>
 
-        <div className="box">
-          <Card sx={{ maxWidth: 400 }}>
-            <CardActionArea href="https://www.hsu.edu.hk/en/admissions/">
-              <CardMedia
-                component="img"
-                height="240"
-                image={uniList[6].image}
-                alt={uniList[6].name.toString()}
-              />
-              <CardContent>
-                <Typography gutterBottom variant="h5" component="div" style={{ fontWeight: 'bold' }}>
-                  {uniList[6].name}
-                </Typography>
-                <Typography variant="body2" color="text.secondary">
-                  {uniList[6].early}
-                </Typography>
-                <Typography variant="body2" color="text.secondary">
-                  {uniList[6].main}
-                </Typography>
-                <Typography variant="body2" color="text.secondary">
-                  {uniList[6].extend}
-                </Typography>
-              </CardContent>
-            </CardActionArea>
-            <CardActions>
-              <Button size="small" color="primary" href="https://www.hsu.edu.hk/en/admissions/">
-                Apply Now
-              </Button>
-            </CardActions>
-          </Card>
-        </div>
+        <article className="notice">
+          <div className="photo-box">
+            <img src={uniList[6].image} width="1500" height="1368" alt=""></img>
+          </div>
+          <div className="notice-content">
+              <h1 className="notice-title">{uniList[6].name.toString()}</h1>
+              <p className="notice-desc">{uniList[6].early}<br/>{uniList[6].main}<br/>{uniList[6].extend}</p>
+              <a href="https://www.hsu.edu.hk/en/admissions/">{localString.apply_now}</a>
+          </div>
+        </article>
 
-        <div className="box">
-          <Card sx={{ maxWidth: 400 }}>
-            <CardActionArea href="https://www.ln.edu.hk/admissions/ug/non-jupas">
-              <CardMedia
-                component="img"
-                height="240"
-                image={uniList[7].image}
-                alt={uniList[7].name.toString()}
-              />
-              <CardContent>
-                <Typography gutterBottom variant="h5" component="div" style={{ fontWeight: 'bold' }}>
-                  {uniList[7].name}
-                </Typography>
-                <Typography variant="body2" color="text.secondary">
-                  {uniList[7].early}
-                </Typography>
-                <Typography variant="body2" color="text.secondary">
-                  {uniList[7].main}
-                </Typography>
-                <Typography variant="body2" color="text.secondary">
-                  {uniList[7].extend}
-                </Typography>
-              </CardContent>
-            </CardActionArea>
-            <CardActions>
-              <Button size="small" color="primary" href="https://www.ln.edu.hk/admissions/ug/non-jupas">
-                Apply Now
-              </Button>
-            </CardActions>
-          </Card>
-        </div>
+        <article className="notice">
+          <div className="photo-box">
+            <img src={uniList[7].image} width="1500" height="1368" alt=""></img>
+          </div>
+          <div className="notice-content">
+              <h1 className="notice-title">{uniList[7].name.toString()}</h1>
+              <p className="notice-desc">{uniList[7].early}<br/>{uniList[7].main}<br/>{uniList[7].extend}</p>
+              <a href="https://www.ln.edu.hk/admissions/ug/non-jupas">{localString.apply_now}</a>
+          </div>
+        </article>
 
-        <div className="box">
-          <Card sx={{ maxWidth: 400 }}>
-            <CardActionArea href="https://admissions.hkmu.edu.hk/ug/non-jupas-local/">
-              <CardMedia
-                component="img"
-                height="240"
-                image={uniList[8].image}
-                alt={uniList[8].name.toString()}
-              />
-              <CardContent>
-                <Typography gutterBottom variant="h5" component="div" style={{ fontWeight: 'bold' }}>
-                  {uniList[8].name}
-                </Typography>
-                <Typography variant="body2" color="text.secondary">
-                  {uniList[8].early}
-                </Typography>
-                <Typography variant="body2" color="text.secondary">
-                  {uniList[8].main}
-                </Typography>
-                <Typography variant="body2" color="text.secondary">
-                  {uniList[8].extend}
-                </Typography>
-              </CardContent>
-            </CardActionArea>
-            <CardActions>
-              <Button size="small" color="primary" href="https://admissions.hkmu.edu.hk/ug/non-jupas-local/">
-                Apply Now
-              </Button>
-            </CardActions>
-          </Card>
-        </div>
+        <article className="notice">
+          <div className="photo-box">
+            <img src={uniList[8].image} width="1500" height="1368" alt=""></img>
+          </div>
+          <div className="notice-content">
+              <h1 className="notice-title">{uniList[8].name.toString()}</h1>
+              <p className="notice-desc">{uniList[8].early}<br/>{uniList[8].main}<br/>{uniList[8].extend}</p>
+              <a href="https://admissions.hkmu.edu.hk/ug/non-jupas-local/">{localString.apply_now}</a>
+          </div>
+        </article>
 
-        <div className="box">
-          <Card sx={{ maxWidth: 400 }}>
-            <CardActionArea href="https://admissions.hkmu.edu.hk/ug/non-jupas-local/">
-              <CardMedia
-                component="img"
-                height="240"
-                image={uniList[9].image}
-                alt={uniList[9].name.toString()}
-              />
-              <CardContent>
-                <Typography gutterBottom variant="h5" component="div" style={{ fontWeight: 'bold' }}>
-                  {uniList[9].name}
-                </Typography>
-                <Typography variant="body2" color="text.secondary">
-                  {uniList[9].early}
-                </Typography>
-                <Typography variant="body2" color="text.secondary">
-                  {uniList[9].main}
-                </Typography>
-                <Typography variant="body2" color="text.secondary">
-                  {uniList[9].extend}
-                </Typography>
-              </CardContent>
-            </CardActionArea>
-            <CardActions>
-              <Button size="small" color="primary" href="https://iss.hkbu.edu.hk/amsappl_nj/">
-                Apply Now
-              </Button>
-            </CardActions>
-          </Card>
-        </div>
+        <article className="notice">
+          <div className="photo-box">
+            <img src={uniList[9].image} width="1500" height="1368" alt=""></img>
+          </div>
+          <div className="notice-content">
+              <h1 className="notice-title">{uniList[9].name.toString()}</h1>
+              <p className="notice-desc">{uniList[9].early}<br/>{uniList[9].main}<br/>{uniList[9].extend}</p>
+              <a href="https://iss.hkbu.edu.hk/amsappl_nj/">{localString.apply_now}</a>
+          </div>
+        </article>
 
       </div>
+   
 
     </React.Fragment>
 

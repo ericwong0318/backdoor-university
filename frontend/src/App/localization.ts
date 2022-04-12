@@ -210,6 +210,7 @@ export interface IAppLocalizedStrings extends LocalizedStringsMethods {
     hkbu_early: String
     hkbu_main: String
     hkbu_extend: String
+    apply_now: String
 
     //TipsPage
     go_to: String
@@ -456,6 +457,7 @@ export const AppLocalizedStrings: IAppLocalizedStrings = new LocalizedStrings(
             hkbu_early: "Early Round Deadline: N/A",
             hkbu_main: "Regular Round Deadline: 04-01-2022",
             hkbu_extend: "Extended Application Deadline: 31-05-2022",
+            apply_now: "Apply Now",
 
             //TipsPage
             go_to: "Go to",
@@ -699,6 +701,7 @@ export const AppLocalizedStrings: IAppLocalizedStrings = new LocalizedStrings(
             hkbu_early: "第一輪申請期限: N/A",
             hkbu_main: "正常申請期限: 04-01-2022",
             hkbu_extend: "延長申請期限: 31-05-2022",
+            apply_now: "現在報名",
 
             //TipsPage
             go_to: "去",
