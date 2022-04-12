@@ -2,6 +2,46 @@ import { ReadMoreRounded } from "@mui/icons-material";
 import { api } from "../App/constants"
 import { IProgramme, IUser, UserRoleEnum } from "../App/interfaces"
 
+export enum ActivateAccountErrorType {
+    ServerUnavailable,
+    EmailNotRegisterd,
+    Unknown
+}
+
+export const activateEmail = (email: string,
+    successCallback?: VoidFunction,
+    failedCallback?: (err: ActivateAccountErrorType) => void) => {
+    let headers = new Headers();
+    headers.append('Content-Type', 'application/json');
+    console.log(`${api.url}${api.activateEmail}/${email}`)
+    fetch(`${api.url}${api.activateEmail}/${email}`, {
+        method: "GET",
+    }).then(res => {
+        res.json().then(val => {
+            if (val.err) {
+                // Activate failed
+                if (failedCallback)
+                    failedCallback(ActivateAccountErrorType.EmailNotRegisterd)
+                return
+            }
+
+            if (val.msg) {
+                // Success
+                if (successCallback)
+                    successCallback();
+                return
+            }
+
+            // Unknown reason
+            if (failedCallback)
+                failedCallback(ActivateAccountErrorType.Unknown)
+        })
+    }).catch(err => {
+        if (failedCallback)
+            failedCallback(ActivateAccountErrorType.ServerUnavailable)
+    })
+}
+
 export enum GetUserErrorType {
     ServerUnavailable,
     NoUserFound,

@@ -29,7 +29,7 @@ export interface IAppLocalizedStrings extends LocalizedStringsMethods {
     submit: string
     field_empty_error: string
     success: string
-    success_message: string
+    reset_pw_success_message: string
     back_to_login: string
     no_account_error: string
     invalid_email_format_error: string
@@ -229,10 +229,14 @@ export interface IAppLocalizedStrings extends LocalizedStringsMethods {
     content5: String
     content6: String
     content7: String
-    content8: String,
+    content8: String
 
     // Admin
-    edit_user: string,
+    edit_user: string
+
+    // Account Activation
+    account_activated_msg: string
+    please_wait: string
 }
 
 export const AppLocalizedStrings: IAppLocalizedStrings = new LocalizedStrings(
@@ -271,7 +275,7 @@ export const AppLocalizedStrings: IAppLocalizedStrings = new LocalizedStrings(
             wait: "Please wait . . . ",
             submit: "Submit",
             success: "Success",
-            success_message: "Please check your email to reset your password!",
+            reset_pw_success_message: "Please check your email to reset your password!",
             back_to_login: "Back to login",
             no_account_error: "This email has not been registered!",
             invalid_email_format_error: "Invalid email!",
@@ -475,6 +479,10 @@ export const AppLocalizedStrings: IAppLocalizedStrings = new LocalizedStrings(
 
             // Admin
             edit_user: "Edit User",
+
+            // Account Activation
+            account_activated_msg: "Your account has been successfully activated!",
+            please_wait: "Please wait. . . ",
         },
         zh: {
             //404 done
@@ -509,7 +517,7 @@ export const AppLocalizedStrings: IAppLocalizedStrings = new LocalizedStrings(
             wait: "請稍候片刻 . . .",
             submit: "提交",
             success: "成功",
-            success_message: "請檢查你的電子郵箱以重置密碼！",
+            reset_pw_success_message: "請檢查你的電子郵箱以重置密碼！",
             back_to_login: "返回登入頁",
             no_account_error: "這個電郵尚未登記！",
             invalid_email_format_error: "無效電郵地址",
@@ -714,5 +722,9 @@ export const AppLocalizedStrings: IAppLocalizedStrings = new LocalizedStrings(
 
             // Admin
             edit_user: "修改用戶資料",
+
+            // Account Activation
+            account_activated_msg: "帳戶啟用成功！",
+            please_wait: "請稍候．．．",
         }
     })

@@ -15,6 +15,7 @@ export const LayoutPath = {
     user: "/user",
     admin: "/admin",
     error: "/404",
+    activate: '/activate-email',
     default: "*",
 }
 
@@ -45,4 +46,6 @@ export const api = {
     addNewProgramme: '/create-a-programme',
     updateProgramme: '/modify-programme',
     submitComment: '/submit-a-comment',
+    activateEmail: '/activate-email',
+}
 }
