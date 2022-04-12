@@ -34,6 +34,7 @@ import FloatingMenuItem from '../../Components/FloatingMenu/FloatingMenuItem';
 import { useAuth } from '../../Components/auth/AuthProvider';
 import LocaleSelector from '../../Components/LocaleSelector/LocaleSelector';
 import { LanguageContext } from '../../Components/LanguageProvider/LanguageProvider';
+import { UserRoleEnum } from '../../App/interfaces';
 
 interface IHeaderProps {
 
@@ -134,13 +135,23 @@ const Header = (props: IHeaderProps) => {
             </IconButton>
         }>
             {/* To user profile */}
-            <FloatingMenuItem onClick={() => {
-                if (auth.user && "name" in auth.user) {
-                    navigate(`${LayoutPath.user}/${auth.user.name}`);
-                }
-            }}>
-                {localString.profile}
-            </FloatingMenuItem>
+            {
+                auth.role == UserRoleEnum.user ? (
+                    <FloatingMenuItem onClick={() => {
+                        if (auth.user && "name" in auth.user) {
+                            navigate(`${LayoutPath.user}/${auth.user.name}`);
+                        }
+                    }}>
+                        {localString.profile}
+                    </FloatingMenuItem>
+                ) : (
+                    <FloatingMenuItem onClick={() => {
+                        navigate(`${LayoutPath.admin}`)
+                    }}>
+                        {localString.dashboard}
+                    </FloatingMenuItem>
+                )
+            }
             {/* Logout button */}
             <FloatingMenuItem onClick={() => {
                 auth.logout();

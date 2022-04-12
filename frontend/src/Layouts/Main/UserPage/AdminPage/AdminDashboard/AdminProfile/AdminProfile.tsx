@@ -13,10 +13,8 @@ interface IAdminProfileProps {
 
 const AdminProfile = (props: IAdminProfileProps) => {
     const { localString } = useContext(LanguageContext)
-
-    const [email, setEmail] = useState(props.email)
     const [editing, setEditing] = useState(false);
-    const [editEmail, setEditEmail] = useState(email)
+    const [editEmail, setEditEmail] = useState(props.email)
     const [modifyPWAnchorEl, setModifyPWAnchorEl] = React.useState<null | HTMLElement>(null);
     const [verifyPWAnchorEl, setVerifyPWAnchorEl] = React.useState<null | HTMLElement>(null);
 
@@ -44,12 +42,6 @@ const AdminProfile = (props: IAdminProfileProps) => {
             return;
         }
 
-        // Password strongest guard
-        if (newPW.trim().length < 6) {
-            setNewPWError(localString.new_pw_too_weak_error);
-            return;
-        }
-
         // Compare new old password 
         if (newPW.trim() === oldPW.trim()) {
             setNewPWError(localString.new_old_pw_same_error);
@@ -57,7 +49,7 @@ const AdminProfile = (props: IAdminProfileProps) => {
         }
 
         // Request to change password
-        modifyPassword(email, oldPW.trim(), newPW.trim(), UserRoleEnum.admin,
+        modifyPassword(props.email, oldPW.trim(), newPW.trim(), UserRoleEnum.admin,
             () => {
                 setSuccessSnackbarOpen(true);
                 setModifyPWAnchorEl(null);
@@ -146,7 +138,7 @@ const AdminProfile = (props: IAdminProfileProps) => {
                                                 onChange={e => setEditEmail(e.target.value)} />
                                         ) : (
                                             <Typography >
-                                                {email}
+                                                {props.email}
                                             </Typography>
                                         )
                                     }

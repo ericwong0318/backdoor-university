@@ -4,7 +4,7 @@ import { IUser, UserRoleEnum } from '../../../../../App/interfaces'
 import { useAuth } from '../../../../../Components/auth/AuthProvider'
 import EditIcon from '@mui/icons-material/Edit';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
-import { getUser, GetUserErrorType, modifyPassword, ModifyPasswordErrorType, modifyUserInfo } from '../../../../../features/services'
+import { getUser, GetUserErrorType, modifyPassword, ModifyPasswordErrorType, updateUser } from '../../../../../features/services'
 import { LanguageContext } from '../../../../../Components/LanguageProvider/LanguageProvider';
 import { dataURLtoFile } from '../../../../../App/helper';
 import { v4 as uuidv4 } from 'uuid';
@@ -31,7 +31,7 @@ const ProfileCard = (props: IProfileCard) => {
     const [editAvatar, setEditAvatar] = useState<File | null>(null)
     const [verifyPW, setVerifyPW] = useState('')
     const [verifyPWError, setVerifyPWError] = useState('')
-    const [avatar, setAvatar] = useState('');
+    const [saving, setSaving] = useState(false);
 
     const renderProgType = (type: string) => {
         switch (type) {
@@ -73,6 +73,9 @@ const ProfileCard = (props: IProfileCard) => {
     }
 
     const handleConfirmNewPWClick = () => {
+        if (saving)
+            return;
+
         if (!oldPW.trim()) {
             setOldPWError(localString.field_empty_error);
             return;
@@ -95,11 +98,13 @@ const ProfileCard = (props: IProfileCard) => {
             return;
         }
 
+        setSaving(true);
         // Request to change password
         modifyPassword(props.user!.email, oldPW.trim(), newPW.trim(), UserRoleEnum.user,
             () => {
                 setSuccessSnakbarText(localString.profile_changed);
                 setModifyPWAnchorEl(null);
+                setSaving(false);
             }, err => {
                 switch (err) {
                     case ModifyPasswordErrorType.IncorrectOldPassword:
@@ -118,12 +123,14 @@ const ProfileCard = (props: IProfileCard) => {
     }
 
     const handleConfirmVerifyPWClick = () => {
-        if (props.user)
+        if (props.user) {
+            setSaving(true);
             getUser({ email: props.user.email },
                 user => {
                     const formData = new FormData();
                     formData.append('email', user.email)
-                    const photo = (editAvatar) ? editAvatar : dataURLtoFile(user.photo!, 'temp.jpg');
+                    formData.append('name', user.name)
+                    const photo = (editAvatar) ? editAvatar : dataURLtoFile(user.photo!, uuidv4());
                     formData.append('photo', photo!, uuidv4())
                     formData.append('school', user.school)
                     formData.append('programme', editProgramme)
@@ -132,20 +139,23 @@ const ProfileCard = (props: IProfileCard) => {
                     formData.append('cgpa', editCGPA.toString())
                     formData.append('examname', user.exam.name)
                     formData.append('result', user.exam.result)
-                    if (user.offer) {
-                        formData.append('offerSchool', user.offer.school)
-                        formData.append('offerProgramme', user.offer.programme)
-                    }
+                    formData.append('offerSchool', user!.offer!.school)
+                    formData.append('offerProgramme', user!.offer!.programme)
 
-                    modifyUserInfo(formData,
+                    updateUser(formData,
                         () => {
                             setSuccessSnakbarText(localString.profile_changed)
+                            setVerifyPWAnchorEl(null);
+                            setSaving(false);
                         }, err => {
                             setFailSnakbarText(localString.opps)
+                            setSaving(false);
                         })
                 }, err => {
                     setFailSnakbarText(localString.opps)
+                    setSaving(false);
                 }, true)
+        }
     }
 
     const handleCancelVerifyPWClick = () => {
@@ -170,9 +180,13 @@ const ProfileCard = (props: IProfileCard) => {
         setFailSnakbarText('')
     }
 
-    useEffect(() => {
 
-    }, [props])
+
+    useEffect(() => {
+        if (!auth.user) {
+            setEditing(false);
+        }
+    }, [auth.user])
 
     return (
         <React.Fragment>
@@ -400,6 +414,7 @@ const ProfileCard = (props: IProfileCard) => {
                                     <Button
                                         variant="outlined"
                                         onClick={e => setVerifyPWAnchorEl(e.currentTarget)}
+                                        disabled={Boolean(saving)}
                                     >
                                         {localString.save}
                                     </Button>
@@ -463,12 +478,14 @@ const ProfileCard = (props: IProfileCard) => {
                                     <Button
                                         variant="outlined"
                                         onClick={handleConfirmNewPWClick}
+                                        disabled={Boolean(saving)}
                                     >
                                         {localString.confirm}
                                     </Button>
                                     <Button
                                         variant="text"
                                         onClick={handleCancelNewPWClick}
+                                        disabled={Boolean(saving)}
                                     >
                                         {localString.cancel}
                                     </Button>
@@ -502,12 +519,14 @@ const ProfileCard = (props: IProfileCard) => {
                                     <Button
                                         variant="outlined"
                                         onClick={handleConfirmVerifyPWClick}
+                                        disabled={Boolean(saving)}
                                     >
                                         {localString.confirm}
                                     </Button>
                                     <Button
                                         variant="text"
                                         onClick={handleCancelVerifyPWClick}
+                                        disabled={Boolean(saving)}
                                     >
                                         {localString.cancel}
                                     </Button>
@@ -517,12 +536,12 @@ const ProfileCard = (props: IProfileCard) => {
                     </Popper>
                     <Snackbar open={Boolean(successSnakbarText)} autoHideDuration={6000} onClose={handleSuccessSnackbarClose}>
                         <Alert onClose={handleSuccessSnackbarClose} severity="success" sx={{ width: '100%' }}>
-                            {localString.change_pw_success}
+                            {successSnakbarText}
                         </Alert>
                     </Snackbar>
                     <Snackbar open={Boolean(failSnakbarText)} autoHideDuration={6000} onClose={handleErrorSnackbarClose}>
                         <Alert onClose={handleErrorSnackbarClose} severity="error" sx={{ width: '100%' }}>
-                            {localString.server_unavailable_error}
+                            {failSnakbarText}
                         </Alert>
                     </Snackbar>
                 </React.Fragment>

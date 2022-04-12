@@ -27,13 +27,15 @@ import GroupIcon from '@mui/icons-material/Group';
 import ListAltIcon from '@mui/icons-material/ListAlt';
 import { AdminDashboardPath, LayoutPath } from '../../../../../App/constants';
 import { useState } from 'react';
-import { Button, Tab, Tabs } from '@mui/material';
+import { Button, CircularProgress, Tab, Tabs } from '@mui/material';
 import TabPanel from './TabPanel/TabPanel';
 import UserManagePage from './UserManagePage/UserManagePage';
 import ProfileCard from '../../UserProfile/ProfileCard/ProfileCard';
 import AdminProfile from './AdminProfile/AdminProfile';
 import ProgrammeManagePage from './ProgrammeManagePage/ProgrammeManagePage';
 import { useNavigate } from 'react-router-dom';
+import LocaleSelector from '../../../../../Components/LocaleSelector/LocaleSelector';
+import { useAuth } from '../../../../../Components/auth/AuthProvider';
 
 const drawerWidth: number = 240;
 
@@ -87,6 +89,7 @@ const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' 
 
 function DashboardContent() {
   const { localString } = React.useContext(LanguageContext)
+  const auth = useAuth();
   const navigate = useNavigate();
   const [open, setOpen] = React.useState(true);
   const toggleDrawer = () => {
@@ -132,6 +135,7 @@ function DashboardContent() {
             { }
           </Typography>
 
+          <LocaleSelector sx={{ marginLeft: 'auto' }} />
           <Typography sx={{ marginLeft: "auto" }}>
             <Button color="secondary" onClick={() => navigate(LayoutPath.home)}>
               {localString.back_to_home}
@@ -179,7 +183,13 @@ function DashboardContent() {
         <Container maxWidth="lg" sx={{ mt: 4, mb: 4 }}>
 
           <TabPanel index={0} value={tabValue}>
-            <AdminProfile email="admin@admin.com" />
+            {
+              auth.user ? (
+                <AdminProfile email={auth.user.email} />
+              ) : (
+                <CircularProgress />
+              )
+            }
           </TabPanel>
           <TabPanel index={1} value={tabValue}>
             <UserManagePage />

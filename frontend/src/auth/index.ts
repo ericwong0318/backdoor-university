@@ -23,9 +23,9 @@ export const login = (email: string, password: string,
     successCallback?: (data: IUserAbstract) => void,
     failedCallback?: (err: ILoginErrorParameter) => void) => {
     // Attempt login as admin first
-    loginAsAdmin(email, password, successCallback, (err) => {
+    loginAsAdmin(email.trim(), password.trim(), successCallback, (err) => {
         // Attempt login as user when failed
-        loginAsUser(email, password, successCallback, failedCallback)
+        loginAsUser(email.trim(), password.trim(), successCallback, failedCallback)
     })
 
 }
@@ -105,7 +105,7 @@ const loginAsAdmin = (email: string, password: string,
     fetch(`${api.url}${api.adminLogin}`, {
         method: "POST",
         headers: headers,
-        body: JSON.stringify({ email: email, password: resetPasswordWithEmail, role: "admin" })
+        body: JSON.stringify({ email: email, password: password, role: "admin" })
     }).then(response => {
         switch (response.status) {
             case 401:
@@ -129,6 +129,7 @@ const loginAsAdmin = (email: string, password: string,
             }
             else if (val.err) {
                 // Login failed
+                console.log(val.err)
                 if (val.err === 'incorrect email') {
                     if (failedCallback)
                         failedCallback({

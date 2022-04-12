@@ -10,6 +10,7 @@ admin's method
 modify the password without validation of indentity 
 */
 exports.userOrAdminUpdatePassword = (req, res) => {
+    const newPwd = req.body.password;
 
     /* if the email is a user email */
     User

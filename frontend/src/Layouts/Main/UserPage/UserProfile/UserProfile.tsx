@@ -87,10 +87,11 @@ const UserProfile = (props: IUserProfileProps) => {
 
                                             {/* Offer Card */}
                                             <Grid item xs={12} md={12} lg={12}>
-                                                <OffersCard user={user} />
+                                                {/* <OffersCard user={user} /> */}
                                             </Grid>
                                         </Grid>
-                                    </Grid>)
+                                    </Grid>
+                                )
                             }
                         </Container>
                     </React.Fragment>

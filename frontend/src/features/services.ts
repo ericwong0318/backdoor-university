@@ -125,14 +125,15 @@ export enum ModifyPasswordErrorType {
 export const modifyPassword = (email: string, oldPassword: string, newPassword: string, role: UserRoleEnum,
     successCallback: VoidFunction,
     failedCallback: (err: ModifyPasswordErrorType) => void) => {
-    const userRole = (role === UserRoleEnum.admin) ? 'admin' : 'user';
+    const path = (role === UserRoleEnum.admin) ? api.adminChangePW : api.userChangePW;
+
 
     const headers = new Headers();
     headers.append('Content-Type', 'application/json');
 
-    const body = { email: email, oldPassword: oldPassword, newPassword: newPassword, role: userRole }
+    const body = { email: email, oldPassword: oldPassword, newPassword: newPassword }
 
-    fetch(`${api.url}${api.userChangePW}`,
+    fetch(`${api.url}${path}`,
         {
             method: 'POST',
             headers: headers,
@@ -175,7 +176,7 @@ export enum ModifyUserInfoErrorType {
     Failed,
 }
 
-export const modifyUserInfo = (data: FormData,
+export const updateUser = (data: FormData,
     successCallback?: VoidFunction,
     failedCallback?: (err: ModifyUserInfoErrorType) => void) => {
     fetch(`${api.url}${api.updateUserInfo}`, {

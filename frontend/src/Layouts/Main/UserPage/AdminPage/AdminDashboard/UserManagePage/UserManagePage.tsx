@@ -1,11 +1,16 @@
 import React, { useContext, useEffect, useState } from 'react'
-import { DataGrid, GridColDef, GridRowParams } from '@mui/x-data-grid'
+import { DataGrid, GridColDef, GridRenderEditCellParams, GridRowParams } from '@mui/x-data-grid'
 import { getAllUser, getUser } from '../../../../../../features/services'
 import { LanguageContext } from '../../../../../../Components/LanguageProvider/LanguageProvider'
 import { Alert, Button, Card, CardActions, CardContent, CircularProgress, Dialog, DialogActions, DialogContent, DialogTitle, Snackbar, TextField, Typography } from '@mui/material'
+import ProgTypeEditInputCell from './ProgTypeEditInputCell/ProgTypeEditInputCell'
 
 interface IUserManagePageProps {
 
+}
+
+const renderProgTypeEditInputCell = (params: GridRenderEditCellParams<any, any, any>) => {
+    return <ProgTypeEditInputCell {...params} />
 }
 
 const UserManagePage = (props: IUserManagePageProps) => {
@@ -25,6 +30,7 @@ const UserManagePage = (props: IUserManagePageProps) => {
         { field: 'name', headerName: localString.name, width: 140 },
         { field: 'school', headerName: localString.school, width: 90 },
         { field: 'programme', headerName: localString.programme, width: 240 },
+        { field: 'type', headerName: localString.prog_type, width: 240, renderEditCell: renderProgTypeEditInputCell },
         { field: 'status', headerName: localString.status, width: 90 },
     ]
 
@@ -49,7 +55,7 @@ const UserManagePage = (props: IUserManagePageProps) => {
     })
 
     // Button click events
-    const handleEditButtonClick = () => {
+    const handleChangePWButtonClick = () => {
         setEditUserFormOpen(true);
     }
 
@@ -98,15 +104,20 @@ const UserManagePage = (props: IUserManagePageProps) => {
                                     autoHeight
                                     columns={columns}
                                     rows={users}
-                                    getRowId={(r) => r.email} />
+                                    getRowId={(r) => r.email}
+                                    experimentalFeatures={{ newEditingApi: true }}
+                                />
                             )
                         )
                     }
                 </CardContent>
                 <CardActions>
-                    <Button variant='contained' onClick={handleEditButtonClick}>
-                        {localString.edit}
-                    </Button>
+                    {
+                        selectedUserEmail &&
+                        <Button variant='contained' onClick={handleChangePWButtonClick}>
+                            {localString.change_password}
+                        </Button>
+                    }
                 </CardActions>
             </Card>
 
@@ -141,6 +152,30 @@ const UserManagePage = (props: IUserManagePageProps) => {
                         fullWidth
                         variant="standard"
                     />
+                </DialogContent>
+                <DialogActions>
+                    <Button
+                        variant="outlined"
+                        onClick={handleEditUserSaveButtonClick}
+                    >
+                        {localString.confirm}
+                    </Button>
+                    <Button
+                        variant="text"
+                        onClick={() => setEditUserFormOpen(false)}
+                    >
+                        {localString.cancel}
+                    </Button>
+                </DialogActions>
+            </Dialog>
+
+            <Dialog
+                open={editUserFormOpen}
+                onClose={() => setEditUserFormOpen(false)}
+            >
+                <DialogTitle>{localString.change_password}</DialogTitle>
+                <DialogContent>
+
                 </DialogContent>
                 <DialogActions>
                     <Button
