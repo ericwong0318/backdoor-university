@@ -31,7 +31,7 @@ export const AdminDashboardPath = {
     Any feature that needed to send request to the backend MUST use the info in this json for generality.
 */
 export const api = {
-    url: 'http://localhost:3001',
+    url: 'https://backdoor-university.herokuapp.com',
     pathRegister: '/register',
     pathLogin: '/login',
     pathUserLogin: '/user-login',
