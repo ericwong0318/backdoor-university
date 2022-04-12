@@ -33,6 +33,16 @@ const ProfileCard = (props: IProfileCard) => {
     const [verifyPWError, setVerifyPWError] = useState('')
     const [saving, setSaving] = useState(false);
 
+    const [avatar, setAvatar] = useState('')
+
+    const canEdit = () => {
+        return (auth.user && props.user && (auth.user.email === props.user.email)) || isAdmin()
+    }
+
+    const isAdmin = () => {
+        return auth.role && auth.role == UserRoleEnum.admin
+    }
+
     const renderProgType = (type: string) => {
         switch (type) {
             case 'undergrad':
@@ -122,6 +132,10 @@ const ProfileCard = (props: IProfileCard) => {
         setModifyPWAnchorEl(null)
     }
 
+    const handleSaveButtonClick = (e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => {
+        setVerifyPWAnchorEl(e.currentTarget)
+    }
+
     const handleConfirmVerifyPWClick = () => {
         if (props.user) {
             setSaving(true);
@@ -129,23 +143,22 @@ const ProfileCard = (props: IProfileCard) => {
                 user => {
                     const formData = new FormData();
                     formData.append('email', user.email)
-                    formData.append('name', user.name)
+                    formData.append('name', editUsername)
                     const photo = (editAvatar) ? editAvatar : dataURLtoFile(user.photo!, uuidv4());
                     formData.append('photo', photo!, uuidv4())
-                    formData.append('school', user.school)
+                    formData.append('school', editSchool)
                     formData.append('programme', editProgramme)
                     formData.append('addmissionYear', editAdmissionYear.toString())
                     formData.append('type', editType)
                     formData.append('cgpa', editCGPA.toString())
                     formData.append('examname', user.exam.name)
                     formData.append('result', user.exam.result)
-                    formData.append('offerSchool', user!.offer!.school)
-                    formData.append('offerProgramme', user!.offer!.programme)
 
                     updateUser(formData,
                         () => {
                             setSuccessSnakbarText(localString.profile_changed)
                             setVerifyPWAnchorEl(null);
+                            setEditing(false)
                             setSaving(false);
                         }, err => {
                             setFailSnakbarText(localString.opps)
@@ -180,7 +193,10 @@ const ProfileCard = (props: IProfileCard) => {
         setFailSnakbarText('')
     }
 
-
+    setInterval(() => {
+        if (props.user && props.user.photo)
+            setAvatar(props.user.photo)
+    }, 1000)
 
     useEffect(() => {
         if (!auth.user) {
@@ -196,7 +212,7 @@ const ProfileCard = (props: IProfileCard) => {
                         <CardHeader
                             title={localString.profile}
                             action={
-                                (auth.user && auth.user.email === props.user.email) &&
+                                (canEdit()) &&
                                 <IconButton onClick={() => setEditing(true)}>
                                     <EditIcon />
                                 </IconButton>
@@ -208,11 +224,12 @@ const ProfileCard = (props: IProfileCard) => {
                                 <Grid item xs={12} md={12} lg={12}>
                                     <Grid container item >
                                         <Grid item xs={4} md={4} lg={4}>
-                                            <Typography>
+                                            <Typography key={props.user.photo}>
                                                 {props.user.photo ? (
                                                     <Avatar sx={{ width: "120px", height: "120px" }}
                                                         alt={props.user.name}
-                                                        src={props.user.photo} />
+                                                        src={avatar}
+                                                        key={props.user.photo} />
                                                 )
                                                     : (
                                                         <AccountCircleIcon sx={{ width: "120px", height: "120px" }} />
@@ -413,7 +430,7 @@ const ProfileCard = (props: IProfileCard) => {
                                     </Button>
                                     <Button
                                         variant="outlined"
-                                        onClick={e => setVerifyPWAnchorEl(e.currentTarget)}
+                                        onClick={handleConfirmVerifyPWClick}
                                         disabled={Boolean(saving)}
                                     >
                                         {localString.save}

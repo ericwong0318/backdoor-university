@@ -116,11 +116,11 @@ const Header = (props: IHeaderProps) => {
     })
 
     // Update profile pic
-    useEffect(() => {
+    setInterval(() => {
         if (!avatar && auth.user && "photo" in auth.user && auth.user.photo) {
             setAvatar(auth.user.photo)
         }
-    })
+    }, 1500)
 
     const profileAvatarMenu =
         <FloatingMenu sx={{ marginLeft: isSmallVerticalScreen ? "auto" : "10px" }} toggleButton={
@@ -128,7 +128,7 @@ const Header = (props: IHeaderProps) => {
                 onClick={onProfileIconClicked}>
                 {
                     auth.user && "photo" in auth.user && auth.user.photo ? (
-                        <Avatar src={auth.user.photo} />
+                        <Avatar src={avatar} key={avatar} />
                     ) : (
                         <AccountCircleIcon />)
                 }

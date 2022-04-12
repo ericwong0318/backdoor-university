@@ -1,4 +1,4 @@
-import { Card, CardContent, Typography } from '@mui/material'
+import { Button, Card, CardActions, CardContent, Typography } from '@mui/material'
 import { GridColDef, DataGrid } from '@mui/x-data-grid'
 import React, { useContext, useEffect, useState } from 'react'
 import { LanguageContext } from '../../../../../../Components/LanguageProvider/LanguageProvider'
@@ -54,6 +54,11 @@ const ProgrammeManagePage = () => {
                         )
                     }
                 </CardContent>
+                <CardActions>
+                    <Button>
+                        {localString.add_new_programme}
+                    </Button>
+                </CardActions>
             </Card>
         </React.Fragment>
     )

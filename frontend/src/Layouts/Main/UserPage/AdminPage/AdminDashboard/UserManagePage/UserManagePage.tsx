@@ -1,10 +1,13 @@
 import React, { useContext, useEffect, useState } from 'react'
 import { DataGrid, GridColDef, GridRenderEditCellParams, GridRowParams } from '@mui/x-data-grid'
-import { getAllUser, getUser, updatePasswordAsAdmin } from '../../../../../../features/services'
+import { activateEmail, getAllUser, getUser, updatePasswordAsAdmin } from '../../../../../../features/services'
 import { LanguageContext } from '../../../../../../Components/LanguageProvider/LanguageProvider'
-import { Alert, Button, Card, CardActions, CardContent, CircularProgress, Dialog, DialogActions, DialogContent, DialogTitle, Snackbar, TextField, Typography } from '@mui/material'
+import { Alert, Button, Card, CardActions, CardContent, CircularProgress, Dialog, DialogActions, DialogContent, DialogTitle, IconButton, Snackbar, TextField, Typography } from '@mui/material'
 import ProgTypeEditInputCell from './ProgTypeEditInputCell/ProgTypeEditInputCell'
 import { UserRoleEnum } from '../../../../../../App/interfaces'
+import { LayoutPath } from '../../../../../../App/constants'
+import { useNavigate } from 'react-router-dom'
+import AutorenewIcon from '@mui/icons-material/Autorenew';
 
 interface IUserManagePageProps {
 
@@ -16,6 +19,7 @@ const renderProgTypeEditInputCell = (params: GridRenderEditCellParams<any, any, 
 
 const UserManagePage = (props: IUserManagePageProps) => {
     const { localString } = useContext(LanguageContext)
+    const navigate = useNavigate()
 
     const [loading, setLoading] = useState(true)
     const [triedGetData, setTriedGetData] = useState(false)
@@ -23,6 +27,7 @@ const UserManagePage = (props: IUserManagePageProps) => {
     const [loadingError, setLoadingError] = useState("");
     const [editUserFormOpen, setEditUserFormOpen] = useState(false)
     const [selectedUserEmail, setSelectedUserEmail] = useState('')
+    const [selectedUsername, setSelectedUsername] = useState('')
     const [successSnakbarText, setSuccessSnakbarText] = useState('')
     const [failSnakbarText, setFailSnakbarText] = useState('')
     const [editUserPassword, setEditUserPassword] = useState('')
@@ -33,12 +38,13 @@ const UserManagePage = (props: IUserManagePageProps) => {
         { field: 'name', headerName: localString.name, width: 140 },
         { field: 'school', headerName: localString.school, width: 90 },
         { field: 'programme', headerName: localString.programme, width: 240 },
-        { field: 'type', headerName: localString.prog_type, width: 240, renderEditCell: renderProgTypeEditInputCell },
+        // { field: 'type', headerName: localString.prog_type, width: 240, renderEditCell: renderProgTypeEditInputCell },
         { field: 'status', headerName: localString.status, width: 90 },
     ]
 
     useEffect(() => {
         if (!triedGetData) {
+            setLoading(true)
             getAllUser((u) => {
                 setUsers(u)
                 setLoadingError('')
@@ -57,26 +63,36 @@ const UserManagePage = (props: IUserManagePageProps) => {
         setEditUserFormOpen(true);
     }
 
+    const handleActivateAccountButtonClick = () => {
+        activateEmail(selectedUserEmail,
+            () => {
+                setSuccessSnakbarText(localString.account_activated)
+                setTriedGetData(false)
+            }, () => {
+                setFailSnakbarText(localString.opps)
+            })
+    }
+
     const handleGridRowClick = (params: GridRowParams<any>) => {
         setSelectedUserEmail(params.row.email)
+        setSelectedUsername(params.row.name)
     }
 
     const handleEditUserPasswordButtonClick = () => {
         setEditUserPasswordError('')
-        if (!editUserPassword)
-        {
+        if (!editUserPassword) {
             setEditUserPasswordError(localString.field_empty_error)
             return;
         }
 
         // Save to db
         updatePasswordAsAdmin(selectedUserEmail, editUserPassword,
-        ()=>{
-            setEditUserFormOpen(false);
-            setSuccessSnakbarText(localString.change_pw_success)
-        },(e)=>{
-            setFailSnakbarText(localString.opps)
-        })
+            () => {
+                setEditUserFormOpen(false);
+                setSuccessSnakbarText(localString.change_pw_success)
+            }, (e) => {
+                setFailSnakbarText(localString.opps)
+            })
     }
 
     const handleEditUserSaveButtonClick = () => {
@@ -86,6 +102,8 @@ const UserManagePage = (props: IUserManagePageProps) => {
 
     const handleGridRowDoubleClick = (params: GridRowParams<any>) => {
         setSelectedUserEmail(params.row.email)
+        setSelectedUsername(params.row.name)
+
         getUser({ email: selectedUserEmail }, user => {
 
         })
@@ -134,11 +152,34 @@ const UserManagePage = (props: IUserManagePageProps) => {
                     }
                 </CardContent>
                 <CardActions>
+                    <IconButton
+                        onClick={() => {
+                            setTriedGetData(false)
+                        }}
+                    >
+                        <AutorenewIcon />
+                    </IconButton>
+
                     {
-                        selectedUserEmail &&
-                        <Button variant='contained' onClick={handleChangePWButtonClick}>
-                            {localString.change_password}
-                        </Button>
+                        selectedUserEmail && (
+                            <React.Fragment>
+                                <Button variant='contained' onClick={handleChangePWButtonClick}>
+                                    {localString.change_password}
+                                </Button>
+
+                                <Button
+                                    variant='contained'
+                                    onClick={() => navigate(`${LayoutPath.user}/${selectedUsername}`)}>
+                                    {localString.edit_profile}
+                                </Button>
+
+                                <Button
+                                    variant='contained'
+                                    onClick={handleActivateAccountButtonClick}>
+                                    {localString.activate_account}
+                                </Button>
+                            </React.Fragment>
+                        )
                     }
                 </CardActions>
             </Card>
@@ -235,7 +276,7 @@ const UserManagePage = (props: IUserManagePageProps) => {
                     {localString.server_unavailable_error}
                 </Alert>
             </Snackbar>
-        </React.Fragment>
+        </React.Fragment >
     )
 }
 
