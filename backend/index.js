@@ -144,8 +144,8 @@ async function sendEmail(email, option, newPassword) {
                 html: `
                         <h1>Backdoor University</h1>
                         <h3>Please click the following Link for register: </h3>
-                        <a href="http://localhost:3001/activate-email/${email}">
-                        http://localhost:3001/activate-email/${email}</a>
+                        <a href="http://localhost:3000/activate-email/${email}">
+                        http://localhost:3000/activate-email/${email}</a>
                     `
             });
             console.log("Message sent to %s", email);

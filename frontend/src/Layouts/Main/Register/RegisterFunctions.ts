@@ -107,6 +107,7 @@ export const registerWithData = async (data: FormData,
     onSuccessCallback: () => void,
     onFailedCallback: (params: IRegisterFailedCallbackParameters) => void
 ) => {
+    console.log(data.get('password'))
     fetch(`${api.url}${api.pathRegister}`, {
         method: "POST",
         body: data,
