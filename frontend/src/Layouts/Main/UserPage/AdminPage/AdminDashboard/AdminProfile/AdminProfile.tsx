@@ -5,7 +5,7 @@ import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import EditIcon from '@mui/icons-material/Edit';
 import { useAuth } from '../../../../../../Components/auth/AuthProvider';
 import { UserRoleEnum } from '../../../../../../App/interfaces';
-import { modifyPassword, ModifyPasswordErrorType } from '../../../../../../features/services';
+import { updatePasswordAsAdmin, ModifyPasswordErrorType } from '../../../../../../features/services';
 
 interface IAdminProfileProps {
     email: string
@@ -33,7 +33,7 @@ const AdminProfile = (props: IAdminProfileProps) => {
 
         setSaving(true);
         // Request to change password
-        modifyPassword(props.email, newPW.trim(), newPW.trim(), UserRoleEnum.admin,
+        updatePasswordAsAdmin(props.email, newPW.trim(),
             () => {
                 setSuccessSnackbarOpen(true);
                 setModifyPWAnchorEl(null);

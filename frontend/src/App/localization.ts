@@ -234,6 +234,12 @@ export interface IAppLocalizedStrings extends LocalizedStringsMethods {
 
     // Admin
     edit_user: string
+    add_new_programme: string,
+    activate_account: string,
+    account_activated: string,
+    edit_prog: string,
+    add_prog: string,
+    prog_update_success_msg: string,
 
     // Account Activation
     account_activated_msg: string
@@ -481,6 +487,12 @@ export const AppLocalizedStrings: IAppLocalizedStrings = new LocalizedStrings(
 
             // Admin
             edit_user: "Edit User",
+            add_new_programme: "Add new programme",
+            activate_account: "Activate Account",
+            account_activated: "Account activated",
+            edit_prog: "Edit Programme",
+            add_prog: "Add Programme",
+            prog_update_success_msg: "Changes saved",
 
             // Account Activation
             account_activated_msg: "Your account has been successfully activated!",
@@ -725,6 +737,12 @@ export const AppLocalizedStrings: IAppLocalizedStrings = new LocalizedStrings(
 
             // Admin
             edit_user: "修改用戶資料",
+            add_new_programme: "新增課程",
+            activate_account: "啟用帳戶",
+            account_activated: "帳戶已被啟用",
+            edit_prog: "修改課程",
+            add_prog: "新增課程",
+            prog_update_success_msg: "課程資訊已更新",
 
             // Account Activation
             account_activated_msg: "帳戶啟用成功！",

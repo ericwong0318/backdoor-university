@@ -16,6 +16,7 @@ import ProgramDetail from './StatisticsPage/ProgramDetail';
 import GamePage from './GamePage/GamePage';
 import RequireAuth from '../../Components/auth/RequireAuth';
 import Activation from '../Activation/Activation';
+import RequireAdminAuth from '../../Components/auth/RequireAdminAuth';
 
 interface IMainProps {
 
@@ -46,7 +47,7 @@ const Main = (props: IMainProps) => {
                 <Route path={LayoutPath.games} element={<RequireAuth><GamePage /></RequireAuth>} />
 
                 <Route path={`${LayoutPath.user}/:username`} element={<UserProfile />} />
-                <Route path={`${LayoutPath.admin}`} element={<AdminDashboard />} />
+                <Route path={`${LayoutPath.admin}`} element={<RequireAdminAuth><AdminDashboard /></RequireAdminAuth>} />
                 <Route path={`${LayoutPath.activate}/:email`} element={<Activation />} />
                 <Route path={LayoutPath.default} element={<NotFound />} />
             </Routes>
