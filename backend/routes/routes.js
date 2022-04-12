@@ -69,5 +69,9 @@ app.post("/modify-programme", ProgrammeController.programmeUpdate);
 /* update programme comment */
 app.post('/submit-a-comment', ProgrammeController.programmeCommentUpdate);
 
+app.get('/', (req, res) =>
+    res.send("Backdoor University's API: https://github.com/ericwong0318/backdoor-university/tree/master/backend")
+)
+
 module.exports = app;
 
