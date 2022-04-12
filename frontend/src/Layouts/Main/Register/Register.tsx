@@ -198,7 +198,7 @@ const Register = (props: IRegisterProps) => {
                                 {/* Display the page with the text that telling the user to check email, with a "back to login" button available */}
                                 < Alert severity='success' sx={{ marginTop: "10%", textAlign: "left" }}>
                                     <AlertTitle >{localString.success}</AlertTitle>
-                                    {localString.success_message} - <Link to={LayoutPath.login}><strong>{localString.back_to_login}</strong></Link>
+                                    {localString.register_success_message} - <Link to={LayoutPath.login}><strong>{localString.back_to_login}</strong></Link>
                                 </Alert>
                             </>
                         ) : (
@@ -309,7 +309,7 @@ const Register = (props: IRegisterProps) => {
                                         fullWidth
                                         id={register.formKey.programme}
                                         name={register.formKey.programme}
-                                        label={localString.programme_cat}
+                                        label={localString.programme}
                                         onChange={() => {
                                             setErrorProgramme("");
                                         }}

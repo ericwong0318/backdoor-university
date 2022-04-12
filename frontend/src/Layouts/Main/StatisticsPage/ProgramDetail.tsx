@@ -54,6 +54,8 @@ export default function ProgramDetail() {
     var IVEOffer = 0;
     var spaceOffer = 0;
     var otherOffer = 0;
+
+
     for (var i = 0; i < data1.length; i++) {
         if (data1[i].id == params.id) {
             rows2.push(createData2(data1[i].College, data1[i].gpa, data1[i].uni, data1[i].comment, data1[i].uniprog, data1[i].ccprog));
@@ -74,6 +76,15 @@ export default function ProgramDetail() {
             }
         }
     }
+
+    const data2 = [
+        { name: 'HKCC', value: hkccOffer },
+        { name: 'IVE', value: IVEOffer },
+        { name: 'SPACE', value: spaceOffer },
+        { name: 'Other', value: otherOffer },
+    ];
+    const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042'];
+
     const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042'];
     const data2 = [
         { name: 'HKCC', value: hkccOffer },
@@ -83,6 +94,20 @@ export default function ProgramDetail() {
     ];
 
 
+    var ProgrammeName = rows2[0].uniprog;
+    var University = rows2[0].uni;
+
+    if (ProgrammeName == "Artificial Intelligence" && University == "CUHK") {
+        ProgrammeName = localString.cuhk_ai;
+    }
+
+    if (ProgrammeName == "Computer Engineering" && University == "CUHK") {
+        ProgrammeName = localString.cuhk_ce;
+    }
+
+    if (ProgrammeName == "Computer Science" && University == "CUHK") {
+        ProgrammeName = localString.cuhk_cs;
+    }
     var ProgrammeName = rows2[0].uniprog;
     var University = rows2[0].uni;
 
@@ -176,6 +201,6 @@ export default function ProgramDetail() {
                     </TableBody>
                 </Table>
             </TableContainer>
-        </div>
+        </div >
     )
 }

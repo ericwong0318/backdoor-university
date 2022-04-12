@@ -30,7 +30,6 @@ const LocaleSelector = (props: ILocaleSelectorProps) => {
         <Select
             value={language}
             label={localString.language}
-            defaultValue={localString.getLanguage()}
             onChange={handleChange}
             sx={props.sx}
         >
