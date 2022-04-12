@@ -22,10 +22,10 @@ export interface ILoginErrorParameter {
 export const login = (email: string, password: string,
     successCallback?: (data: IUserAbstract) => void,
     failedCallback?: (err: ILoginErrorParameter) => void) => {
-    // Attempt login as user first
-    loginAsUser(email, password, successCallback, () => {
-        // Attempt login as admin when failed
-        loginAsAdmin(email, password, successCallback, failedCallback)
+    // Attempt login as admin first
+    loginAsAdmin(email, password, successCallback, (err) => {
+        // Attempt login as user when failed
+        loginAsUser(email, password, successCallback, failedCallback)
     })
 
 }
@@ -36,20 +36,21 @@ const loginAsUser = (email: string, password: string,
     let headers = new Headers();
     headers.append('Content-Type', 'application/json');
 
-    fetch(`${api.url}${api.pathLogin}`, {
+    fetch(`${api.url}${api.userLogin}`, {
         method: "POST",
         headers: headers,
         body: JSON.stringify({ email: email.trim(), password: password.trim(), role: "user" })
     }).then(response => {
-        switch (response.status) {
-            case 401:
-                if (failedCallback)
-                    failedCallback({
-                        type: LoginErrorType.incorrect_email_or_pw,
-                        msg: response.statusText
-                    })
-                break;
-        }
+        if (response.status)
+            switch (response.status) {
+                case 401:
+                    if (failedCallback)
+                        failedCallback({
+                            type: LoginErrorType.incorrect_email_or_pw,
+                            msg: response.statusText
+                        })
+                    return
+            }
 
         response.json().then(val => {
             if (val.msg) {
@@ -71,19 +72,11 @@ const loginAsUser = (email: string, password: string,
             }
             else if (val.err) {
                 // Login failed
-                if (val.err === 'incorrect email') {
-                    if (failedCallback)
-                        failedCallback({
-                            type: LoginErrorType.incorrect_email,
-                            msg: val.err
-                        })
-                } else if (val.err === 'incorrect password') {
-                    if (failedCallback)
-                        failedCallback({
-                            type: LoginErrorType.incorrect_pw,
-                            msg: val.err
-                        })
-                }
+                if (failedCallback)
+                    failedCallback({
+                        type: LoginErrorType.incorrect_email_or_pw,
+                        msg: val.err
+                    })
             }
         }).catch(reason => {
             // Unknown reason: probably json failed
@@ -109,7 +102,7 @@ const loginAsAdmin = (email: string, password: string,
     let headers = new Headers();
     headers.append('Content-Type', 'application/json');
 
-    fetch(`${api.url}${api.pathLogin}`, {
+    fetch(`${api.url}${api.adminLogin}`, {
         method: "POST",
         headers: headers,
         body: JSON.stringify({ email: email, password: resetPasswordWithEmail, role: "admin" })

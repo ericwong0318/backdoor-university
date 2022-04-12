@@ -11,6 +11,7 @@ const ProgrammeManagePage = () => {
     const [triedGetData, setTriedGetData] = useState(false)
     const [programmes, setProgrammes] = useState<any[]>([])
     const [loadingError, setLoadingError] = useState("");
+    const [loading, setLoading] = useState(false);
 
     const columns: GridColDef[] = [
         { field: 'id', headerName: 'ID', width: 240 },

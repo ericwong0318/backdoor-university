@@ -132,7 +132,7 @@ export const modifyPassword = (email: string, oldPassword: string, newPassword: 
 
     const body = { email: email, oldPassword: oldPassword, newPassword: newPassword, role: userRole }
 
-    fetch(`${api.url}${api.changePW}`,
+    fetch(`${api.url}${api.userChangePW}`,
         {
             method: 'POST',
             headers: headers,
@@ -178,7 +178,7 @@ export enum ModifyUserInfoErrorType {
 export const modifyUserInfo = (data: FormData,
     successCallback?: VoidFunction,
     failedCallback?: (err: ModifyUserInfoErrorType) => void) => {
-    fetch(`${api.url}${api.modifyInfo}`, {
+    fetch(`${api.url}${api.updateUserInfo}`, {
         method: "POST",
         body: data,
     }).then(res => {
