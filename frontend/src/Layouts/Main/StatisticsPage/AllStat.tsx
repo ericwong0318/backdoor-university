@@ -182,9 +182,9 @@ const TemplateComponent = (props: ITemplateComponentProps) => {
                         </TableRow>
                     </TableHead>
                     <TableBody>
-                        {rows2.map((row) => (
+                        {rows2.map((row, index) => (
                             <TableRow
-                                key={row.College}
+                                key={index}
                                 sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                             >
                                 <TableCell component="th" scope="row" size={'small'}>
