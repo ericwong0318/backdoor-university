@@ -31,6 +31,7 @@ import { LanguageContext } from '../../../Components/LanguageProvider/LanguagePr
 import { getAllProgramme } from '../../../features/services';
 
 import { useAuth } from '../../../Components/auth/AuthProvider';
+import { Typography } from '@mui/material';
 
 // Use Interface to define what this component can take in
 interface ITemplateComponentProps {
@@ -52,7 +53,7 @@ function createData2(
 const TemplateComponent = (props: ITemplateComponentProps) => {
     const { localString } = useContext(LanguageContext)
 
-    const [comment, setComment] = useState('Comment here');
+    const [comment, setComment] = useState('');
 
     const auth = useAuth();
 
@@ -162,12 +163,16 @@ const TemplateComponent = (props: ITemplateComponentProps) => {
             </ResponsiveContainer>
 
             {/* comment */}
-            <TextField label="Your comment of the offer" value={comment} onChange={(event) => { setComment(event.target.value) }} //whenever the text field change, you save the value in state
-            />
-            <br />
-            <Button variant="contained" onClick={() => {
-                addComment(comment);
-            }}>Add comment</Button>
+            <Typography sx={{ my: '20px' }}>
+                <TextField label="Your comment of the offer" placeholder={'Comment here'}
+                    fullWidth value={comment} onChange={(event) => { setComment(event.target.value) }} //whenever the text field change, you save the value in state
+                />
+            </Typography>
+            <Typography sx={{ my: '20px' }}>
+                <Button variant="contained" onClick={() => {
+                    addComment(comment);
+                }}>Add comment</Button>
+            </Typography>
 
             <TableContainer component={Paper}>
                 <Table aria-label="simple table">
