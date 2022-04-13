@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 
 import {
     Label,
@@ -15,6 +15,8 @@ import {
 
 import './StatisticsPage.css'
 import { data1 } from './SpecDataSet'
+import Button from '@mui/material/Button';
+import TextField from '@mui/material/TextField';
 
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
@@ -28,6 +30,7 @@ import { useContext } from 'react';
 import { LanguageContext } from '../../../Components/LanguageProvider/LanguageProvider';
 import { getAllProgramme } from '../../../features/services';
 
+import { useAuth } from '../../../Components/auth/AuthProvider';
 
 // Use Interface to define what this component can take in
 interface ITemplateComponentProps {
@@ -45,50 +48,66 @@ function createData2(
 }
 
 
-// let data1 = getAllProgramme();
-// console.log(data1);
-
-
-const rows2 = [createData2(data1[0].College, data1[0].gpa, data1[0].uni, data1[0].comment, data1[0].uniprog, data1[0].ccprog)];
-
-var total = 0;
-var hkccOffer = 0;
-var IVEOffer = 0;
-var spaceOffer = 0;
-var otherOffer = 0;
-
-
-
-for (var i = 1; i < data1.length; i++) {
-    rows2.push(createData2(data1[i].College, data1[i].gpa, data1[i].uni, data1[i].comment, data1[i].uniprog, data1[i].ccprog));
-    total++;
-    if (data1[i].College == "HKCC") {
-        hkccOffer++;
-    }
-
-    if (data1[i].College == "IVE") {
-        IVEOffer++;
-    }
-    if (data1[i].College == "SPACE") {
-        spaceOffer++;
-    }
-    if (data1[i].College == "Other") {
-        otherOffer++;
-    }
-}
-
-const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042'];
-const data2 = [
-    { name: 'HKCC', value: hkccOffer },
-    { name: 'IVE', value: IVEOffer },
-    { name: 'SPACE', value: spaceOffer },
-    { name: 'Other', value: otherOffer },
-];
-
-
 // Change the component name and the file name yourselve
 const TemplateComponent = (props: ITemplateComponentProps) => {
     const { localString } = useContext(LanguageContext)
+
+    const [comment, setComment] = useState('Comment here');
+
+    const auth = useAuth();
+
+    function addComment(inComment: string) {
+        console.log(auth.user);
+        let currUser = auth.user;
+
+        if (currUser === null) {
+            alert("Please login");
+        } else {
+            data1.unshift({ id: "1", College: "HKCC", gpa: currUser.cgpa, uni: "CUHK", comment: inComment, uniprog: "Computer Science", ccprog: "Information Technology" },);
+            console.log(data1);
+            setRow2([createData2(data1[0].College, data1[0].gpa, data1[0].uni, data1[0].comment, data1[0].uniprog, data1[0].ccprog)]);
+        }
+    }
+
+
+    const [rows2, setRow2] = useState([createData2(data1[0].College, data1[0].gpa, data1[0].uni, data1[0].comment, data1[0].uniprog, data1[0].ccprog)]);
+
+    var total = 0;
+    var hkccOffer = 0;
+    var IVEOffer = 0;
+    var spaceOffer = 0;
+    var otherOffer = 0;
+
+
+
+    for (var i = 1; i < data1.length; i++) {
+        rows2.push(createData2(data1[i].College, data1[i].gpa, data1[i].uni, data1[i].comment, data1[i].uniprog, data1[i].ccprog));
+        total++;
+        if (data1[i].College == "HKCC") {
+            hkccOffer++;
+        }
+
+        if (data1[i].College == "IVE") {
+            IVEOffer++;
+        }
+        if (data1[i].College == "SPACE") {
+            spaceOffer++;
+        }
+        if (data1[i].College == "Other") {
+            otherOffer++;
+        }
+    }
+
+    const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042'];
+    const data2 = [
+        { name: 'HKCC', value: hkccOffer },
+        { name: 'IVE', value: IVEOffer },
+        { name: 'SPACE', value: spaceOffer },
+        { name: 'Other', value: otherOffer },
+    ];
+
+
+
     // You can access the data like this:
     return (
 
@@ -142,6 +161,13 @@ const TemplateComponent = (props: ITemplateComponentProps) => {
                 </ScatterChart>
             </ResponsiveContainer>
 
+            {/* comment */}
+            <TextField label="Your comment of the offer" value={comment} onChange={(event) => { setComment(event.target.value) }} //whenever the text field change, you save the value in state
+            />
+            <Button variant="contained" onClick={() => {
+                addComment(comment);
+            }}>Add comment</Button>
+
             <TableContainer component={Paper}>
                 <Table aria-label="simple table">
                     <TableHead>
@@ -173,6 +199,7 @@ const TemplateComponent = (props: ITemplateComponentProps) => {
                     </TableBody>
                 </Table>
             </TableContainer>
+
         </>
     )
 }
