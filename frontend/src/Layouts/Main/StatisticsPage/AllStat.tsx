@@ -26,6 +26,7 @@ import Paper from '@mui/material/Paper';
 
 import { useContext } from 'react';
 import { LanguageContext } from '../../../Components/LanguageProvider/LanguageProvider';
+import { getAllProgramme } from '../../../features/services';
 
 
 // Use Interface to define what this component can take in
@@ -44,6 +45,8 @@ function createData2(
 }
 
 
+// let data1 = getAllProgramme();
+// console.log(data1);
 
 
 const rows2 = [createData2(data1[0].College, data1[0].gpa, data1[0].uni, data1[0].comment, data1[0].uniprog, data1[0].ccprog)];

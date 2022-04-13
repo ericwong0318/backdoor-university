@@ -313,6 +313,8 @@ export const getAllProgramme = (
                 })
             })
 
+        // return res;
+
             if (successCallback)
                 successCallback(res);
         }).catch(reason => {
