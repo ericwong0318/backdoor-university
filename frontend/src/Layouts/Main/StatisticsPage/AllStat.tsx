@@ -19,7 +19,7 @@ import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
 
 import Table from '@mui/material/Table';
-import TableBody from '@mui/material/TableBody';    
+import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
 import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
@@ -164,6 +164,7 @@ const TemplateComponent = (props: ITemplateComponentProps) => {
             {/* comment */}
             <TextField label="Your comment of the offer" value={comment} onChange={(event) => { setComment(event.target.value) }} //whenever the text field change, you save the value in state
             />
+            <br />
             <Button variant="contained" onClick={() => {
                 addComment(comment);
             }}>Add comment</Button>
