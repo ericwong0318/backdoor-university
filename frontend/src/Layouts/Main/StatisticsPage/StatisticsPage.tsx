@@ -1,4 +1,5 @@
 import React from 'react';
+import { useState } from 'react';
 
 import './StatisticsPage.css'
 
@@ -7,6 +8,7 @@ import { LanguageContext } from '../../../Components/LanguageProvider/LanguagePr
 
 
 import AllStat from "./AllStat";
+import { data1 } from './SpecDataSet';
 const GenStat = () => <AllStat />;
 
 interface IStatisticsPageProps {
@@ -14,6 +16,7 @@ interface IStatisticsPageProps {
 }
 
 const StatisticsPage = (props: IStatisticsPageProps) => {
+
     const { localString } = useContext(LanguageContext)
     return (
         <React.Fragment>
