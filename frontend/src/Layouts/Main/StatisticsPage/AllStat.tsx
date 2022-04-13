@@ -63,7 +63,7 @@ const TemplateComponent = (props: ITemplateComponentProps) => {
         if (currUser === null) {
             alert("Please login");
         } else {
-            data1.unshift({ id: "1", College: "HKCC", gpa: currUser.cgpa, uni: "CUHK", comment: inComment, uniprog: "Computer Science", ccprog: "Information Technology" },);
+            data1.unshift({ id: "1", College: "HKCC", gpa: 3.5, uni: "CUHK", comment: inComment, uniprog: "Computer Science", ccprog: "Information Technology" },);
             console.log(data1);
             setRow2([createData2(data1[0].College, data1[0].gpa, data1[0].uni, data1[0].comment, data1[0].uniprog, data1[0].ccprog)]);
         }
