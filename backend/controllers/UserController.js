@@ -90,7 +90,7 @@ exports.activateAccount = (req, res) => {
         if (user !== null) {
             user.status = 'active';
             user.save();
-            return res.json({ msg: "Account is activated" });
+            return res.send("Account is activated");
         }
     });
 }
