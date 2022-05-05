@@ -1,3 +1,8 @@
+/**
+ * @file Routing of backend.
+ * @author Eric Wong
+ */
+
 /* express */
 const express = require('express');
 const app = express.Router();
@@ -15,6 +20,7 @@ let ResourceController = require("../controllers/ResourseController");
 /**
  * routing
  */
+
 /* download photo */
 app.post('/photo', ResourceController.sendPhoto);
 
@@ -69,9 +75,9 @@ app.post("/modify-programme", ProgrammeController.programmeUpdate);
 /* update programme comment */
 app.post('/submit-a-comment', ProgrammeController.programmeCommentUpdate);
 
+/* api index page */
 app.get('/', (req, res) =>
     res.send("Backdoor University's API: https://github.com/ericwong0318/backdoor-university/tree/master/backend")
 )
 
 module.exports = app;
-

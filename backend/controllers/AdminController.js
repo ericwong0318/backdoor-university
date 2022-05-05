@@ -4,6 +4,14 @@ const salt = 10;
 
 let Admin = require("../models/AdminModel");
 
+/**
+ * Admin logins an account
+ * @param {Object} req
+ * @param {Object} res
+ * @param {String} req.body.email
+ * @param {String} req.body.password
+ * @returns {Object} res
+ */
 exports.adminLogin = (req, res) => {
     Admin
         .findOne({ email: req.body.email }, 'email password')

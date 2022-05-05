@@ -1,16 +1,24 @@
-// .env
+/**
+ * @file Main program of backend.
+ * @author Eric Wong
+ * @description This program includes necessary libraries and settting for backend, connects MongoDB to the backend program, and listen for clients' requests
+ */
+
+/* environment variables */
 require('dotenv').config();
 
 /* express */
 const express = require('express');
 const app = express();
 
-/* body parser */
+/** 
+ * Body parser for parsing request from clients.
+*/
 const bodyParser = require('body-parser');
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json())
 
-/* cors */
+/* cors for Cross-Origin Resource Sharing*/
 const cors = require('cors')
 app.use(cors());
 
@@ -24,7 +32,7 @@ app.use((req, res, next) => {
 const fileUpload = require('express-fileupload');
 app.use(fileUpload());
 
-/*  mongoose init connection */
+/* mongoose init connection */
 const mongoose = require('mongoose');
 const dbUrl = process.env.DB_URL;
 mongoose.connect(dbUrl);
@@ -35,6 +43,9 @@ db.once('open', function () {
 });
 
 const router = require('./routes/routes');
-app.use(router);
-
+try {
+    app.use(router);
+} catch (err) {
+    console.log(err);
+}
 app.listen(process.env.PORT || 3001);
