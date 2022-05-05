@@ -64,7 +64,7 @@ exports.userRegister = (req, res) => {
                     } else {
                         /* send email verification */
                         sendEmail(req.body.email, "verify");
-                        return res.json({ msg: "Please check the veriftication email, including spam folder" });
+                        return res.json({ msg: "Please check the verification email, including spam folder" });
                     }
                 });
         });
@@ -219,18 +219,31 @@ exports.userForgetPassword = (req, res) => {
  * @param {String} newPassword
  */
 async function sendEmail(email, option, newPassword) {
-    let transporter = nodemailer.createTransport({
-        host: "smtp.ethereal.email",
-        port: 587,
-        secure: false, // true for 465, false for other ports
-        service: 'gmail',
+    // let transporter = nodemailer.createTransport({
+    //     host: "smtp.ethereal.email",
+    //     port: 587,
+    //     secure: false, // true for 465, false for other ports
+    //     service: 'gmail',
+    //     auth: {
+    //         type: 'OAuth2',
+    //         user: process.env.MAIL_USERNAME,
+    //         clientId: process.env.OAUTH_CLIENTID,
+    //         clientSecret: process.env.OAUTH_CLIENT_SECRET,
+    //         refreshToken: process.env.OAUTH_REFRESH_TOKEN
+    //     }
+    // });
+
+    const transporter = nodemailer.createTransport({
+        host: 'smtp.mail.yahoo.com',
+        port: 465,
+        service: 'yahoo',
+        secure: false,
         auth: {
-            type: 'OAuth2',
-            user: process.env.MAIL_USERNAME,
-            clientId: process.env.OAUTH_CLIENTID,
-            clientSecret: process.env.OAUTH_CLIENT_SECRET,
-            refreshToken: process.env.OAUTH_REFRESH_TOKEN
-        }
+            user: 'a1155142308@yahoo.com',
+            pass: 'ztnoupjpoegmaqfq'
+        },
+        debug: false,
+        logger: true
     });
 
 
@@ -238,7 +251,7 @@ async function sendEmail(email, option, newPassword) {
     switch (option) {
         case "verify":
             info = await transporter.sendMail({
-                from: 'Backdoor-University@gmail.com',
+                from: 'a1155142308@yahoo.com',
                 to: email, // list of receivers
                 subject: "Click the Link for register",
                 html: `
@@ -253,7 +266,7 @@ async function sendEmail(email, option, newPassword) {
 
         case "reset":
             info = await transporter.sendMail({
-                from: 'Backdoor-University@gamil.com',
+                from: 'a1155142308@yahoo.com',
                 to: email, // list of receivers
                 subject: "Your new password",
                 html: `<h1>Backdoor University</h1>
@@ -348,7 +361,15 @@ exports.userListAll = (req, res) => {
  * User updates
  * @param {Object} req
  * @param {Object} res
- * @param {Object} file photo file
+ * @param {String} req.body.photo photo name
+ * @param {String} req.body.email
+ * @param {String} req.body.password
+ * @param {String} req.body.school
+ * @param {String} req.body.programme
+ * @param {Number} req.body.addmissionYear
+ * @param {Number} req.body.cgpa
+ * @param {String} req.body.examname
+ * @param {String} req.body.result
  * @returns {Object} res
  */
 exports.userUpdate = (req, res) => {
