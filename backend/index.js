@@ -20,7 +20,6 @@ app.use(bodyParser.json())
 
 /* cors for Cross-Origin Resource Sharing*/
 const cors = require('cors');
-cors({ credentials: true, origin: true });
 app.use(cors());
 
 /* header */
