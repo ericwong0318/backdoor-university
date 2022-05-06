@@ -1,3 +1,8 @@
+/*
+    This file contained the interfaces, which are predefined object types, of the fronted.
+    Mainly the schema of the data from the database.
+*/
+
 export interface IUser {
     email: string,
     name: string,
