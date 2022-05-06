@@ -1,3 +1,13 @@
+/*
+    This file contained the definition of <Main />.
+    The main page should mainly contain the routing implementation of the website.
+
+    To add a page into the website's routing, add the following line inside <Routes></Routes>:
+        <Route path={path} element={<LayoutComponent/>}/>
+
+    The path should be defined in the object LayoutPath of constants.ts for generality.
+*/
+
 import React from 'react'
 import { Route, Routes } from 'react-router-dom';
 import HomePage from './HomePage/HomePage';
@@ -23,13 +33,9 @@ interface IMainProps {
 }
 
 const Main = (props: IMainProps) => {
-
-
     return (
-
         <React.Fragment>
             <Routes>
-
                 <Route path={LayoutPath.home} element={<HomePage />} />
                 <Route path={LayoutPath.tips} element={<TipsPage />} />
                 <Route path={LayoutPath.news} element={<NewsPage />} />
