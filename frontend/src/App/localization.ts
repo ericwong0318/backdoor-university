@@ -169,6 +169,7 @@ export interface IAppLocalizedStrings extends LocalizedStringsMethods {
     totalOffer: String,
     otherCC: String,
 
+
     //HomePage
     wel_1speech: String
     wel_2speech: String
@@ -244,6 +245,11 @@ export interface IAppLocalizedStrings extends LocalizedStringsMethods {
     // Account Activation
     account_activated_msg: string
     please_wait: string
+
+    // Comment
+    add_comment: string
+    your_comment_offer: string,
+    comment_here: string,
 }
 
 export const AppLocalizedStrings: IAppLocalizedStrings = new LocalizedStrings(
@@ -497,6 +503,11 @@ export const AppLocalizedStrings: IAppLocalizedStrings = new LocalizedStrings(
             // Account Activation
             account_activated_msg: "Your account has been successfully activated!",
             please_wait: "Please wait. . . ",
+
+            // Comment
+            add_comment: 'Add comment',
+            your_comment_offer: 'Your comment of the offer',
+            comment_here: 'Comment here',
         },
         zh: {
             //404 done
@@ -747,5 +758,10 @@ export const AppLocalizedStrings: IAppLocalizedStrings = new LocalizedStrings(
             // Account Activation
             account_activated_msg: "帳戶啟用成功！",
             please_wait: "請稍候．．．",
+
+            // Comment
+            add_comment: '提交評論',
+            your_comment_offer: '課程評價',
+            comment_here: '輸入評價',
         }
     })

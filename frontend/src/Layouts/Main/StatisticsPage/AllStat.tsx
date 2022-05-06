@@ -164,14 +164,14 @@ const TemplateComponent = (props: ITemplateComponentProps) => {
 
             {/* comment */}
             <Typography sx={{ my: '20px' }}>
-                <TextField label="Your comment of the offer" placeholder={'Comment here'}
+                <TextField label={localString.your_comment_offer} placeholder={localString.comment_here}
                     fullWidth value={comment} onChange={(event) => { setComment(event.target.value) }} //whenever the text field change, you save the value in state
                 />
             </Typography>
             <Typography sx={{ my: '20px' }}>
                 <Button variant="contained" onClick={() => {
                     addComment(comment);
-                }}>Add comment</Button>
+                }}>{localString.add_comment}</Button>
             </Typography>
 
             <TableContainer component={Paper}>
