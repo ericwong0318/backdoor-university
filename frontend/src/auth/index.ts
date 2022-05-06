@@ -1,3 +1,7 @@
+/*
+    This file provided the authentication related functions.
+*/
+
 import { api } from "../App/constants"
 import { IUserAbstract, UserRoleEnum } from "../App/interfaces"
 import { getUser } from "../features/services"
@@ -19,6 +23,13 @@ export interface ILoginErrorParameter {
     msg: string
 }
 
+/**
+ * The general login attempt function. The user can be logged in as either admin or user with this function
+ * @param email The email of the account
+ * @param password The password of the account
+ * @param successCallback The function to be called when the login attempt is successful.
+ * @param failedCallback The function to be called when the login attempt is failed.
+ */
 export const login = (email: string, password: string,
     successCallback?: (data: IUserAbstract) => void,
     failedCallback?: (err: ILoginErrorParameter) => void) => {
@@ -30,6 +41,13 @@ export const login = (email: string, password: string,
 
 }
 
+/**
+ * Attempt to login as a normal user.
+ * @param email The email of the user account
+ * @param password The password of the user acount
+ * @param successCallback The function to be called when the login attempt is successful.
+ * @param failedCallback The function to be called when the login attempt is failed.
+ */
 const loginAsUser = (email: string, password: string,
     successCallback?: (data: IUserAbstract) => void,
     failedCallback?: (err: ILoginErrorParameter) => void) => {
@@ -96,6 +114,13 @@ const loginAsUser = (email: string, password: string,
     })
 }
 
+/**
+ * The login function specifically for admin accounts. Attempting to login with a normal user account will result in fail.
+ * @param email The email of the admin account
+ * @param password The password of the admin account
+ * @param successCallback The function to be called when the login attempt is successful
+ * @param failedCallback The function to be called when the login attempt is failed
+ */
 const loginAsAdmin = (email: string, password: string,
     successCallback?: (data: IUserAbstract) => void,
     failedCallback?: (err: ILoginErrorParameter) => void) => {
@@ -162,6 +187,10 @@ const loginAsAdmin = (email: string, password: string,
     })
 }
 
+/**
+ * The user will be logged out upon calling this function.
+ * @param callback The function to be called after the user has been logged out 
+ */
 export const logout = (callback?: VoidFunction) => {
     if (localStorage.getItem('email')) {
         localStorage.removeItem('email')
