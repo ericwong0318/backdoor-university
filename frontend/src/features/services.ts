@@ -1,3 +1,7 @@
+/**
+ * This file contains the functions that related to the backend APIs. 
+ */
+
 import { api } from "../App/constants"
 import { IUser } from "../App/interfaces"
 
@@ -7,6 +11,12 @@ export enum ActivateAccountErrorType {
     Unknown
 }
 
+/**
+ * Activate the account associated to the given email address.
+ * @param email The email of the account to be activated
+ * @param successCallback The function to be called when the account is activated successfully
+ * @param failedCallback The function to be called when the account activation failed.
+ */
 export const activateEmail = (email: string,
     successCallback?: VoidFunction,
     failedCallback?: (err: ActivateAccountErrorType) => void) => {
@@ -47,6 +57,13 @@ export enum GetUserErrorType {
     Unknown
 }
 
+/**
+ * Attempt to retrieve the user data from the backend with the query provided.
+ * @param data The query data to be sent to the backend
+ * @param successCallback The callback function when the server returns a user.
+ * @param failedCallback The function to be called when no data matches the query data.
+ * @param waitForPhoto Should the function wait for the profile picture to be completely received before calling the success callback.
+ */
 export const getUser = (data: any, successCallback?: (user: IUser) => void, failedCallback?: (err: GetUserErrorType) => void, waitForPhoto = false) => {
     let headers = new Headers();
     headers.append('Content-Type', 'application/json');
@@ -121,6 +138,14 @@ export enum ModifyPasswordErrorType {
     Unknown
 }
 
+/**
+ * Attempting to update the password of an account as the account owner.
+ * @param email The email address of the account to be updated
+ * @param oldPassword The old password of the account
+ * @param newPassword The updated new password of the account
+ * @param successCallback The function to be called when the update is success
+ * @param failedCallback The function to be called when the update is failed by any means
+ */
 export const updatePasswordAsUser = (email: string, oldPassword: string, newPassword: string,
     successCallback: VoidFunction,
     failedCallback: (err: ModifyPasswordErrorType) => void) => {
@@ -168,6 +193,13 @@ export const updatePasswordAsUser = (email: string, oldPassword: string, newPass
     })
 }
 
+/**
+ * Attempting to update the password of a specific account as the admin
+ * @param email The email of the account to be updated
+ * @param password The new password of the account
+ * @param successCallback The function to be called after the update is completed
+ * @param failedCallback The function to be called when the update is failed
+ */
 export const updatePasswordAsAdmin = (email: string, password: string,
     successCallback: VoidFunction,
     failedCallback: (err: ModifyPasswordErrorType) => void) => {
@@ -210,6 +242,12 @@ export enum ModifyUserInfoErrorType {
     Failed,
 }
 
+/**
+ * Update the profile information of a user 
+ * @param data The updated user profile info
+ * @param successCallback The function to be called when the update complete
+ * @param failedCallback The function to be called when the update failed
+ */
 export const updateUser = (data: FormData,
     successCallback?: VoidFunction,
     failedCallback?: (err: ModifyUserInfoErrorType) => void) => {
@@ -240,6 +278,11 @@ export enum GetAllRequestErrorType {
     NoRecordFound,
 }
 
+/**
+ * Retrieve all the information of all users from the backend.
+ * @param successCallback The function to be called when the action is completed
+ * @param failedCallback The function to be called when the action is failed
+ */
 export const getAllUser = (successCallback?: (params: any[]) => void,
     failedCallback?: (err: GetAllRequestErrorType) => void) => {
     fetch(`${api.url}${api.getAllUser}`, {
@@ -282,10 +325,11 @@ export const getAllUser = (successCallback?: (params: any[]) => void,
     })
 }
 
-// export const toIUser= (data:any):IUser=>{
-
-// }
-
+/**
+ * Retrieve all the programme information from the backend
+ * @param successCallback The function to be called when the action is completed
+ * @param failedCallback The function to be called when the action is failed
+ */
 export const getAllProgramme = (
     successCallback?: (data: any) => void,
     failedCallback?: (err: GetAllRequestErrorType) => void
@@ -313,7 +357,7 @@ export const getAllProgramme = (
                 })
             })
 
-        // return res;
+            // return res;
 
             if (successCallback)
                 successCallback(res);
@@ -336,6 +380,15 @@ export enum UpdateProgrammeErrorType {
     Unknown,
 }
 
+/**
+ * Create and add a new programme to the database
+ * @param name The name of the new programme
+ * @param school The school of the new programme
+ * @param type The type of the new programme. Accept values including: hd, asso, undergrad
+ * @param info The description of the new programme
+ * @param successCallback The function to be called when the action is completed
+ * @param failedCallback The function to be called when the action is failed
+ */
 export const addNewProgramme = (name: string, school: string, type: string, info: string,
     successCallback?: VoidFunction,
     failedCallback?: (err: UpdateProgrammeErrorType) => void
@@ -373,6 +426,17 @@ export const addNewProgramme = (name: string, school: string, type: string, info
     })
 }
 
+/**
+ * Attempt to update an existing programme in the database
+ * @param oldSchool The original school name of the programme
+ * @param oldProgramme The old name of the programme
+ * @param newSchool The new school name of the programme
+ * @param newProgramme The new name of the programme
+ * @param type The new type of the programme. Accept values: hd, asso, undergrad
+ * @param info The new description of the programme
+ * @param successCallback The function to be called when the action is completed
+ * @param failedCallback The function to be called when the action is failed
+ */
 export const updateProgramme = (oldSchool: string, oldProgramme: string, newSchool: string, newProgramme: string, type: string, info: string,
     successCallback?: VoidFunction,
     failedCallback?: (err: UpdateProgrammeErrorType) => void
@@ -414,6 +478,9 @@ export const updateProgramme = (oldSchool: string, oldProgramme: string, newScho
     })
 }
 
+/**
+ * Submit a new comment on a programme to the database
+ */
 export const submitComment = () => {
     const headers = new Headers();
     headers.append('Content-Type', 'application/json');

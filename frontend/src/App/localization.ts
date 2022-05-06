@@ -1,3 +1,18 @@
+/*
+    This file contained ALL the textual content displated in the frontend.
+    To add a new text, first add the name of the text in the interface IAppLocalizedStrings,
+    and then add the displayed text in AppLocalizedStrings.en, AppLocalizedStrings.zh, ...
+
+    To add a new lanuage, add a new object to AppLocalizedStrings,
+    the object should be named according to the ISO 639-1 standard.
+    Reference: https://www.loc.gov/standards/iso639-2/php/code_list.php
+
+    After the new language object is added, all the existing text should be translated and added to that object
+    inorder for the website to display correctly.
+
+    For the details of how to access these texts please refer to the documentation in LanguageProvider.tsx.
+*/
+
 import LocalizedStrings, { LocalizedStringsMethods } from "react-localization"
 
 
