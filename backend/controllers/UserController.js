@@ -114,26 +114,22 @@ exports.userLogin = (req, res) => {
  * @returns {Object} res
  */
 exports.activateAccount = (req, res) => {
-    try {
-        let userEmail = req.params.email;
-        /* set account status to active */
-        User.findOne({ email: userEmail }, {}, {}, (err, user) => {
-            if (err) {
-                return res.json(err);
-            }
-            if (user !== null) {
-                user.status = 'active';
-                user.save();
-                return res.send("Account is activated");
-            }
-        });
-    } catch (err) {
-        return res.status(500).json(err);
-    }
+    let userEmail = req.params.email;
+    /* set account status to active */
+    User.findOne({ email: userEmail }, {}, {}, (err, user) => {
+        if (err) {
+            return res.json(err);
+        }
+        if (user !== null) {
+            user.status = 'active';
+            user.save();
+            return res.json({ msg: 'Account is activated' });
+        }
+    });
 }
 
 /**
- * User modify the password with validation of indentity
+ * User modify the password with validation of identity
  * @param {Object} req
  * @param {Object} res
  * @param {String} req.body.oldPassword
@@ -257,8 +253,8 @@ async function sendEmail(email, option, newPassword) {
                 html: `
                         <h1>Backdoor University</h1>
                         <h3>Please click the following Link for register: </h3>
-                        <a href="http://localhost:3001/activate-email/${email}">
-                        http://localhost:3001/activate-email/${email}</a>
+                        <a href="http://localhost:3000/activate-email/${email}">
+                        http://localhost:3000/activate-email/${email}</a>
                     `
             });
             console.log("Message sent to %s", email);
