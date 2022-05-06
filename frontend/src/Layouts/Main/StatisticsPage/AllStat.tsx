@@ -1,3 +1,4 @@
+// @ts-nocheck
 import React, { useState } from 'react'
 
 import {
@@ -33,6 +34,9 @@ import { getAllProgramme } from '../../../features/services';
 import { useAuth } from '../../../Components/auth/AuthProvider';
 import { Typography } from '@mui/material';
 
+let uniprog = "Computer Science";
+let ccprog = "Information Technology";
+
 // Use Interface to define what this component can take in
 interface ITemplateComponentProps {
 }
@@ -64,7 +68,8 @@ const TemplateComponent = (props: ITemplateComponentProps) => {
         if (currUser === null) {
             alert("Please login");
         } else {
-            data1.unshift({ id: "1", College: "HKCC", gpa: 3.5, uni: "CUHK", comment: inComment, uniprog: "Computer Science", ccprog: "Information Technology" },);
+            // data1.unshift({ id: "1", College: "HKCC", gpa: 3.5, uni: "CUHK", comment: inComment, uniprog: "Computer Science", ccprog: "Information Technology" },);
+            data1.unshift({ id: "1", College: currUser.school, gpa: currUser.cgpa, uni: "CUHK", comment: inComment, uniprog: uniprog, ccprog: ccprog },);
             console.log(data1);
             setRow2([createData2(data1[0].College, data1[0].gpa, data1[0].uni, data1[0].comment, data1[0].uniprog, data1[0].ccprog)]);
         }

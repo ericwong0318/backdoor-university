@@ -4,11 +4,15 @@ const salt = 10;
 let User = require("../models/UserModel");
 let Admin = require("../models/AdminModel");
 
-
-/* 
-admin's method
-modify the password without validation of indentity 
-*/
+/**
+ * Admin's method
+ * Modify the password without validation of indentity
+ * @param {Object} req
+ * @param {Object} res
+ * @param {String} req.body.email
+ * @param {String} req.body.password
+ * @returns {Object} res
+ */
 exports.userOrAdminUpdatePassword = (req, res) => {
     const newPwd = req.body.password;
 
